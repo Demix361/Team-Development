@@ -3,9 +3,11 @@
 # Get latest from https://github.com/github/gitignore/blob/master/Unity.gitignore
 #
 
-# Mirror
+# Packages
 /[Aa]ssets/Mirror/
 /[Aa]ssets/TextMesh Pro/
+
+*.DS_Store
 
 /[Ll]ibrary/
 /[Tt]emp/

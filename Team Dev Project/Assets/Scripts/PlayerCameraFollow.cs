@@ -11,9 +11,12 @@ public class PlayerCameraFollow : NetworkBehaviour
     {
         iVcam = Camera.main.GetComponent<CinemachineBrain>().ActiveVirtualCamera;
 
-        if (iVcam.Follow == null)
+        if (hasAuthority)
         {
-            iVcam.Follow = transform;
+            if (iVcam.Follow == null)
+            {
+                iVcam.Follow = transform;
+            }
         }
     }
 }

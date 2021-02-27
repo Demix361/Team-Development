@@ -144,7 +144,7 @@ public class MyNetworkManager : NetworkManager
 
     public override void ServerChangeScene(string newSceneName)
     {
-        if (SceneManager.GetActiveScene().path == menuScene && newSceneName.StartsWith("HubScene"))
+        if (SceneManager.GetActiveScene().path == menuScene && (newSceneName.StartsWith("HubScene") || newSceneName.StartsWith("LevelScene")))
         {
             for (int i = RoomPlayers.Count - 1; i >= 0; i--)
             {
@@ -163,7 +163,7 @@ public class MyNetworkManager : NetworkManager
 
     public override void OnServerSceneChanged(string sceneName)
     {
-        if (sceneName.StartsWith("HubScene"))
+        if (sceneName.StartsWith("HubScene") )//|| sceneName.StartsWith("LevelScene"))
         {
             GameObject playerSpawnSystemInstance = Instantiate(playerSpawnSystem);
             NetworkServer.Spawn(playerSpawnSystemInstance);
