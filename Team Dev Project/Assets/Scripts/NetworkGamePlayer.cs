@@ -11,6 +11,9 @@ public class NetworkGamePlayer : NetworkBehaviour
     [SyncVar]
     private string displayName = "Loading...";
 
+    [SerializeField] private Dictionary<string, int> collectables =
+    new Dictionary<string, int>();
+
     private MyNetworkManager room;
     private MyNetworkManager Room
     {
@@ -41,5 +44,18 @@ public class NetworkGamePlayer : NetworkBehaviour
     public void SetDisplayName(string displayName)
     {
         this.displayName = displayName;
+    }
+
+    public void IncreaseCollectable(string collName)
+    {
+        try
+        {
+            collectables[collName] += 1;
+        }
+        catch (KeyNotFoundException)
+        {
+            collectables.Add(collName, 1);
+        }
+        Debug.Log($"{collName}: {collectables[collName]}");
     }
 }

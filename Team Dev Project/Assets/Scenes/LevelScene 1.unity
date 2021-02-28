@@ -188,6 +188,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Blue Diamond
       objectReference: {fileID: 0}
+    - target: {fileID: 4197399201927018498, guid: 5705100bae55f4438868d8a34c746c7e,
+        type: 3}
+      propertyPath: collectableName
+      value: BlueDiamond
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5705100bae55f4438868d8a34c746c7e, type: 3}
 --- !u!1 &33964461
@@ -6156,6 +6161,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Blue Diamond (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 4197399201927018498, guid: 5705100bae55f4438868d8a34c746c7e,
+        type: 3}
+      propertyPath: collectableName
+      value: BlueDiamond
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5705100bae55f4438868d8a34c746c7e, type: 3}
 --- !u!1 &832860242
@@ -7648,6 +7658,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Blue Diamond (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4197399201927018498, guid: 5705100bae55f4438868d8a34c746c7e,
+        type: 3}
+      propertyPath: collectableName
+      value: BlueDiamond
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5705100bae55f4438868d8a34c746c7e, type: 3}

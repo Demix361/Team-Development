@@ -176,4 +176,12 @@ public class MyNetworkManager : NetworkManager
 
         OnServerReadied?.Invoke(conn);
     }
+
+    public void ServerIncreaseCollectable(string collName)
+    {
+        foreach (NetworkGamePlayer player in GamePlayers)
+        {
+            player.IncreaseCollectable(collName);
+        }
+    }
 }

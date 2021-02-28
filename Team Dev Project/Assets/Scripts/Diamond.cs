@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class Diamond : MonoBehaviour
 {
+    [SerializeField] private string collectableName;
     [SerializeField] private float speed;
     [SerializeField] private float maxFlightHeight;
     [SerializeField] private Animator animator;
     private float counter = 0;
+    private bool collected = false;
 
     void Update()
     {
@@ -22,10 +24,15 @@ public class Diamond : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        animator.SetBool("Collected", true);
+        if (!collected)
+        {
+            collision.GetComponent<PlayerNetworkTalker>().CmdIncreaseCollectable(collectableName);
+            animator.SetBool("Collected", true);
+            collected = true;
+        }
     }
 
-    public void PrintEvent()
+    public void DestroyEvent()
     {
         Destroy(gameObject);
     }

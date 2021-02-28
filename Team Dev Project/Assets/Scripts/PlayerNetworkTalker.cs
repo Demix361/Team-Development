@@ -24,4 +24,10 @@ public class PlayerNetworkTalker : NetworkBehaviour
     {
         Room.ServerChangeScene(sceneName);
     }
+
+    [Command]
+    public void CmdIncreaseCollectable(string collName)
+    {
+        Room.ServerIncreaseCollectable(collName);
+    }
 }
