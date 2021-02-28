@@ -128,6 +128,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -2584644136250321028, guid: 5705100bae55f4438868d8a34c746c7e,
+        type: 3}
+      propertyPath: sceneId
+      value: 2363545034
+      objectReference: {fileID: 0}
     - target: {fileID: 1170947658362492281, guid: 5705100bae55f4438868d8a34c746c7e,
         type: 3}
       propertyPath: m_RootOrder
@@ -390,6 +395,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3787589406781141979, guid: 47a0621cfc8ff774e8baa0aeed9c629e,
+        type: 3}
+      propertyPath: sceneId
+      value: 642296812
+      objectReference: {fileID: 0}
     - target: {fileID: 2822985838422793760, guid: 47a0621cfc8ff774e8baa0aeed9c629e,
         type: 3}
       propertyPath: m_Name
@@ -6111,6 +6121,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: GreenDiamond
       objectReference: {fileID: 0}
+    - target: {fileID: 2982953577862886335, guid: 0fd205a67b0d88c44a9745afd574a865,
+        type: 3}
+      propertyPath: sceneId
+      value: 3254570871
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0fd205a67b0d88c44a9745afd574a865, type: 3}
 --- !u!1 &676579811
@@ -6267,6 +6282,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: GreenDiamond (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 2982953577862886335, guid: 0fd205a67b0d88c44a9745afd574a865,
+        type: 3}
+      propertyPath: sceneId
+      value: 1610186088
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0fd205a67b0d88c44a9745afd574a865, type: 3}
 --- !u!1 &806515208
@@ -6319,6 +6339,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -2584644136250321028, guid: 5705100bae55f4438868d8a34c746c7e,
+        type: 3}
+      propertyPath: sceneId
+      value: 2427942959
+      objectReference: {fileID: 0}
     - target: {fileID: 1170947658362492281, guid: 5705100bae55f4438868d8a34c746c7e,
         type: 3}
       propertyPath: m_RootOrder
@@ -7817,6 +7842,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3787589406781141979, guid: 47a0621cfc8ff774e8baa0aeed9c629e,
+        type: 3}
+      propertyPath: sceneId
+      value: 1808110916
+      objectReference: {fileID: 0}
     - target: {fileID: 2822985838422793760, guid: 47a0621cfc8ff774e8baa0aeed9c629e,
         type: 3}
       propertyPath: m_Name
@@ -7886,6 +7916,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -2584644136250321028, guid: 5705100bae55f4438868d8a34c746c7e,
+        type: 3}
+      propertyPath: sceneId
+      value: 2364815892
+      objectReference: {fileID: 0}
     - target: {fileID: 1170947658362492281, guid: 5705100bae55f4438868d8a34c746c7e,
         type: 3}
       propertyPath: m_RootOrder
@@ -8389,6 +8424,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3787589406781141979, guid: 47a0621cfc8ff774e8baa0aeed9c629e,
+        type: 3}
+      propertyPath: sceneId
+      value: 7072473
+      objectReference: {fileID: 0}
     - target: {fileID: 2822985838422793760, guid: 47a0621cfc8ff774e8baa0aeed9c629e,
         type: 3}
       propertyPath: m_Name
@@ -8518,6 +8558,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: GreenDiamond (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 2982953577862886335, guid: 0fd205a67b0d88c44a9745afd574a865,
+        type: 3}
+      propertyPath: sceneId
+      value: 3285459901
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0fd205a67b0d88c44a9745afd574a865, type: 3}
 --- !u!1001 &2000530513
@@ -8586,6 +8631,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: GreenDiamond (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2982953577862886335, guid: 0fd205a67b0d88c44a9745afd574a865,
+        type: 3}
+      propertyPath: sceneId
+      value: 289505388
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0fd205a67b0d88c44a9745afd574a865, type: 3}

@@ -22,20 +22,7 @@ public class Door : MonoBehaviour
     {
         if (Input.GetButtonDown("Interact"))
         {
-            //CmdChangeScene();
-            //Room.ServerChangeScene(sceneName);
-            Debug.Log(collision.name);
-            Debug.Log(collision.attachedRigidbody);
-            Debug.Log(collision.gameObject);
-            Debug.Log(collision.GetType());
-            Debug.Log(collision.name);
-            Debug.Log(collision.name);
-            Debug.Log(collision.name);
-            Debug.Log(collision.name);
-
             collision.GetComponent<PlayerNetworkTalker>().CmdChangeScene(sceneName);
-
-            //var pl = collision.pare
         }
     }
 

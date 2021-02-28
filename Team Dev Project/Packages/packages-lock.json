@@ -71,6 +71,15 @@
       "source": "builtin",
       "dependencies": {}
     },
+    "com.unity.2d.tilemap.extras": {
+      "version": "file:D:/Libraries/Downloads/2d-extras-1.5.0-preview",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {
+        "com.unity.modules.tilemap": "1.0.0",
+        "com.unity.2d.tilemap": "1.0.0"
+      }
+    },
     "com.unity.cinemachine": {
       "version": "2.6.3",
       "depth": 0,

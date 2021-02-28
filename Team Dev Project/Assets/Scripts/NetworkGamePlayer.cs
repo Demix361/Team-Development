@@ -11,6 +11,7 @@ public class NetworkGamePlayer : NetworkBehaviour
     [SyncVar]
     private string displayName = "Loading...";
 
+    // Player game properties
     [SerializeField] private Dictionary<string, int> collectables =
     new Dictionary<string, int>();
 

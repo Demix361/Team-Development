@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2822985838422793761}
   - component: {fileID: 2822985838422793764}
   - component: {fileID: 2822985838422793765}
+  - component: {fileID: -3787589406781141979}
   m_Layer: 0
   m_Name: RedDiamond
   m_TagString: Untagged
@@ -145,3 +146,19 @@ MonoBehaviour:
   speed: 0.002
   maxFlightHeight: 0.2
   animator: {fileID: 2822985838422793764}
+--- !u!114 &-3787589406781141979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2822985838422793760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  serverOnly: 0
+  m_AssetId: 
+  hasSpawned: 0
