@@ -6,10 +6,22 @@ using System.Linq;
 public class PlayerSpawnSystem : NetworkBehaviour
 {
     [SerializeField] private GameObject playerPrefab = null;
-
     private static List<Transform> spawnPoints = new List<Transform>();
-
     private int nextIndex = 0;
+
+    private MyNetworkManager room;
+    private MyNetworkManager Room
+    {
+        get
+        {
+            if (room != null)
+            {
+                return room;
+            }
+
+            return room = NetworkManager.singleton as MyNetworkManager;
+        }
+    }
 
     public static void AddSpawnPoint(Transform transform)
     {
@@ -34,7 +46,17 @@ public class PlayerSpawnSystem : NetworkBehaviour
     [Server]
     public void SpawnPlayer(NetworkConnection conn)
     {
+
+        if (nextIndex >= Room.numPlayers)
+        {
+            nextIndex = 0;
+        }
+
         Transform spawnPoint = spawnPoints.ElementAtOrDefault(nextIndex);
+
+        var a = conn.clientOwnedObjects;
+
+        Debug.Log(a);
 
         if (spawnPoint == null)
         {
@@ -43,6 +65,12 @@ public class PlayerSpawnSystem : NetworkBehaviour
         }
 
         GameObject playerInstance = Instantiate(playerPrefab, spawnPoints[nextIndex].position, spawnPoints[nextIndex].rotation);
+        if (playerInstance.GetComponent<PlayerProperties>().playerId == -1)
+        {
+            playerInstance.GetComponent<PlayerProperties>().playerId = nextIndex;
+        }
+        Debug.Log($"spawn_system: {playerInstance.GetComponent<PlayerProperties>().playerId}");
+
         NetworkServer.Spawn(playerInstance, conn);
 
         nextIndex++;

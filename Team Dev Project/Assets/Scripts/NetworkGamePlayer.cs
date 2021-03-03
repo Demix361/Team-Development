@@ -9,7 +9,10 @@ using UnityEngine.UI;
 public class NetworkGamePlayer : NetworkBehaviour
 {
     [SyncVar]
-    private string displayName = "Loading...";
+    public string displayName = "Loading...";
+
+    [SyncVar]
+    public int playerId = -1;
 
     // Player game properties
     [SerializeField] private Dictionary<string, int> collectables =
@@ -47,6 +50,12 @@ public class NetworkGamePlayer : NetworkBehaviour
         this.displayName = displayName;
     }
 
+    [Server]
+    public void SetPlayerId(int id)
+    {
+        this.playerId = id;
+    }
+
     public void IncreaseCollectable(string collName)
     {
         try
@@ -59,4 +68,40 @@ public class NetworkGamePlayer : NetworkBehaviour
         }
         Debug.Log($"{collName}: {collectables[collName]}");
     }
+
+    /*
+    [Client]
+    public void AddHealthBar()
+    {
+        Canvas canvas = GameObject.FindObjectOfType<Canvas>();
+
+        for (int i = 0; i < Room.GamePlayers.Count; i++)
+        {
+            int pos_x = 380;
+            int pos_y = 278;
+
+            if (i == 0)
+            {
+                pos_x *= -1;
+                pos_y *= -1;
+            }
+            else if (i == 1)
+            {
+                pos_y *= -1;
+            }
+            else if (i == 2)
+            {
+                pos_x *= -1;
+            }
+
+            Vector3 pos = new Vector3(pos_x, pos_y, 0);
+            GameObject hb = Instantiate(Room.playerHealthBar, pos, Quaternion.identity) as GameObject;
+            //hb.transform.parent = canvas.transform;
+            hb.transform.SetParent(canvas.transform, false);
+
+            Room.PlayerHealthBars.Add(hb);
+            //NetworkServer.Spawn(hb);
+        }
+    }
+    */
 }

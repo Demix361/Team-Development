@@ -1,20 +1,23 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-public class PlayerProperties : MonoBehaviour
+public class PlayerProperties : NetworkBehaviour
 {
-    [SerializeField] private int maxHP;
-    private int currentHP;
+    private Health health;
     [SerializeField] private float spikesHitCD;
     private float spikesHitTimer = 0;
     [SerializeField] Animator animator;
     private Rigidbody2D m_Rigidbody2D;
-    private float spikesJumpForce = 200;
+    private float spikesJumpForce = 600;
+
+    [SyncVar] 
+    public int playerId;
 
     private void Start()
     {
-        currentHP = maxHP;
+        health = GetComponent<Health>();
         m_Rigidbody2D = GetComponent<Rigidbody2D>();
     }
 
@@ -26,21 +29,15 @@ public class PlayerProperties : MonoBehaviour
         }
     }
 
-    private void DecreaseHP(int delta)
-    {
-        currentHP -= delta;
-        Debug.Log($"HP: {currentHP}");
-    }
-
     public void getHitFromSpikes(int damage)
     {
         if (spikesHitTimer <= 0)
         {
-            DecreaseHP(damage);
+            health.CmdDealDamage(damage);
             animator.SetTrigger("Hit");
             spikesHitTimer = spikesHitCD;
 
-            m_Rigidbody2D.AddForce(new Vector2(0f, spikesJumpForce));
+            m_Rigidbody2D.AddForce(new Vector2(0f, - m_Rigidbody2D.velocity.y) * 100);
         }
     }
 }

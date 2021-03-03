@@ -201,6 +201,8 @@ MonoBehaviour:
     type: 3}
   playerSpawnSystem: {fileID: 6575178088988468232, guid: ab37b78817fc3be40857a14c90c29044,
     type: 3}
+  playerHealthBar: {fileID: 5823803857474602691, guid: 40d71efaf8293a94aad41d9329076da5,
+    type: 3}
 --- !u!4 &504132094
 Transform:
   m_ObjectHideFlags: 0

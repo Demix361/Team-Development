@@ -16,6 +16,7 @@ public class MyNetworkManager : NetworkManager
     [Header("Game")]
     [SerializeField] private NetworkGamePlayer gamePlayerPrefab = null;
     [SerializeField] private GameObject playerSpawnSystem = null;
+    [SerializeField] public GameObject playerHealthBar = null;
 
     public static event Action OnClientConnected;
     public static event Action OnClientDisconnected;
@@ -23,6 +24,7 @@ public class MyNetworkManager : NetworkManager
 
     public List<NetworkRoomPlayer> RoomPlayers { get; } = new List<NetworkRoomPlayer>();
     public List<NetworkGamePlayer> GamePlayers { get; } = new List<NetworkGamePlayer>();
+    public List<GameObject> PlayerHealthBars { get; } = new List<GameObject>();
 
     public override void OnStartServer()
     {
@@ -144,15 +146,18 @@ public class MyNetworkManager : NetworkManager
 
     public override void ServerChangeScene(string newSceneName)
     {
-        if (SceneManager.GetActiveScene().path == menuScene && (newSceneName.StartsWith("HubScene") || newSceneName.StartsWith("LevelScene")))
+        if (SceneManager.GetActiveScene().path == menuScene && (newSceneName.StartsWith("HubScene")))// || newSceneName.StartsWith("LevelScene")))
         {
             for (int i = RoomPlayers.Count - 1; i >= 0; i--)
             {
                 var conn = RoomPlayers[i].connectionToClient;
                 var gameplayerInstance = Instantiate(gamePlayerPrefab);
                 gameplayerInstance.SetDisplayName(RoomPlayers[i].DisplayName);
+                
 
                 NetworkServer.Destroy(conn.identity.gameObject);
+
+                gameplayerInstance.SetPlayerId(i + 1);
 
                 NetworkServer.ReplacePlayerForConnection(conn, gameplayerInstance.gameObject);
             }
@@ -163,11 +168,21 @@ public class MyNetworkManager : NetworkManager
 
     public override void OnServerSceneChanged(string sceneName)
     {
-        if (sceneName.StartsWith("HubScene") )//|| sceneName.StartsWith("LevelScene"))
+        if (sceneName.StartsWith("HubScene"))//|| sceneName.StartsWith("LevelScene"))
         {
             GameObject playerSpawnSystemInstance = Instantiate(playerSpawnSystem);
             NetworkServer.Spawn(playerSpawnSystemInstance);
         }
+
+        
+        if (sceneName.StartsWith("LevelScene"))
+        {
+            foreach (NetworkGamePlayer player in GamePlayers)
+            {
+                
+            }
+        }
+        
     }
 
     public override void OnServerReady(NetworkConnection conn)
