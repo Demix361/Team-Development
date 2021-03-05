@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using Mirror;
+using UnityEngine.SceneManagement;
 
 public class Health : NetworkBehaviour
 {
@@ -91,6 +92,17 @@ public class Health : NetworkBehaviour
 
         Vector2 pos = new Vector2(580 + pos_x, 310 + pos_y);
         HB.transform.position = pos;
+
+        string curSceneName = SceneManager.GetActiveScene().name;
+
+        if (curSceneName.StartsWith("LevelScene"))
+        {
+            ToggleHealthBar(true);
+        }
+        else if (curSceneName.StartsWith("HubScene"))
+        {
+            ToggleHealthBar(false);
+        }
     }
 
     private void UpdateHealthBar(int oldHealth, int newHealth)
