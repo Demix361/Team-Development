@@ -20,7 +20,7 @@ public class JoinLobbyMenu : MonoBehaviour
     private void OnDisable()
     {
         MyNetworkManager.OnClientConnected -= HandleClientConnected;
-        MyNetworkManager.OnClientDisconnected -= HandleClientDisconnected;
+        //MyNetworkManager.OnClientDisconnected -= HandleClientDisconnected;
     }
 
     public void JoinLobby()
@@ -44,5 +44,6 @@ public class JoinLobbyMenu : MonoBehaviour
     private void HandleClientDisconnected()
     {
         joinButton.interactable = true;
+        landingPagePanel.SetActive(true);
     }
 }

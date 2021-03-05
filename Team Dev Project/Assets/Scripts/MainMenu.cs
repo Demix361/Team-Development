@@ -13,4 +13,9 @@ public class MainMenu : MonoBehaviour
 
         landingPagePanel.SetActive(false);
     }
+
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
 }

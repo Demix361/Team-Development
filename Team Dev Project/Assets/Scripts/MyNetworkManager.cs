@@ -20,6 +20,7 @@ public class MyNetworkManager : NetworkManager
 
     public static event Action OnClientConnected;
     public static event Action OnClientDisconnected;
+    public static event Action OnServerDisconnected;
     public static event Action<NetworkConnection> OnServerReadied;
 
     public List<NetworkRoomPlayer> RoomPlayers { get; } = new List<NetworkRoomPlayer>();
@@ -103,6 +104,10 @@ public class MyNetworkManager : NetworkManager
     public override void OnStopServer()
     {
         RoomPlayers.Clear();
+
+        OnServerDisconnected?.Invoke();
+
+        Destroy(gameObject);
     }
 
     public void NotifyPlayersOfReadyState()

@@ -138,4 +138,17 @@ public class NetworkRoomPlayer : NetworkBehaviour
 
         Room.StartGame();
     }
+
+    public void Disconnect()
+    {
+        if (isLeader)
+        {
+            Room.StopClient();
+            Room.StopServer();
+        }
+        else
+        {
+            Room.StopClient();
+        }
+    }
 }
