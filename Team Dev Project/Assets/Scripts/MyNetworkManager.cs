@@ -180,7 +180,10 @@ public class MyNetworkManager : NetworkManager
     {
         if (sceneName.StartsWith("HubScene"))
         {
-            
+            //GameObject[] doors = GameObject.FindGameObjectsWithTag("Door");
+            //Debug.Log($"door num: {doors.Length}");
+
+
         }
 
         
@@ -189,6 +192,59 @@ public class MyNetworkManager : NetworkManager
 
         }
         
+    }
+
+    public override void OnClientSceneChanged(NetworkConnection conn)
+    {
+        // Сохранение после завершения уровня
+        if (SceneManager.GetActiveScene().name.StartsWith("HubScene"))
+        {
+            GameObject[] doors = GameObject.FindGameObjectsWithTag("Door");
+            Debug.Log($"door num: {doors.Length}");
+
+            foreach (NetworkGamePlayer player in GamePlayers)
+            {
+                if (player.connectionToServer == conn)
+                {
+                    if (player.levelID == -2)
+                    {
+                        /*
+                        var aaa = SaveSystem.LoadGame();
+                        if (aaa != null)
+                        {
+                            player.unlockedLevels = aaa.unlockedLevels;
+                        }
+                        */
+                    }
+
+                    if (player.levelCompleted)
+                    {
+                        player.levelCompleted = false;
+
+                        for (int i = 0; i <= player.levelID; i++)
+                        {
+                            player.unlockedLevels[i] = true;
+                        }
+
+                        if (player.levelID + 1 != player.unlockedLevels.Length)
+                        {
+                            player.unlockedLevels[player.levelID + 1] = true;
+                        }
+
+                        for (int i = 0; i < doors.Length; i++)
+                        {
+                            doors[i].GetComponent<Door>().SetLock(player.unlockedLevels[i]);
+                        }
+
+                        SaveSystem.SaveGame(player.unlockedLevels);
+                    }
+
+                    
+                }
+            }
+        }
+
+        base.OnClientSceneChanged(conn);
     }
 
     public override void OnServerReady(NetworkConnection conn)

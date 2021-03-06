@@ -110,7 +110,6 @@ public class Health : NetworkBehaviour
         //NetworkGamePlayer gamePlayer = GetComponent<NetworkGamePlayer>();
         //var gamePlayer = GameObject.FindObjectOfType<NetworkGamePlayer>();
         var gamePlayer = gameObject.GetComponent<PlayerProperties>();
-        Debug.Log(gamePlayer.playerId);
         healthBarImage.fillAmount = (float)currentHealth / maxHealth;
     }
 

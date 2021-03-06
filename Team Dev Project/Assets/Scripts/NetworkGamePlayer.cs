@@ -18,6 +18,13 @@ public class NetworkGamePlayer : NetworkBehaviour
     [SerializeField] private Dictionary<string, int> collectables =
     new Dictionary<string, int>();
 
+    public bool[] unlockedLevels = new bool[10];
+
+    // Пройден ли текущий уровень
+    public bool levelCompleted = true;
+    // ID текущего уровня
+    public int levelID = -2;
+
     private MyNetworkManager room;
     private MyNetworkManager Room
     {
@@ -29,6 +36,14 @@ public class NetworkGamePlayer : NetworkBehaviour
             }
 
             return room = NetworkManager.singleton as MyNetworkManager;
+        }
+    }
+
+    private void Update()
+    {
+        if (Input.GetButtonDown("Interact"))
+        {
+            Debug.Log(levelID);
         }
     }
 
@@ -69,39 +84,4 @@ public class NetworkGamePlayer : NetworkBehaviour
         Debug.Log($"{collName}: {collectables[collName]}");
     }
 
-    /*
-    [Client]
-    public void AddHealthBar()
-    {
-        Canvas canvas = GameObject.FindObjectOfType<Canvas>();
-
-        for (int i = 0; i < Room.GamePlayers.Count; i++)
-        {
-            int pos_x = 380;
-            int pos_y = 278;
-
-            if (i == 0)
-            {
-                pos_x *= -1;
-                pos_y *= -1;
-            }
-            else if (i == 1)
-            {
-                pos_y *= -1;
-            }
-            else if (i == 2)
-            {
-                pos_x *= -1;
-            }
-
-            Vector3 pos = new Vector3(pos_x, pos_y, 0);
-            GameObject hb = Instantiate(Room.playerHealthBar, pos, Quaternion.identity) as GameObject;
-            //hb.transform.parent = canvas.transform;
-            hb.transform.SetParent(canvas.transform, false);
-
-            Room.PlayerHealthBars.Add(hb);
-            //NetworkServer.Spawn(hb);
-        }
-    }
-    */
 }

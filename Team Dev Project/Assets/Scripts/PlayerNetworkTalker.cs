@@ -30,4 +30,15 @@ public class PlayerNetworkTalker : NetworkBehaviour
     {
         Room.ServerIncreaseCollectable(collName);
     }
+
+    public void SetLevelId(int levelID)
+    {
+        foreach (var player in Room.GamePlayers)
+        {
+            if (player.hasAuthority)
+            {
+                player.levelID = levelID;
+            }
+        }
+    }
 }
