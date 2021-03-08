@@ -6,6 +6,8 @@
 # Packages
 /[Aa]ssets/Mirror/
 /[Aa]ssets/TextMesh Pro/
+/Packages/manifest.json
+/Packages/packages-lock.json
 
 *.DS_Store
 
