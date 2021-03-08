@@ -9,7 +9,7 @@ public class Door : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private bool locked;
     [SerializeField] private GameObject lockSprite;
-    [SerializeField] private int doorID;
+    [SerializeField] public int doorID;
 
     private void Start()
     {
@@ -41,6 +41,7 @@ public class Door : MonoBehaviour
             if (doorID != -1)
             {
                 collision.GetComponent<PlayerNetworkTalker>().SetLevelId(doorID);
+                collision.GetComponent<PlayerNetworkTalker>().SetLevelComplete(true);
             }
         }
     }

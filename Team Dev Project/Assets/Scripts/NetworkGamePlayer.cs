@@ -18,7 +18,8 @@ public class NetworkGamePlayer : NetworkBehaviour
     [SerializeField] private Dictionary<string, int> collectables =
     new Dictionary<string, int>();
 
-    public bool[] unlockedLevels = new bool[10];
+    public bool[] unlockedLevels = { true, false, false, false, false,
+    false, false, false, false, false };//new bool[10];
 
     // Пройден ли текущий уровень
     public bool levelCompleted = true;

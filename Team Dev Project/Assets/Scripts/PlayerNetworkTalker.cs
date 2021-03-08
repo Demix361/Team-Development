@@ -41,4 +41,15 @@ public class PlayerNetworkTalker : NetworkBehaviour
             }
         }
     }
+
+    public void SetLevelComplete(bool state)
+    {
+        foreach (var player in Room.GamePlayers)
+        {
+            if (player.hasAuthority)
+            {
+                player.levelCompleted = state;
+            }
+        }
+    }
 }

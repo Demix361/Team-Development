@@ -5,10 +5,11 @@ using UnityEngine;
 public class SaveSystem
 {
     //private static string path = Application.persistentDataPath + "/save.kek";
+    private string path = "/Users/said/Documents/save.kek";
 
-    public static void SaveGame (bool[] levelInfo)
+    public void SaveGame (bool[] levelInfo)
     {
-        string path = Application.persistentDataPath + "/save.kek";
+        //string path = Application.persistentDataPath + Path.PathSeparator + "save.kek";
         BinaryFormatter formatter = new BinaryFormatter();
         FileStream stream = new FileStream(path, FileMode.Create);
 
@@ -18,9 +19,9 @@ public class SaveSystem
         stream.Close();
     }
 
-    public static GameData LoadGame ()
+    public GameData LoadGame ()
     {
-        string path = Application.persistentDataPath + "/save.kek";
+        //string path = Application.persistentDataPath + Path.PathSeparator + "save.kek";
 
         if (File.Exists(path))
         {

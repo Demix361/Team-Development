@@ -194,6 +194,7 @@ public class MyNetworkManager : NetworkManager
         
     }
 
+    [Client]
     public override void OnClientSceneChanged(NetworkConnection conn)
     {
         // Сохранение после завершения уровня
@@ -202,17 +203,20 @@ public class MyNetworkManager : NetworkManager
             GameObject[] doors = GameObject.FindGameObjectsWithTag("Door");
             Debug.Log($"door num: {doors.Length}");
 
+            SaveSystem SS = new SaveSystem();
+
             foreach (NetworkGamePlayer player in GamePlayers)
             {
                 if (player.connectionToServer == conn)
                 {
                     if (player.levelID == -2)
                     {
+                        Debug.Log("LOAD LEVELS");
                         /*
-                        var aaa = SaveSystem.LoadGame();
-                        if (aaa != null)
+                        GameData levelInfo = SS.LoadGame();
+                        if (levelInfo != null)
                         {
-                            player.unlockedLevels = aaa.unlockedLevels;
+                            player.unlockedLevels = levelInfo.unlockedLevels;
                         }
                         */
                     }
@@ -233,10 +237,11 @@ public class MyNetworkManager : NetworkManager
 
                         for (int i = 0; i < doors.Length; i++)
                         {
-                            doors[i].GetComponent<Door>().SetLock(player.unlockedLevels[i]);
+                            Door door = doors[i].GetComponent<Door>();
+                            door.SetLock(!player.unlockedLevels[door.doorID]);
                         }
 
-                        SaveSystem.SaveGame(player.unlockedLevels);
+                        SS.SaveGame(player.unlockedLevels);
                     }
 
                     
