@@ -4,13 +4,24 @@ using UnityEngine;
 
 public class SaveSystem
 {
-    //private static string path = Application.persistentDataPath + "/save.kek";
-    private string path = "/Users/said/Documents/save.kek";
+    private static string path;
+    private static string directory;
 
-    public void SaveGame (bool[] levelInfo)
+    public SaveSystem(string playerName)
     {
-        //string path = Application.persistentDataPath + Path.PathSeparator + "save.kek";
+        path = Application.persistentDataPath + Path.DirectorySeparatorChar + playerName + Path.DirectorySeparatorChar + "save.kek";
+        directory = Application.persistentDataPath + Path.DirectorySeparatorChar + playerName;
+    }
+
+    public void SaveGame(bool[] levelInfo)
+    {
         BinaryFormatter formatter = new BinaryFormatter();
+
+        if (!Directory.Exists(directory))
+        {
+            Directory.CreateDirectory(directory);
+        }
+
         FileStream stream = new FileStream(path, FileMode.Create);
 
         GameData data = new GameData(levelInfo);
@@ -19,13 +30,12 @@ public class SaveSystem
         stream.Close();
     }
 
-    public GameData LoadGame ()
+    public GameData LoadGame()
     {
-        //string path = Application.persistentDataPath + Path.PathSeparator + "save.kek";
-
         if (File.Exists(path))
         {
             BinaryFormatter formatter = new BinaryFormatter();
+
             FileStream stream = new FileStream(path, FileMode.Open);
 
             GameData data = formatter.Deserialize(stream) as GameData;

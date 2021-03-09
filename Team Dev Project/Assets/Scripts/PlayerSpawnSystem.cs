@@ -69,7 +69,7 @@ public class PlayerSpawnSystem : NetworkBehaviour
         {
             playerInstance.GetComponent<PlayerProperties>().playerId = nextIndex;
         }
-        Debug.Log($"spawn_system: {playerInstance.GetComponent<PlayerProperties>().playerId}");
+        //Debug.Log($"spawn_system: {playerInstance.GetComponent<PlayerProperties>().playerId}");
 
         NetworkServer.Spawn(playerInstance, conn);
 

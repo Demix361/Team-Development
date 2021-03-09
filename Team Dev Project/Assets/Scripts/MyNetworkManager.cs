@@ -203,26 +203,40 @@ public class MyNetworkManager : NetworkManager
             GameObject[] doors = GameObject.FindGameObjectsWithTag("Door");
             Debug.Log($"door num: {doors.Length}");
 
-            SaveSystem SS = new SaveSystem();
+            
 
             foreach (NetworkGamePlayer player in GamePlayers)
             {
                 if (player.connectionToServer == conn)
                 {
+                    SaveSystem SS = new SaveSystem(player.displayName);
+
                     if (player.levelID == -2)
                     {
                         Debug.Log("LOAD LEVELS");
-                        /*
+                        
                         GameData levelInfo = SS.LoadGame();
                         if (levelInfo != null)
                         {
-                            player.unlockedLevels = levelInfo.unlockedLevels;
+                            Debug.Log("not null");
+
+                            for (int i = 0; i < levelInfo.unlockedLevels.Count(); i++)
+                            {
+                                player.unlockedLevels[i] = levelInfo.unlockedLevels[i];
+                            }
+
+                            for (int i = 0; i < player.unlockedLevels.Count(); i++)
+                            {
+                                Debug.Log($"player.unlockedlevels: {player.unlockedLevels[i]}");
+                            }
+                            //player.unlockedLevels = levelInfo.unlockedLevels;
                         }
-                        */
+                        
                     }
 
                     if (player.levelCompleted)
                     {
+                        Debug.Log("SAVED");
                         player.levelCompleted = false;
 
                         for (int i = 0; i <= player.levelID; i++)
@@ -230,7 +244,7 @@ public class MyNetworkManager : NetworkManager
                             player.unlockedLevels[i] = true;
                         }
 
-                        if (player.levelID + 1 != player.unlockedLevels.Length)
+                        if (player.levelID + 1 != player.unlockedLevels.Length && player.levelID >= 0)
                         {
                             player.unlockedLevels[player.levelID + 1] = true;
                         }
@@ -242,6 +256,7 @@ public class MyNetworkManager : NetworkManager
                         }
 
                         SS.SaveGame(player.unlockedLevels);
+                        
                     }
 
                     

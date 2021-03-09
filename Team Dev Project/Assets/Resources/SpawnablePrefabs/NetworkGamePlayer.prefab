@@ -62,4 +62,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  displayName: Loading...
   playerId: -1
+  unlockedLevels: 01000000000000000000
+  levelCompleted: 1
+  levelID: -2

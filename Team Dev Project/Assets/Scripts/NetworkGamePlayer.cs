@@ -22,9 +22,11 @@ public class NetworkGamePlayer : NetworkBehaviour
     false, false, false, false, false };//new bool[10];
 
     // Пройден ли текущий уровень
-    public bool levelCompleted = true;
+    [SerializeField]
+    public bool levelCompleted;
     // ID текущего уровня
-    public int levelID = -2;
+    [SerializeField]
+    public int levelID;
 
     private MyNetworkManager room;
     private MyNetworkManager Room
@@ -44,7 +46,7 @@ public class NetworkGamePlayer : NetworkBehaviour
     {
         if (Input.GetButtonDown("Interact"))
         {
-            Debug.Log(levelID);
+            Debug.Log($"levelID: {levelID}");
         }
     }
 
@@ -70,6 +72,11 @@ public class NetworkGamePlayer : NetworkBehaviour
     public void SetPlayerId(int id)
     {
         this.playerId = id;
+    }
+
+    public void SetLevelID(int id)
+    {
+        this.levelID = id;
     }
 
     public void IncreaseCollectable(string collName)
