@@ -172,38 +172,67 @@ public class MyNetworkManager : NetworkManager
         }
 
         base.ServerChangeScene(newSceneName);
-
-        
     }
 
+    /*
     public override void OnServerSceneChanged(string sceneName)
     {
         if (sceneName.StartsWith("HubScene"))
         {
-            //GameObject[] doors = GameObject.FindGameObjectsWithTag("Door");
-            //Debug.Log($"door num: {doors.Length}");
+            foreach (NetworkGamePlayer player in GamePlayers)
+            {
+                player.UnlockDoors();
+            }
+        }    
+    }
+    */
 
-
-        }
-
-        
-        if (sceneName.StartsWith("LevelScene"))
+    public override void OnClientSceneChanged(NetworkConnection conn)
+    {
+        if (SceneManager.GetActiveScene().name.StartsWith("HubScene"))
         {
-
+            foreach (NetworkGamePlayer player in GamePlayers)
+            {
+                if (player.hasAuthority)
+                {
+                    player.UnlockDoors();
+                }
+            }
         }
-        
+
+        base.OnClientSceneChanged(conn);
     }
 
+    /*
     [Client]
     public override void OnClientSceneChanged(NetworkConnection conn)
     {
-        // Сохранение после завершения уровня
+        // 
         if (SceneManager.GetActiveScene().name.StartsWith("HubScene"))
         {
             GameObject[] doors = GameObject.FindGameObjectsWithTag("Door");
-            Debug.Log($"door num: {doors.Length}");
 
-            
+            foreach (NetworkGamePlayer player in GamePlayers)
+            {
+                SaveSystem SS = new SaveSystem(player.displayName);
+
+                GameData levelInfo = SS.LoadGame();
+                if (levelInfo != null)
+                {
+                    for (int i = 0; i < doors.Length; i++)
+                    {
+                        Door door = doors[i].GetComponent<Door>();
+                        door.SetLock(!levelInfo.unlockedLevels[door.doorID]);
+                    }
+                }
+            }
+        }
+
+        ///*
+        if (SceneManager.GetActiveScene().name.StartsWith("Level"))
+        {
+            GameObject[] gems = GameObject.FindGameObjectsWithTag("Gem");
+            Debug.Log($"gem num: {gems.Length}");
 
             foreach (NetworkGamePlayer player in GamePlayers)
             {
@@ -211,61 +240,37 @@ public class MyNetworkManager : NetworkManager
                 {
                     SaveSystem SS = new SaveSystem(player.displayName);
 
-                    if (player.levelID == -2)
+                    GemData gemInfo = SS.LoadGems(player.levelID);
+
+                    // загрузка состояний гемов, если есть файл сохранения
+                    if (gemInfo != null)
                     {
-                        Debug.Log("LOAD LEVELS");
-                        
-                        GameData levelInfo = SS.LoadGame();
-                        if (levelInfo != null)
+                        for (int i = 0; i < gems.Length; i++)
                         {
-                            Debug.Log("not null");
+                            Diamond gem = gems[i].GetComponent<Diamond>();
 
-                            for (int i = 0; i < levelInfo.unlockedLevels.Count(); i++)
+                            if (gem.collectableName == "RedGem")
                             {
-                                player.unlockedLevels[i] = levelInfo.unlockedLevels[i];
+                                gem.found = gemInfo.redGems[gem.gemID];
                             }
-
-                            for (int i = 0; i < player.unlockedLevels.Count(); i++)
+                            else if (gem.collectableName == "GreenGem")
                             {
-                                Debug.Log($"player.unlockedlevels: {player.unlockedLevels[i]}");
+                                gem.found = gemInfo.greenGems[gem.gemID];
                             }
-                            //player.unlockedLevels = levelInfo.unlockedLevels;
+                            else if (gem.collectableName == "BlueGem")
+                            {
+                                gem.found = gemInfo.blueGems[gem.gemID];
+                            }
                         }
-                        
                     }
-
-                    if (player.levelCompleted)
-                    {
-                        Debug.Log("SAVED");
-                        player.levelCompleted = false;
-
-                        for (int i = 0; i <= player.levelID; i++)
-                        {
-                            player.unlockedLevels[i] = true;
-                        }
-
-                        if (player.levelID + 1 != player.unlockedLevels.Length && player.levelID >= 0)
-                        {
-                            player.unlockedLevels[player.levelID + 1] = true;
-                        }
-
-                        for (int i = 0; i < doors.Length; i++)
-                        {
-                            Door door = doors[i].GetComponent<Door>();
-                            door.SetLock(!player.unlockedLevels[door.doorID]);
-                        }
-
-                        SS.SaveGame(player.unlockedLevels);
-                        
-                    }
-
-                    
                 }
             }
         }
+        //
 
         base.OnClientSceneChanged(conn);
     }
+    */
 
     public override void OnServerReady(NetworkConnection conn)
     {
@@ -279,6 +284,22 @@ public class MyNetworkManager : NetworkManager
         foreach (NetworkGamePlayer player in GamePlayers)
         {
             player.IncreaseCollectable(collName);
+        }
+    }
+
+    public void ServerSetLevelID(int levelID)
+    {
+        foreach (NetworkGamePlayer player in GamePlayers)
+        {
+            player.SetLevelID(levelID);
+        }
+    }
+
+    public void ServerSaveLevel()
+    {
+        foreach (NetworkGamePlayer player in GamePlayers)
+        {
+            player.RpcSaveLevel();
         }
     }
 }

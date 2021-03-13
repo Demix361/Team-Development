@@ -64,6 +64,5 @@ MonoBehaviour:
   syncInterval: 0.1
   displayName: Loading...
   playerId: -1
-  unlockedLevels: 01000000000000000000
   levelCompleted: 1
-  levelID: -2
+  levelID: 0

@@ -37,27 +37,15 @@ public class Door : MonoBehaviour
     {
         if (!locked && (Input.GetButtonDown("Interact") || Input.GetButton("Interact")))
         {
+            collision.GetComponent<PlayerNetworkTalker>().CmdSetLevelID(doorID);
+
             collision.GetComponent<PlayerNetworkTalker>().CmdChangeScene(sceneName);
-            if (doorID != -1)
-            {
-                collision.GetComponent<PlayerNetworkTalker>().SetLevelId(doorID);
-                collision.GetComponent<PlayerNetworkTalker>().SetLevelComplete(true);
-            }
         }
     }
 
     public void SetLock(bool state)
     {
         locked = state;
-    }
-
-    public void Unlock()
-    {
-        locked = false;
-    }
-
-    public void Lock()
-    {
-        locked = true;
+        lockSprite.SetActive(locked);
     }
 }

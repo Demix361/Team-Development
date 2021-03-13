@@ -31,25 +31,15 @@ public class PlayerNetworkTalker : NetworkBehaviour
         Room.ServerIncreaseCollectable(collName);
     }
 
-    public void SetLevelId(int levelID)
+    [Command]
+    public void CmdSetLevelID(int levelID)
     {
-        foreach (var player in Room.GamePlayers)
-        {
-            if (player.hasAuthority)
-            {
-                player.levelID = levelID;
-            }
-        }
+        Room.ServerSetLevelID(levelID);
     }
 
-    public void SetLevelComplete(bool state)
+    [Command]
+    public void CmdSaveLevel()
     {
-        foreach (var player in Room.GamePlayers)
-        {
-            if (player.hasAuthority)
-            {
-                player.levelCompleted = state;
-            }
-        }
+        Room.ServerSaveLevel();
     }
 }

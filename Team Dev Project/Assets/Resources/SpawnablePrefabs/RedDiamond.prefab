@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -3787589406781141979}
   m_Layer: 0
   m_Name: RedDiamond
-  m_TagString: Untagged
+  m_TagString: Gem
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -142,9 +142,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1465190b5c8a1eb4b8e46a84712ec8c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collectableName: RedDiamond
+  gemID: 0
+  collectableName: RedGem
   speed: 0.002
   maxFlightHeight: 0.2
+  found: 0
   animator: {fileID: 2822985838422793764}
 --- !u!114 &-3787589406781141979
 MonoBehaviour:

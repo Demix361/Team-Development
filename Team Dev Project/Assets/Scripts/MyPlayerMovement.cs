@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 using Mirror;
-using Cinemachine;
 
 public class MyPlayerMovement : NetworkBehaviour
 {

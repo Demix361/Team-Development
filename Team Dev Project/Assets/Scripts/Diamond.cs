@@ -4,12 +4,26 @@ using UnityEngine;
 
 public class Diamond : MonoBehaviour
 {
-    [SerializeField] private string collectableName;
+    [SerializeField] public int gemID;
+    [SerializeField] public string collectableName;
     [SerializeField] private float speed;
     [SerializeField] private float maxFlightHeight;
+    [SerializeField] public bool found;
     [SerializeField] private Animator animator;
     private float counter = 0;
     private bool collected = false;
+    private SpriteRenderer spriteRenderer;
+
+    private void Start()
+    {
+        if (found)
+        {
+            spriteRenderer = GetComponent<SpriteRenderer>();
+            Color color = spriteRenderer.color;
+            color.a = (float)0.5;
+            spriteRenderer.color = color;
+        }
+    }
 
     void Update()
     {

@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: DiamondDisappear
+  m_Name: GemDisappear
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -27,6 +27,8 @@ AnimationClip:
       value: {fileID: 21300000, guid: 6df9c49da40382e4ba74fac1267305ce, type: 3}
     - time: 0.25
       value: {fileID: 21300000, guid: dd006ab349bca6b43896e69dcbca63be, type: 3}
+    - time: 0.33333334
+      value: {fileID: 21300000, guid: 6c4bbe28a166c234a93d7def69fb4864, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -50,12 +52,13 @@ AnimationClip:
     - {fileID: 21300000, guid: d0b25ec6094ca2f438a210ad8457243e, type: 3}
     - {fileID: 21300000, guid: 6df9c49da40382e4ba74fac1267305ce, type: 3}
     - {fileID: 21300000, guid: dd006ab349bca6b43896e69dcbca63be, type: 3}
+    - {fileID: 21300000, guid: 6c4bbe28a166c234a93d7def69fb4864, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.33333334
+    m_StopTime: 0.41666666
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0

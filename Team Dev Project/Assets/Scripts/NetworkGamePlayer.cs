@@ -18,15 +18,14 @@ public class NetworkGamePlayer : NetworkBehaviour
     [SerializeField] private Dictionary<string, int> collectables =
     new Dictionary<string, int>();
 
-    public bool[] unlockedLevels = { true, false, false, false, false,
-    false, false, false, false, false };//new bool[10];
+    //[SyncVar]
+    //public bool[] unlockedLevels = { true, false, false, false, false, false, false, false, false, false };
+    //public SyncList<bool> unlockedLevels = new SyncList<bool>() { true, false, false, false, false, false, false, false, false, false };
 
-    // Пройден ли текущий уровень
-    [SerializeField]
-    public bool levelCompleted;
     // ID текущего уровня
-    [SerializeField]
+    [SyncVar][SerializeField]
     public int levelID;
+    private int levelAmount = 10;
 
     private MyNetworkManager room;
     private MyNetworkManager Room
@@ -47,6 +46,10 @@ public class NetworkGamePlayer : NetworkBehaviour
         if (Input.GetButtonDown("Interact"))
         {
             Debug.Log($"levelID: {levelID}");
+        }
+        if (Input.GetButtonDown("DevButton"))
+        {
+            CmdChangeScene("HubScene");
         }
     }
 
@@ -74,6 +77,7 @@ public class NetworkGamePlayer : NetworkBehaviour
         this.playerId = id;
     }
 
+    [Server]
     public void SetLevelID(int id)
     {
         this.levelID = id;
@@ -92,4 +96,63 @@ public class NetworkGamePlayer : NetworkBehaviour
         Debug.Log($"{collName}: {collectables[collName]}");
     }
 
+
+    [Command]
+    public void CmdChangeScene(string sceneName)
+    {
+        Room.ServerChangeScene(sceneName);
+    }
+
+    public void SaveLevel()
+    {
+        SaveSystem SS = new SaveSystem(displayName);
+        GameData levelInfo = SS.LoadGame();
+        bool[] newLevelInfo;
+
+        if (levelInfo != null)
+        {
+            newLevelInfo = levelInfo.unlockedLevels;
+        }
+        else
+        {
+            newLevelInfo = new bool[levelAmount];
+        }
+
+        for (int i = 0; i <= levelID + 1 && i + 1 < levelAmount; i++)
+        {
+            newLevelInfo[i] = true;
+        }
+
+        SS.SaveGame(newLevelInfo);
+
+        Debug.Log($"[{displayName}] : LEVELS SAVED");
+    }
+
+    public void UnlockDoors()
+    {
+        GameObject[] doors = GameObject.FindGameObjectsWithTag("Door");
+
+        SaveSystem SS = new SaveSystem(displayName);
+
+        GameData levelInfo = SS.LoadGame();
+        if (levelInfo != null)
+        {
+            for (int i = 0; i < doors.Length; i++)
+            {
+                Door door = doors[i].GetComponent<Door>();
+                door.SetLock(!levelInfo.unlockedLevels[door.doorID]);
+            }
+        }
+
+        Debug.Log($"[{displayName}] : DOORS UNLOCKED");
+    }
+
+    [ClientRpc]
+    public void RpcSaveLevel()
+    {
+        if (hasAuthority)
+        {
+            SaveLevel();
+        }
+    }
 }
