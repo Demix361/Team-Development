@@ -18,14 +18,11 @@ public class NetworkGamePlayer : NetworkBehaviour
     [SerializeField] private Dictionary<string, int> collectables =
     new Dictionary<string, int>();
 
-    //[SyncVar]
-    //public bool[] unlockedLevels = { true, false, false, false, false, false, false, false, false, false };
-    //public SyncList<bool> unlockedLevels = new SyncList<bool>() { true, false, false, false, false, false, false, false, false, false };
-
     // ID текущего уровня
     [SyncVar][SerializeField]
     public int levelID;
     private int levelAmount = 10;
+    private int maxGemAmount = 20;
 
     private MyNetworkManager room;
     private MyNetworkManager Room
@@ -147,12 +144,118 @@ public class NetworkGamePlayer : NetworkBehaviour
         Debug.Log($"[{displayName}] : DOORS UNLOCKED");
     }
 
+    public void SaveGems()
+    {
+        SaveSystem SS = new SaveSystem(displayName);
+        GemData gemInfo = SS.LoadGems(levelID);
+        bool[] newRedGem;
+        bool[] newGreenGem;
+        bool[] newBlueGem;
+        Dictionary<string, bool[]> newGemInfo = new Dictionary<string, bool[]>();
+
+        if (gemInfo != null)
+        {
+            newRedGem = gemInfo.redGems;
+            newGreenGem = gemInfo.greenGems;
+            newBlueGem = gemInfo.blueGems;
+        }
+        else
+        {
+            newRedGem = new bool[maxGemAmount];
+            newGreenGem = new bool[maxGemAmount];
+            newBlueGem = new bool[maxGemAmount];
+        }
+
+        // заполнение newGemInfo
+        GameObject[] gems = GameObject.FindGameObjectsWithTag("Gem");
+        for (int i = 0; i < gems.Length; i++)
+        {
+            Diamond gem = gems[i].GetComponent<Diamond>();
+
+            if (gem.found)
+            {
+                if (gem.collectableName == "RedGem")
+                {
+                    newRedGem[gem.gemID] = true;
+                }
+                else if (gem.collectableName == "GreenGem")
+                {
+                    newGreenGem[gem.gemID] = true;
+                }
+                else if (gem.collectableName == "BlueGem")
+                {
+                    newBlueGem[gem.gemID] = true;
+                }
+            }
+        }
+
+        newGemInfo.Add("RedGem", newRedGem);
+        newGemInfo.Add("GreenGem", newGreenGem);
+        newGemInfo.Add("BlueGem", newBlueGem);
+
+        SS.SaveGems(levelID, newGemInfo);
+
+        Debug.Log($"[{displayName}] : GEMS SAVED");
+    }
+
+    public void SetGems()
+    {
+        GameObject[] gems = GameObject.FindGameObjectsWithTag("Gem");
+
+        SaveSystem SS = new SaveSystem(displayName);
+
+        GemData gemInfo = SS.LoadGems(levelID);
+        if (gemInfo != null)
+        {
+            for (int i = 0; i < gems.Length; i++)
+            {
+                Diamond gem = gems[i].GetComponent<Diamond>();
+
+                if (gem.collectableName == "RedGem")
+                {
+                    //gem.found = gemInfo.redGems[gem.gemID];
+                    if (gemInfo.redGems[gem.gemID])
+                    {
+                        gem.SetGem();
+                    }
+                }
+                else if (gem.collectableName == "GreenGem")
+                {
+                    //gem.found = gemInfo.greenGems[gem.gemID];
+                    if (gemInfo.greenGems[gem.gemID])
+                    {
+                        gem.SetGem();
+                    }
+                }
+                else if (gem.collectableName == "BlueGem")
+                {
+                    //gem.found = gemInfo.blueGems[gem.gemID];
+                    if (gemInfo.blueGems[gem.gemID])
+                    {
+                        gem.SetGem();
+                    }
+                }
+            }
+        }
+
+        Debug.Log($"[{displayName}] : GEMS SET");
+    }
+
     [ClientRpc]
     public void RpcSaveLevel()
     {
         if (hasAuthority)
         {
             SaveLevel();
+        }
+    }
+
+    [ClientRpc]
+    public void RpcSaveGems()
+    {
+        if (hasAuthority)
+        {
+            SaveGems();
         }
     }
 }

@@ -18,6 +18,7 @@ public class LevelExit : MonoBehaviour
 
             // Сохранение
             playerNetworkTalker.CmdSaveLevel();
+            playerNetworkTalker.CmdSaveGems();
         }
     }
 

@@ -200,6 +200,17 @@ public class MyNetworkManager : NetworkManager
             }
         }
 
+        if (SceneManager.GetActiveScene().name.StartsWith("LevelScene"))
+        {
+            foreach (NetworkGamePlayer player in GamePlayers)
+            {
+                if (player.hasAuthority)
+                {
+                    player.SetGems();
+                }
+            }
+        }
+
         base.OnClientSceneChanged(conn);
     }
 
@@ -300,6 +311,14 @@ public class MyNetworkManager : NetworkManager
         foreach (NetworkGamePlayer player in GamePlayers)
         {
             player.RpcSaveLevel();
+        }
+    }
+
+    public void ServerSaveGems()
+    {
+        foreach (NetworkGamePlayer player in GamePlayers)
+        {
+            player.RpcSaveGems();
         }
     }
 }

@@ -42,4 +42,10 @@ public class PlayerNetworkTalker : NetworkBehaviour
     {
         Room.ServerSaveLevel();
     }
+
+    [Command]
+    public void CmdSaveGems()
+    {
+        Room.ServerSaveGems();
+    }
 }

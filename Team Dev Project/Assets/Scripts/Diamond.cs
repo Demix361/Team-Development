@@ -14,6 +14,7 @@ public class Diamond : MonoBehaviour
     private bool collected = false;
     private SpriteRenderer spriteRenderer;
 
+    /*
     private void Start()
     {
         if (found)
@@ -24,6 +25,7 @@ public class Diamond : MonoBehaviour
             spriteRenderer.color = color;
         }
     }
+    */
 
     void Update()
     {
@@ -43,11 +45,20 @@ public class Diamond : MonoBehaviour
             collision.GetComponent<PlayerNetworkTalker>().CmdIncreaseCollectable(collectableName);
             animator.SetBool("Collected", true);
             collected = true;
+            found = true;
         }
     }
 
-    public void DestroyEvent()
+    public void SetGem()
     {
-        Destroy(gameObject);
+        found = true;
+
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        Color color = spriteRenderer.color;
+        color.a = (float)0.5;
+        spriteRenderer.color = color;
+
     }
+
+
 }
