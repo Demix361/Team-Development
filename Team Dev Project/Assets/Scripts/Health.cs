@@ -9,6 +9,7 @@ public class Health : NetworkBehaviour
     [SerializeField] private int maxHealth = 100;
     [SerializeField] private Image healthBarImage = null;
     [SerializeField] private GameObject HB = null;
+    [SerializeField] private RectTransform m_RectTransform;
 
     [SyncVar(hook =nameof(UpdateHealthBar))]
     private int currentHealth;
@@ -70,28 +71,36 @@ public class Health : NetworkBehaviour
 
     private void Start()
     {
-        int pos_x = 380;//380;
-        int pos_y = 278;//278;
-
         int id = gameObject.GetComponent<PlayerProperties>().playerId;
-        id += 0;
 
         if (id == 0)
         {
-            pos_x *= -1;
-            pos_y *= -1;
+            m_RectTransform.anchorMin = new Vector2(0, 0);
+            m_RectTransform.anchorMax = new Vector2(0, 0);
+            m_RectTransform.pivot = new Vector2(0, 0);
+            m_RectTransform.anchoredPosition = new Vector3(20, 20, 0);
         }
         else if (id == 1)
         {
-            pos_y *= -1;
+            m_RectTransform.anchorMin = new Vector2(1, 0);
+            m_RectTransform.anchorMax = new Vector2(1, 0);
+            m_RectTransform.pivot = new Vector2(1, 0);
+            m_RectTransform.anchoredPosition = new Vector3(-20, 20, 0);
         }
         else if (id == 2)
         {
-            pos_x *= -1;
+            m_RectTransform.anchorMin = new Vector2(0, 1);
+            m_RectTransform.anchorMax = new Vector2(0, 1);
+            m_RectTransform.pivot = new Vector2(0, 1);
+            m_RectTransform.anchoredPosition = new Vector3(20, -20, 0);
         }
-
-        Vector2 pos = new Vector2(580 + pos_x, 310 + pos_y);
-        HB.transform.position = pos;
+        else
+        {
+            m_RectTransform.anchorMin = new Vector2(1, 1);
+            m_RectTransform.anchorMax = new Vector2(1, 1);
+            m_RectTransform.pivot = new Vector2(1, 1);
+            m_RectTransform.anchoredPosition = new Vector3(-20, -20, 0);
+        }
 
         string curSceneName = SceneManager.GetActiveScene().name;
 

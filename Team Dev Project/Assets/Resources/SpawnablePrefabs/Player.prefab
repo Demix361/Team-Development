@@ -489,6 +489,7 @@ MonoBehaviour:
   maxHealth: 100
   healthBarImage: {fileID: 8417275203151538378}
   HB: {fileID: 8417275203151538262}
+  m_RectTransform: {fileID: 8417275203151538322}
 --- !u!1 &5897650791369918673
 GameObject:
   m_ObjectHideFlags: 0
