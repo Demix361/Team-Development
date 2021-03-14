@@ -88,6 +88,56 @@ public class SaveSystem
         }
     }
 
+    public void SaveCollectables(int red, int green, int blue, int gold)
+    {
+        BinaryFormatter formatter = new BinaryFormatter();
+
+        if (!Directory.Exists(directory))
+        {
+            Directory.CreateDirectory(directory);
+        }
+
+        FileStream stream = new FileStream(path + "coll.kek", FileMode.Create);
+
+        CollectablesData data = new CollectablesData(red, green, blue, gold);
+
+        formatter.Serialize(stream, data);
+        stream.Close();
+    }
+
+    public void SaveCollectables(CollectablesData data)
+    {
+        BinaryFormatter formatter = new BinaryFormatter();
+
+        if (!Directory.Exists(directory))
+        {
+            Directory.CreateDirectory(directory);
+        }
+
+        FileStream stream = new FileStream(path + "coll.kek", FileMode.Create);
+
+        formatter.Serialize(stream, data);
+        stream.Close();
+    }
+
+    public CollectablesData LoadCollectables()
+    {
+        if (File.Exists(path + "coll.kek"))
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+
+            FileStream stream = new FileStream(path + "coll.kek", FileMode.Open);
+
+            CollectablesData data = formatter.Deserialize(stream) as CollectablesData;
+            stream.Close();
+
+            return data;
+        }
+        else
+        {
+            return null;
+        }
+    }
 
     public void DeleteAllSaves()
     {

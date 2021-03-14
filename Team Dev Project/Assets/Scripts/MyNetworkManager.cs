@@ -174,19 +174,6 @@ public class MyNetworkManager : NetworkManager
         base.ServerChangeScene(newSceneName);
     }
 
-    /*
-    public override void OnServerSceneChanged(string sceneName)
-    {
-        if (sceneName.StartsWith("HubScene"))
-        {
-            foreach (NetworkGamePlayer player in GamePlayers)
-            {
-                player.UnlockDoors();
-            }
-        }    
-    }
-    */
-
     public override void OnClientSceneChanged(NetworkConnection conn)
     {
         if (SceneManager.GetActiveScene().name.StartsWith("HubScene"))
@@ -196,6 +183,7 @@ public class MyNetworkManager : NetworkManager
                 if (player.hasAuthority)
                 {
                     player.UnlockDoors();
+                    player.UpdateCollectables();
                 }
             }
         }

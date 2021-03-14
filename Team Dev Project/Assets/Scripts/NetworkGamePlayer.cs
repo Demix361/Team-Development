@@ -152,6 +152,8 @@ public class NetworkGamePlayer : NetworkBehaviour
         List<bool> newBlueGem;
         Dictionary<string, List<bool>> newGemInfo = new Dictionary<string, List<bool>>();
 
+        CollectablesData collData = SS.LoadCollectables();
+
         GameObject[] gems = GameObject.FindGameObjectsWithTag("Gem");
 
         if (gemInfo != null)
@@ -184,6 +186,11 @@ public class NetworkGamePlayer : NetworkBehaviour
             }
         }
 
+        if (collData == null)
+        {
+            collData = new CollectablesData(0, 0, 0, 0);
+        }
+
         // заполнение newGemInfo
         for (int i = 0; i < gems.Length; i++)
         {
@@ -193,14 +200,26 @@ public class NetworkGamePlayer : NetworkBehaviour
             {
                 if (gem.collectableName == "RedGem")
                 {
+                    if (newRedGem[gem.gemID] == false)
+                    {
+                        collData.redGemNum += 1;
+                    }
                     newRedGem[gem.gemID] = true;
                 }
                 else if (gem.collectableName == "GreenGem")
                 {
+                    if (newGreenGem[gem.gemID] == false)
+                    {
+                        collData.greenGemNum += 1;
+                    }
                     newGreenGem[gem.gemID] = true;
                 }
                 else if (gem.collectableName == "BlueGem")
                 {
+                    if (newBlueGem[gem.gemID] == false)
+                    {
+                        collData.blueGemNum += 1;
+                    }
                     newBlueGem[gem.gemID] = true;
                 }
             }
@@ -211,6 +230,8 @@ public class NetworkGamePlayer : NetworkBehaviour
         newGemInfo.Add("BlueGem", newBlueGem);
 
         SS.SaveGems(levelID, newGemInfo);
+
+        SS.SaveCollectables(collData);
 
         Debug.Log($"[{displayName}] : GEMS SAVED");
     }
@@ -258,12 +279,20 @@ public class NetworkGamePlayer : NetworkBehaviour
         Debug.Log($"[{displayName}] : GEMS SET");
     }
 
-    [ClientRpc]
-    public void RpcSetGems()
+    public void UpdateCollectables()
     {
-        if (hasAuthority)
+        SaveSystem SS = new SaveSystem(displayName);
+
+        CollectablesData collData = SS.LoadCollectables();
+
+        if (collData != null)
         {
-            SetGems();
+            CollectablesBar collBar = GameObject.Find("CanvasCollectables").GetComponent<CollectablesBar>();
+
+            collBar.SetRedGemText(collData.redGemNum);
+            collBar.SetGreenGemText(collData.greenGemNum);
+            collBar.SetBlueGemText(collData.blueGemNum);
+            collBar.SetGoldText(collData.goldNum);
         }
     }
 
