@@ -48,4 +48,16 @@ public class PlayerNetworkTalker : NetworkBehaviour
     {
         Room.ServerSaveGems();
     }
+
+    public string getPlayerName()
+    {
+        foreach(NetworkGamePlayer player in Room.GamePlayers)
+        {
+            if (player.hasAuthority)
+            {
+                return player.displayName;
+            }
+        }
+        return null;
+    }
 }

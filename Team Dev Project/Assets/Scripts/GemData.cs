@@ -3,11 +3,11 @@
 [System.Serializable]
 public class GemData
 {
-    public bool[] redGems;
-    public bool[] greenGems;
-    public bool[] blueGems;
+    public List<bool> redGems;
+    public List<bool> greenGems;
+    public List<bool> blueGems;
 
-    public GemData(Dictionary<string, bool[]> gemInfo)
+    public GemData(Dictionary<string, List<bool>> gemInfo)
     {
         redGems = gemInfo["RedGem"];
         greenGems = gemInfo["GreenGem"];

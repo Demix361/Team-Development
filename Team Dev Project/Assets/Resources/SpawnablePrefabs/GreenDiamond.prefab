@@ -120,7 +120,7 @@ MonoBehaviour:
   collectableName: GreenGem
   speed: 0.002
   maxFlightHeight: 0.2
-  found: 1
+  found: 0
   animator: {fileID: 2777846372111143904}
 --- !u!61 &4994924581476027649
 BoxCollider2D:

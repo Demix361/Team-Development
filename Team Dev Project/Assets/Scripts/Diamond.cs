@@ -14,7 +14,6 @@ public class Diamond : MonoBehaviour
     private bool collected = false;
     private SpriteRenderer spriteRenderer;
 
-    /*
     private void Start()
     {
         if (found)
@@ -25,7 +24,6 @@ public class Diamond : MonoBehaviour
             spriteRenderer.color = color;
         }
     }
-    */
 
     void Update()
     {

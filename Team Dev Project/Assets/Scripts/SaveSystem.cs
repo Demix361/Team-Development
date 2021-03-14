@@ -52,7 +52,7 @@ public class SaveSystem
         }
     }
 
-    public void SaveGems(int levelID, Dictionary<string, bool[]> gemInfo)
+    public void SaveGems(int levelID, Dictionary<string, List<bool>> gemInfo)
     {
         BinaryFormatter formatter = new BinaryFormatter();
 

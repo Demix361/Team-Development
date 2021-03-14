@@ -22,7 +22,6 @@ public class NetworkGamePlayer : NetworkBehaviour
     [SyncVar][SerializeField]
     public int levelID;
     private int levelAmount = 10;
-    private int maxGemAmount = 20;
 
     private MyNetworkManager room;
     private MyNetworkManager Room
@@ -148,10 +147,12 @@ public class NetworkGamePlayer : NetworkBehaviour
     {
         SaveSystem SS = new SaveSystem(displayName);
         GemData gemInfo = SS.LoadGems(levelID);
-        bool[] newRedGem;
-        bool[] newGreenGem;
-        bool[] newBlueGem;
-        Dictionary<string, bool[]> newGemInfo = new Dictionary<string, bool[]>();
+        List<bool> newRedGem;
+        List<bool> newGreenGem;
+        List<bool> newBlueGem;
+        Dictionary<string, List<bool>> newGemInfo = new Dictionary<string, List<bool>>();
+
+        GameObject[] gems = GameObject.FindGameObjectsWithTag("Gem");
 
         if (gemInfo != null)
         {
@@ -161,13 +162,29 @@ public class NetworkGamePlayer : NetworkBehaviour
         }
         else
         {
-            newRedGem = new bool[maxGemAmount];
-            newGreenGem = new bool[maxGemAmount];
-            newBlueGem = new bool[maxGemAmount];
+            newRedGem = new List<bool>();
+            newGreenGem = new List<bool>();
+            newBlueGem = new List<bool>();
+
+            for (int i = 0; i < gems.Length; i++)
+            {
+                Diamond gem = gems[i].GetComponent<Diamond>();
+                if (gem.collectableName == "RedGem")
+                {
+                    newRedGem.Add(false);
+                }
+                else if (gem.collectableName == "GreenGem")
+                {
+                    newGreenGem.Add(false);
+                }
+                else if (gem.collectableName == "BlueGem")
+                {
+                    newBlueGem.Add(false);
+                }
+            }
         }
 
         // заполнение newGemInfo
-        GameObject[] gems = GameObject.FindGameObjectsWithTag("Gem");
         for (int i = 0; i < gems.Length; i++)
         {
             Diamond gem = gems[i].GetComponent<Diamond>();
@@ -239,6 +256,15 @@ public class NetworkGamePlayer : NetworkBehaviour
         }
 
         Debug.Log($"[{displayName}] : GEMS SET");
+    }
+
+    [ClientRpc]
+    public void RpcSetGems()
+    {
+        if (hasAuthority)
+        {
+            SetGems();
+        }
     }
 
     [ClientRpc]
