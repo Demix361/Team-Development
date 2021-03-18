@@ -14,24 +14,40 @@ public class Health : NetworkBehaviour
     [SyncVar(hook =nameof(UpdateHealthBar))]
     private int currentHealth;
 
-    private MyNetworkManager room;
-    private MyNetworkManager Room
-    {
-        get
-        {
-            if (room != null)
-            {
-                return room;
-            }
+    private HeartPanel heartPanel;
 
-            return room = NetworkManager.singleton as MyNetworkManager;
+    public bool alive = true;
+    
+    [ClientRpc]
+    private void SetDeath()
+    {
+        if (hasAuthority)
+        {
+            gameObject.GetComponent<PlayerProperties>().allowInput = false;
+            alive = false;
+            gameObject.transform.position = PlayerSpawnSystem.deathPoint.position;
+            GameObject.Find("SpectatorPanel").GetComponent<SpectatorMode>().SetSpectatorMode(true);
+            Debug.Log("пользователь умер");
         }
     }
+
 
     #region Server
     [Server]
     private void SetHealth(int value)
     {
+        if (value == 0)
+        {
+            if (heartPanel.curHearts == 0)
+            {
+                SetDeath();
+            }   
+            else
+            {
+                heartPanel.RemoveHeart();
+                value = maxHealth;
+            }
+        }
         currentHealth = value;
     }
 
@@ -46,29 +62,9 @@ public class Health : NetworkBehaviour
         SetHealth(Mathf.Max(currentHealth - damage, 0));
     }
     
-    [Command]
-    public void CmdMaxHealth()
-    {
-        SetHealth(maxHealth);
-    }
-
-    [Command]
-    public void CmdHealHealth(int heal)
-    {
-        SetHealth(Mathf.Min(currentHealth + heal, maxHealth));
-    }
-    
     #endregion
 
     #region Client
-    void Update()
-    {
-        if (hasAuthority && Input.GetButtonDown("Interact"))
-        {
-            CmdDealDamage(10);
-        }
-    }
-
     private void Start()
     {
         int id = gameObject.GetComponent<PlayerProperties>().playerId;
@@ -106,6 +102,8 @@ public class Health : NetworkBehaviour
 
         if (curSceneName.StartsWith("LevelScene"))
         {
+            heartPanel = GameObject.Find("HeartPanel").GetComponent<HeartPanel>();
+            heartPanel.AddAllHearts();
             ToggleHealthBar(true);
         }
         else if (curSceneName.StartsWith("HubScene"))
@@ -114,17 +112,15 @@ public class Health : NetworkBehaviour
         }
     }
 
+    // hook
     private void UpdateHealthBar(int oldHealth, int newHealth)
     {
-        //NetworkGamePlayer gamePlayer = GetComponent<NetworkGamePlayer>();
-        //var gamePlayer = GameObject.FindObjectOfType<NetworkGamePlayer>();
-        var gamePlayer = gameObject.GetComponent<PlayerProperties>();
         healthBarImage.fillAmount = (float)currentHealth / maxHealth;
     }
-
     public void ToggleHealthBar(bool state)
     {
         HB.SetActive(state);
     }
+
     #endregion
 }

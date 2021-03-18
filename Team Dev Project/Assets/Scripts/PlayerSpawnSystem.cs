@@ -7,6 +7,7 @@ public class PlayerSpawnSystem : NetworkBehaviour
 {
     [SerializeField] private GameObject playerPrefab = null;
     private static List<Transform> spawnPoints = new List<Transform>();
+    public static Transform deathPoint;
     private int nextIndex = 0;
 
     private MyNetworkManager room;
@@ -33,6 +34,11 @@ public class PlayerSpawnSystem : NetworkBehaviour
     public static void RemoveSpawnPoint(Transform transform)
     {
         spawnPoints.Remove(transform);
+    }
+
+    public static void AddDeathPoint(Transform transform)
+    {
+        deathPoint = transform;
     }
 
     public override void OnStartServer()

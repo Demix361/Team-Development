@@ -3573,6 +3573,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4645169409404344721}
   - component: {fileID: 1502556069648969735}
+  - component: {fileID: 515614555544315789}
   m_Layer: 5
   m_Name: Panel_NameInput
   m_TagString: Untagged
@@ -3580,6 +3581,25 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!95 &515614555544315789
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 515614555544315788}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 416f0267840422a46acac25d553ec7b4, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!224 &995342853192737691
 RectTransform:
   m_ObjectHideFlags: 0

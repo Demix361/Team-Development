@@ -7,6 +7,8 @@ public class MyPlayerMovement : NetworkBehaviour
     public float runSpeed = 40f;
     float horizontalMove = 0f;
     bool jump = false;
+    
+    [SerializeField] private PlayerProperties playerProperties;
 
     [SerializeField] private float m_JumpForce = 400f;                          // Amount of force added when the player jumps.
     [Range(0, 1)] [SerializeField] private float m_CrouchSpeed = .36f;          // Amount of maxSpeed applied to crouching movement. 1 = 100%
@@ -59,12 +61,19 @@ public class MyPlayerMovement : NetworkBehaviour
             return;
         }
 
-        horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
-
+        if (playerProperties.allowInput)
+        {
+            horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
+        }
+        else
+        {
+            horizontalMove = 0;
+        }
+        
         animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
         
 
-        if (Input.GetButtonDown("Jump"))
+        if (playerProperties.allowInput && Input.GetButtonDown("Jump"))
         {
             jump = true;
             animator.SetBool("IsJumping", true);

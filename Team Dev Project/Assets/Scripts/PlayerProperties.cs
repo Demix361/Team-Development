@@ -11,6 +11,7 @@ public class PlayerProperties : NetworkBehaviour
     [SerializeField] Animator animator;
     private Rigidbody2D m_Rigidbody2D;
     private float spikesJumpForce = 600;
+    public bool allowInput = true;
 
     [SyncVar] 
     public int playerId;

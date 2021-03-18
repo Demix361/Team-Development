@@ -10,6 +10,7 @@ public class Door : MonoBehaviour
     [SerializeField] private bool locked;
     [SerializeField] private GameObject lockSprite;
     [SerializeField] public int doorID;
+    private PlayerProperties playerProperties;
 
     private void Start()
     {
@@ -35,7 +36,9 @@ public class Door : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (!locked && (Input.GetButtonDown("Interact") || Input.GetButton("Interact")))
+        playerProperties = collision.GetComponent<PlayerProperties>();
+
+        if (playerProperties.allowInput && !locked && (Input.GetButtonDown("Interact") || Input.GetButton("Interact")))
         {
             collision.GetComponent<PlayerNetworkTalker>().CmdSetLevelID(doorID);
 
