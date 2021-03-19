@@ -641,9 +641,13 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   maxHealth: 100
-  healthBarImage: {fileID: 8417275203151538378}
+  healthBarFillImage: {fileID: 8417275203151538378}
   HB: {fileID: 8417275203151538262}
   m_RectTransform: {fileID: 8417275203151538322}
+  healthBarImage: {fileID: 8417275203151538379}
+  healthBarSprite: {fileID: 21300000, guid: 530d861ca533d714498eda33af8abaf8, type: 3}
+  healthBarDeadSprite: {fileID: 21300000, guid: 049010d768f40f94186410fe983210a8,
+    type: 3}
   alive: 1
 --- !u!1 &5897650791369918673
 GameObject:

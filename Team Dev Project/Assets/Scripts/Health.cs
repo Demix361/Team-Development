@@ -7,21 +7,31 @@ public class Health : NetworkBehaviour
 {
     [Header("Settings")]
     [SerializeField] private int maxHealth = 100;
-    [SerializeField] private Image healthBarImage = null;
+    [SerializeField] private Image healthBarFillImage = null;
     [SerializeField] private GameObject HB = null;
     [SerializeField] private RectTransform m_RectTransform;
-
-    [SyncVar(hook =nameof(UpdateHealthBar))]
-    private int currentHealth;
-
+    [SerializeField] private Image healthBarImage;
+    [SerializeField] private Sprite healthBarSprite;
+    [SerializeField] private Sprite healthBarDeadSprite;
+    [SyncVar(hook = nameof(SetHealthBarImage))] private int healthBarImageState;
+    [SyncVar(hook =nameof(UpdateHealthBar))] private int currentHealth;
+    [SyncVar] [SerializeField] private bool alive;
     private HeartPanel heartPanel;
-
-    [SyncVar][SerializeField]
-    private bool alive;
-
     private SpectatorMode spectatorPanel;
 
-    #region Server
+    // Server start
+    public override void OnStartServer()
+    {
+        SetHealth(maxHealth);
+    }
+
+    // Получение урона
+    [Command]
+    public void CmdDealDamage(int damage)
+    {
+        SetHealth(Mathf.Max(currentHealth - damage, 0));
+    }
+
     [Server]
     private void SetHealth(int value)
     {
@@ -30,8 +40,11 @@ public class Health : NetworkBehaviour
             if (heartPanel.curHearts == 0)
             {
                 alive = false;
+
+                healthBarImageState = 1;
+
                 Die();
-            }   
+            }
             else
             {
                 heartPanel.RemoveHeart();
@@ -41,22 +54,10 @@ public class Health : NetworkBehaviour
         currentHealth = value;
     }
 
-    public override void OnStartServer()
-    {
-        SetHealth(maxHealth);
-    }
-
-    [Command]
-    public void CmdDealDamage(int damage)
-    {
-        SetHealth(Mathf.Max(currentHealth - damage, 0));
-    }
-
-    // STOP CAM
+    // Остановить камеру у игроков, наблюдавших за игроком, который умер Cmd -> Server -> Rpc
     [Command]
     public void CmdStopCam()
     {
-        //if (!IsAlive() && !gameObject.GetComponent<PlayerCameraFollow>().IsFollowedPlayerAlive())
         ServerStopCam();
     }
 
@@ -69,14 +70,10 @@ public class Health : NetworkBehaviour
     [ClientRpc]
     private void RpcStopCam()
     {
-        //if (!IsAlive() && !gameObject.GetComponent<PlayerCameraFollow>().IsFollowedPlayerAlive())
-        //if (hasAuthority)
-        
-            gameObject.GetComponent<PlayerCameraFollow>().StopFollowOnDeath();
-        
+        gameObject.GetComponent<PlayerCameraFollow>().StopFollowOnDeath();
     }
 
-    // FOLLOW CAM
+    // Заставить камеру следовать за собой Cmd -> Server -> Rpc
     [Command]
     public void CmdFollowCam()
     {
@@ -98,9 +95,7 @@ public class Health : NetworkBehaviour
         }
     }
 
-    #endregion
-
-    #region Client
+    // Client start
     private void Start()
     {
         int id = gameObject.GetComponent<PlayerProperties>().playerId;
@@ -136,6 +131,8 @@ public class Health : NetworkBehaviour
 
         string curSceneName = SceneManager.GetActiveScene().name;
 
+        healthBarImageState = 0;
+
         if (curSceneName.StartsWith("LevelScene"))
         {
             heartPanel = GameObject.Find("HeartPanel").GetComponent<HeartPanel>();
@@ -161,6 +158,7 @@ public class Health : NetworkBehaviour
         return alive;
     }
 
+    // Умереть 
     [ClientRpc]
     private void Die()
     {
@@ -170,14 +168,17 @@ public class Health : NetworkBehaviour
             gameObject.transform.position = PlayerSpawnSystem.deathPoint.position;
             GameObject.Find("SpectatorPanel").GetComponent<SpectatorMode>().SetSpectatorMode(true);
 
+            // Останавливаем камеры игроков, которые наблюдали за нами
             CmdStopCam();
 
+            // Останавливаем свою камеру
             gameObject.GetComponent<PlayerCameraFollow>().StopFollow();
 
             Debug.Log("пользователь умер");
         }
     }
 
+    // Возродиться Cmd -> Server -> Rpc
     [Command]
     private void CmdRevive()
     {
@@ -190,6 +191,8 @@ public class Health : NetworkBehaviour
         alive = true;
         heartPanel.RemoveHeart();
         currentHealth = maxHealth;
+        healthBarImageState = 0;
+
         RpcRevive();
     }
 
@@ -204,24 +207,32 @@ public class Health : NetworkBehaviour
 
             CmdFollowCam();
 
-            //gameObject.GetComponent<PlayerCameraFollow>().StopFollow();
-
             Debug.Log("пользователь воскрес");
         }
     }
 
-
-
-    // hook
+    // hook для обновления полоски здоровья
     private void UpdateHealthBar(int oldHealth, int newHealth)
     {
-        healthBarImage.fillAmount = (float)currentHealth / maxHealth;
+        healthBarFillImage.fillAmount = (float)currentHealth / maxHealth;
     }
 
+    // hook для смены спрайта healthbar'а
+    private void SetHealthBarImage(int oldValue, int newValue)
+    {
+        if (healthBarImageState == 0)
+        {
+            healthBarImage.sprite = healthBarSprite;
+        }
+        else if (healthBarImageState == 1)
+        {
+            healthBarImage.sprite = healthBarDeadSprite;
+        }
+    }
+
+    // вкл/выкл healthbar
     public void ToggleHealthBar(bool state)
     {
         HB.SetActive(state);
     }
-
-    #endregion
 }

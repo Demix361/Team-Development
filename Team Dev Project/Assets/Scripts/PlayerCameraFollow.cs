@@ -7,21 +7,16 @@ using UnityEngine.SceneManagement;
 public class PlayerCameraFollow : NetworkBehaviour
 {
     private ICinemachineCamera iVcam;
-    private Health health;
     private bool followOther = false;
-    private PlayerNetworkTalker playerNetworkTalker;
     private List<GameObject> otherPlayers = new List<GameObject>();
     private List<Health> otherPlayersHealth = new List<Health>();
     private int pIndex = 0;
-    private bool cameraSet = false;
     private SpectatorMode spectatorPanel;
 
-    //[Client]
+    // Client start
     void Start()
     {
         iVcam = Camera.main.GetComponent<CinemachineBrain>().ActiveVirtualCamera;
-        health = gameObject.GetComponent<Health>();
-        playerNetworkTalker = gameObject.GetComponent<PlayerNetworkTalker>();
 
         var a = GameObject.FindGameObjectsWithTag("Player");
 
@@ -47,12 +42,14 @@ public class PlayerCameraFollow : NetworkBehaviour
         }
     }
 
+    // Заставить камеру следовать за собой
     public void FollowPlayer()
     {
         iVcam.Follow = transform;
         followOther = false;
     }
 
+    // Перестать наблюдать за игроком
     public void StopFollowOnDeath()
     {
         if (followOther == true)
@@ -66,21 +63,23 @@ public class PlayerCameraFollow : NetworkBehaviour
         followOther = false;
     }
 
+    // Жив ли игрок, за которым мы наблюдаем
     public bool IsFollowedPlayerAlive()
     {
         return otherPlayers[pIndex].GetComponent<Health>().IsAlive();
     }
 
+    // Остановить камеру
     public void StopFollow()
     {
         iVcam.Follow = null;
         followOther = false;
     }
 
+    // Переключить камеру на следующего живого игрока, если таких нет, то на себя
     public void NextPlayerCamera()
     {
         int n = otherPlayers.Count;
-        Debug.Log($"OTHER PLAYERS LEN: {n}");
 
         for (int i = 0; i < n; i++)
         {
@@ -95,12 +94,12 @@ public class PlayerCameraFollow : NetworkBehaviour
                 break;
             }
         }
-        Debug.Log($"PINDEX: {pIndex}");
 
         iVcam.Follow = otherPlayers[pIndex].transform;
         followOther = true;
     }
 
+    // Переключить камеру на предыдущего живого игрока, если таких нет, то на себя
     public void PreviousPlayerCamera()
     {
         int n = otherPlayers.Count;
