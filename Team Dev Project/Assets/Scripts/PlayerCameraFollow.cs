@@ -35,7 +35,7 @@ public class PlayerCameraFollow : NetworkBehaviour
         {
             if (iVcam.Follow == null)
             {
-                iVcam.Follow = transform;
+                FollowPlayer();
             }
         }
 
@@ -47,20 +47,25 @@ public class PlayerCameraFollow : NetworkBehaviour
         }
     }
 
-    /*
-    private void LateUpdate()
+    public void FollowPlayer()
     {
-        if (otherPlayers.Count > 0 && !health.alive)
+        iVcam.Follow = transform;
+        followOther = false;
+    }
+
+    public void StopFollowOnDeath()
+    {
+        if (followOther == true)
         {
-            if (!cameraSet)
+            if (!IsFollowedPlayerAlive())
             {
-                Debug.Log("HERE");
-                NextPlayerCamera();
-                cameraSet = true;
+                iVcam.Follow = null;
             }
         }
+
+        followOther = false;
     }
-    */
+
     public bool IsFollowedPlayerAlive()
     {
         return otherPlayers[pIndex].GetComponent<Health>().IsAlive();
@@ -68,20 +73,8 @@ public class PlayerCameraFollow : NetworkBehaviour
 
     public void StopFollow()
     {
-        /*
-        if (gameObject.GetComponent<Health>().alive == false)
-        {
-            if (otherPlayers[pIndex].GetComponent<Health>().alive == false)
-            {
-                iVcam.Follow = null;
-            }
-            else
-            {
-                iVcam.Follow = otherPlayers[pIndex].transform;
-            }
-        }
-        */
         iVcam.Follow = null;
+        followOther = false;
     }
 
     public void NextPlayerCamera()
@@ -105,6 +98,7 @@ public class PlayerCameraFollow : NetworkBehaviour
         Debug.Log($"PINDEX: {pIndex}");
 
         iVcam.Follow = otherPlayers[pIndex].transform;
+        followOther = true;
     }
 
     public void PreviousPlayerCamera()
@@ -126,5 +120,6 @@ public class PlayerCameraFollow : NetworkBehaviour
         }
 
         iVcam.Follow = otherPlayers[pIndex].transform;
+        followOther = true;
     }
 }

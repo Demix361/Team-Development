@@ -9,6 +9,7 @@ public class SpectatorMode : MonoBehaviour
     [SerializeField] public Button previousButton;
     [SerializeField] public Button nextButton;
     [SerializeField] private GameObject container;
+    [SerializeField] public Button reviveButton;
 
     public void SetSpectatorMode(bool state)
     {

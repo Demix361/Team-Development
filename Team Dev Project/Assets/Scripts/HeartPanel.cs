@@ -6,7 +6,6 @@ using Mirror;
 
 public class HeartPanel : NetworkBehaviour
 {
-    //private int heartAmount = 3;
     [SerializeField]
     private Sprite fullHeart;
     [SerializeField]
@@ -15,10 +14,17 @@ public class HeartPanel : NetworkBehaviour
     private Image[] heartImages = new Image[3];
     [SerializeField]
     private int maxHearts;
+    [SerializeField]
+    private SpectatorMode spectatorMode;
 
     [SyncVar(hook = nameof(UpdateHearts))]
     public int curHearts;
 
+    [ClientRpc]
+    private void SetReviveButton(bool state)
+    {
+        spectatorMode.reviveButton.interactable = state;
+    }
 
     // hook
     private void UpdateHearts(int oldValue, int newValue)
@@ -42,24 +48,40 @@ public class HeartPanel : NetworkBehaviour
     public void AddHeart()
     {
         curHearts += 1;
+        SetReviveButton(true);
+        //spectatorMode.reviveButton.interactable = true;
     }
 
     [Server]
     public void RemoveHeart()
     {
         curHearts -= 1;
+
+        if (curHearts < 0)
+        {
+            curHearts = 0;
+        }
+
+        if (curHearts == 0)
+        {
+            SetReviveButton(false);
+            //spectatorMode.reviveButton.interactable = false;
+        }
     }
 
     [Server]
     public void RemoveAllHearts()
     {
         curHearts = 0;
+        SetReviveButton(false);
     }
 
     [Server]
     public void AddAllHearts()
     {
         curHearts = maxHearts;
+        SetReviveButton(true);
+        //spectatorMode.reviveButton.interactable = true;
     }
 
 }

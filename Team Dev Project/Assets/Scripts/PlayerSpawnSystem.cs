@@ -6,7 +6,7 @@ using System.Linq;
 public class PlayerSpawnSystem : NetworkBehaviour
 {
     [SerializeField] private GameObject playerPrefab = null;
-    private static List<Transform> spawnPoints = new List<Transform>();
+    public static List<Transform> spawnPoints = new List<Transform>();
     public static Transform deathPoint;
     private int nextIndex = 0;
 

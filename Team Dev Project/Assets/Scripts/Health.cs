@@ -19,6 +19,8 @@ public class Health : NetworkBehaviour
     [SyncVar][SerializeField]
     private bool alive;
 
+    private SpectatorMode spectatorPanel;
+
     #region Server
     [Server]
     private void SetHealth(int value)
@@ -28,7 +30,7 @@ public class Health : NetworkBehaviour
             if (heartPanel.curHearts == 0)
             {
                 alive = false;
-                SetDeath();
+                Die();
             }   
             else
             {
@@ -50,9 +52,11 @@ public class Health : NetworkBehaviour
         SetHealth(Mathf.Max(currentHealth - damage, 0));
     }
 
+    // STOP CAM
     [Command]
     public void CmdStopCam()
     {
+        //if (!IsAlive() && !gameObject.GetComponent<PlayerCameraFollow>().IsFollowedPlayerAlive())
         ServerStopCam();
     }
 
@@ -65,12 +69,35 @@ public class Health : NetworkBehaviour
     [ClientRpc]
     private void RpcStopCam()
     {
-        if (!IsAlive() && !gameObject.GetComponent<PlayerCameraFollow>().IsFollowedPlayerAlive())
+        //if (!IsAlive() && !gameObject.GetComponent<PlayerCameraFollow>().IsFollowedPlayerAlive())
+        //if (hasAuthority)
+        
+            gameObject.GetComponent<PlayerCameraFollow>().StopFollowOnDeath();
+        
+    }
+
+    // FOLLOW CAM
+    [Command]
+    public void CmdFollowCam()
+    {
+        ServerFollowCam();
+    }
+
+    [Server]
+    private void ServerFollowCam()
+    {
+        RpcFollowCam();
+    }
+
+    [ClientRpc]
+    private void RpcFollowCam()
+    {
+        if (hasAuthority)
         {
-            gameObject.GetComponent<PlayerCameraFollow>().StopFollow();
+            gameObject.GetComponent<PlayerCameraFollow>().FollowPlayer();
         }
     }
-    
+
     #endregion
 
     #region Client
@@ -112,8 +139,16 @@ public class Health : NetworkBehaviour
         if (curSceneName.StartsWith("LevelScene"))
         {
             heartPanel = GameObject.Find("HeartPanel").GetComponent<HeartPanel>();
-            heartPanel.AddAllHearts();
+            //heartPanel.AddAllHearts();
+
+            heartPanel.RemoveAllHearts();
+            heartPanel.AddHeart();
+
             ToggleHealthBar(true);
+
+            spectatorPanel = GameObject.Find("SpectatorPanel").GetComponent<SpectatorMode>();
+
+            spectatorPanel.reviveButton.onClick.AddListener(CmdRevive);
         }
         else if (curSceneName.StartsWith("HubScene"))
         {
@@ -127,7 +162,7 @@ public class Health : NetworkBehaviour
     }
 
     [ClientRpc]
-    private void SetDeath()
+    private void Die()
     {
         if (hasAuthority)
         {
@@ -142,6 +177,40 @@ public class Health : NetworkBehaviour
             Debug.Log("пользователь умер");
         }
     }
+
+    [Command]
+    private void CmdRevive()
+    {
+        ServerRevive();
+    }
+
+    [Server]
+    private void ServerRevive()
+    {
+        alive = true;
+        heartPanel.RemoveHeart();
+        currentHealth = maxHealth;
+        RpcRevive();
+    }
+
+    [ClientRpc]
+    private void RpcRevive()
+    {
+        if (hasAuthority)
+        {
+            gameObject.GetComponent<PlayerProperties>().allowInput = true;
+            gameObject.transform.position = PlayerSpawnSystem.spawnPoints[0].position;
+            GameObject.Find("SpectatorPanel").GetComponent<SpectatorMode>().SetSpectatorMode(false);
+
+            CmdFollowCam();
+
+            //gameObject.GetComponent<PlayerCameraFollow>().StopFollow();
+
+            Debug.Log("пользователь воскрес");
+        }
+    }
+
+
 
     // hook
     private void UpdateHealthBar(int oldHealth, int newHealth)
