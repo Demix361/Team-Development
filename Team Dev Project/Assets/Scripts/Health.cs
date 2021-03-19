@@ -16,25 +16,8 @@ public class Health : NetworkBehaviour
 
     private HeartPanel heartPanel;
 
-    //[SyncVar]
-    public bool alive = true;
-    
-    [ClientRpc]
-    private void SetDeath()
-    {
-        //if (hasAuthority)
-        //{
-            gameObject.GetComponent<PlayerProperties>().allowInput = false;
-            alive = false;
-            gameObject.transform.position = PlayerSpawnSystem.deathPoint.position;
-            GameObject.Find("SpectatorPanel").GetComponent<SpectatorMode>().SetSpectatorMode(true);
-
-            gameObject.GetComponent<PlayerCameraFollow>().StopFollow();
-            //gameObject.GetComponent<PlayerCameraFollow>().NextPlayerCamera();
-            Debug.Log("пользователь умер");
-        //}
-    }
-
+    [SyncVar][SerializeField]
+    private bool alive;
 
     #region Server
     [Server]
@@ -44,6 +27,7 @@ public class Health : NetworkBehaviour
         {
             if (heartPanel.curHearts == 0)
             {
+                alive = false;
                 SetDeath();
             }   
             else
@@ -64,6 +48,27 @@ public class Health : NetworkBehaviour
     public void CmdDealDamage(int damage)
     {
         SetHealth(Mathf.Max(currentHealth - damage, 0));
+    }
+
+    [Command]
+    public void CmdStopCam()
+    {
+        ServerStopCam();
+    }
+
+    [Server]
+    private void ServerStopCam()
+    {
+        RpcStopCam();
+    }
+
+    [ClientRpc]
+    private void RpcStopCam()
+    {
+        if (!IsAlive() && !gameObject.GetComponent<PlayerCameraFollow>().IsFollowedPlayerAlive())
+        {
+            gameObject.GetComponent<PlayerCameraFollow>().StopFollow();
+        }
     }
     
     #endregion
@@ -116,11 +121,34 @@ public class Health : NetworkBehaviour
         }
     }
 
+    public bool IsAlive()
+    {
+        return alive;
+    }
+
+    [ClientRpc]
+    private void SetDeath()
+    {
+        if (hasAuthority)
+        {
+            gameObject.GetComponent<PlayerProperties>().allowInput = false;
+            gameObject.transform.position = PlayerSpawnSystem.deathPoint.position;
+            GameObject.Find("SpectatorPanel").GetComponent<SpectatorMode>().SetSpectatorMode(true);
+
+            CmdStopCam();
+
+            gameObject.GetComponent<PlayerCameraFollow>().StopFollow();
+
+            Debug.Log("пользователь умер");
+        }
+    }
+
     // hook
     private void UpdateHealthBar(int oldHealth, int newHealth)
     {
         healthBarImage.fillAmount = (float)currentHealth / maxHealth;
     }
+
     public void ToggleHealthBar(bool state)
     {
         HB.SetActive(state);

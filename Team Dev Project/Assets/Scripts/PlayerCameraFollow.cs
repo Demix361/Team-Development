@@ -61,13 +61,29 @@ public class PlayerCameraFollow : NetworkBehaviour
         }
     }
     */
+    public bool IsFollowedPlayerAlive()
+    {
+        return otherPlayers[pIndex].GetComponent<Health>().IsAlive();
+    }
 
     public void StopFollow()
     {
+        /*
+        if (gameObject.GetComponent<Health>().alive == false)
+        {
+            if (otherPlayers[pIndex].GetComponent<Health>().alive == false)
+            {
+                iVcam.Follow = null;
+            }
+            else
+            {
+                iVcam.Follow = otherPlayers[pIndex].transform;
+            }
+        }
+        */
         iVcam.Follow = null;
     }
 
-    //[Client]
     public void NextPlayerCamera()
     {
         int n = otherPlayers.Count;
@@ -81,7 +97,7 @@ public class PlayerCameraFollow : NetworkBehaviour
                 pIndex = 0;
             }
 
-            if (otherPlayersHealth[pIndex].alive)
+            if (otherPlayers[pIndex].GetComponent<Health>().IsAlive() == true)
             {
                 break;
             }
@@ -91,7 +107,6 @@ public class PlayerCameraFollow : NetworkBehaviour
         iVcam.Follow = otherPlayers[pIndex].transform;
     }
 
-    //[Client]
     public void PreviousPlayerCamera()
     {
         int n = otherPlayers.Count;
@@ -104,7 +119,7 @@ public class PlayerCameraFollow : NetworkBehaviour
                 pIndex = n - 1;
             }
 
-            if (otherPlayersHealth[pIndex].alive)
+            if (otherPlayersHealth[pIndex].IsAlive())
             {
                 break;
             }
