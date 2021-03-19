@@ -16,19 +16,23 @@ public class Health : NetworkBehaviour
 
     private HeartPanel heartPanel;
 
+    //[SyncVar]
     public bool alive = true;
     
     [ClientRpc]
     private void SetDeath()
     {
-        if (hasAuthority)
-        {
+        //if (hasAuthority)
+        //{
             gameObject.GetComponent<PlayerProperties>().allowInput = false;
             alive = false;
             gameObject.transform.position = PlayerSpawnSystem.deathPoint.position;
             GameObject.Find("SpectatorPanel").GetComponent<SpectatorMode>().SetSpectatorMode(true);
+
+            gameObject.GetComponent<PlayerCameraFollow>().StopFollow();
+            //gameObject.GetComponent<PlayerCameraFollow>().NextPlayerCamera();
             Debug.Log("пользователь умер");
-        }
+        //}
     }
 
 

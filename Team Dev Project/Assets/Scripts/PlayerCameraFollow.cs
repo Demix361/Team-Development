@@ -27,11 +27,8 @@ public class PlayerCameraFollow : NetworkBehaviour
 
         foreach (GameObject player in a)
         {
-            //if (player.GetComponent<PlayerProperties>().playerId != gameObject.GetComponent<PlayerProperties>().playerId)
-            //{
-                otherPlayers.Add(player);
-                otherPlayersHealth.Add(player.GetComponent<Health>());
-            //}
+            otherPlayers.Add(player);
+            otherPlayersHealth.Add(player.GetComponent<Health>());
         }
 
         if (hasAuthority)
@@ -50,7 +47,8 @@ public class PlayerCameraFollow : NetworkBehaviour
         }
     }
 
-    private void FixedUpdate()
+    /*
+    private void LateUpdate()
     {
         if (otherPlayers.Count > 0 && !health.alive)
         {
@@ -61,6 +59,12 @@ public class PlayerCameraFollow : NetworkBehaviour
                 cameraSet = true;
             }
         }
+    }
+    */
+
+    public void StopFollow()
+    {
+        iVcam.Follow = null;
     }
 
     //[Client]
