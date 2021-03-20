@@ -46,25 +46,15 @@ public class Health : NetworkBehaviour
 
                 Die();
 
-
+                // Включение экрана проигрыша, если все игроки мертвы
                 var a = GameObject.FindGameObjectsWithTag("Player");
                 int count = 0;
                 foreach (GameObject player in a)
-                {
-                    Health health = player.GetComponent<Health>();
-                    if (!health.IsAlive())
-                    {
+                    if (!player.GetComponent<Health>().IsAlive())
                         count += 1;
-                    }
-                }
-
-                Debug.Log($"LOSESCREEN: {count} / {a.Length}");
 
                 if (count == a.Length)
-                {
                     loseScreen.RpcEnableLoseScreen();
-                }
-
             }
             else
             {
