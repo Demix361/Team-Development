@@ -18,6 +18,7 @@ public class Health : NetworkBehaviour
     [SyncVar] [SerializeField] private bool alive;
     private HeartPanel heartPanel;
     private SpectatorMode spectatorPanel;
+    private LoseScreen loseScreen;
 
     // Server start
     public override void OnStartServer()
@@ -44,6 +45,26 @@ public class Health : NetworkBehaviour
                 healthBarImageState = 1;
 
                 Die();
+
+
+                var a = GameObject.FindGameObjectsWithTag("Player");
+                int count = 0;
+                foreach (GameObject player in a)
+                {
+                    Health health = player.GetComponent<Health>();
+                    if (!health.IsAlive())
+                    {
+                        count += 1;
+                    }
+                }
+
+                Debug.Log($"LOSESCREEN: {count} / {a.Length}");
+
+                if (count == a.Length)
+                {
+                    loseScreen.RpcEnableLoseScreen();
+                }
+
             }
             else
             {
@@ -144,8 +165,9 @@ public class Health : NetworkBehaviour
             ToggleHealthBar(true);
 
             spectatorPanel = GameObject.Find("SpectatorPanel").GetComponent<SpectatorMode>();
-
             spectatorPanel.reviveButton.onClick.AddListener(CmdRevive);
+
+            loseScreen = GameObject.Find("LoseScreen").GetComponent<LoseScreen>();
         }
         else if (curSceneName.StartsWith("HubScene"))
         {
@@ -173,6 +195,8 @@ public class Health : NetworkBehaviour
 
             // Останавливаем свою камеру
             gameObject.GetComponent<PlayerCameraFollow>().StopFollow();
+
+            //loseScreen.CmdEnableLoseScreen();
 
             Debug.Log("пользователь умер");
         }
