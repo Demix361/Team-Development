@@ -162,10 +162,10 @@ public class Health : NetworkBehaviour
         if (curSceneName.StartsWith("LevelScene"))
         {
             heartPanel = GameObject.Find("HeartPanel").GetComponent<HeartPanel>();
-            //heartPanel.AddAllHearts();
+            heartPanel.AddAllHearts();
 
-            heartPanel.RemoveAllHearts();
-            heartPanel.AddHeart();
+            //heartPanel.RemoveAllHearts();
+            //heartPanel.AddHeart();
 
             ToggleHealthBar(true);
 

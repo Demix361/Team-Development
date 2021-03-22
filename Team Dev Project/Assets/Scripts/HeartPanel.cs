@@ -6,19 +6,42 @@ using Mirror;
 
 public class HeartPanel : NetworkBehaviour
 {
-    [SerializeField]
-    private Sprite fullHeart;
-    [SerializeField]
-    private Sprite emptyHeart;
-    [SerializeField]
-    private Image[] heartImages = new Image[3];
-    [SerializeField]
+    [SerializeField] private Sprite fullHeart;
+    [SerializeField] private Sprite emptyHeart;
+    [SerializeField] private GameObject container;
+    [SerializeField] private SpectatorMode spectatorMode;
+    [SerializeField] private GameObject heartObject;
+    [SerializeField] private int heartPerPlayer;
+    private List<Image> heartImages = new List<Image>();
     private int maxHearts;
-    [SerializeField]
-    private SpectatorMode spectatorMode;
+    [SyncVar(hook = nameof(UpdateHearts))] public int curHearts;
 
-    [SyncVar(hook = nameof(UpdateHearts))]
-    public int curHearts;
+    private MyNetworkManager room;
+    private MyNetworkManager Room
+    {
+        get
+        {
+            if (room != null)
+            {
+                return room;
+            }
+
+            return room = NetworkManager.singleton as MyNetworkManager;
+        }
+    }
+
+
+    private void Start()
+    {
+        maxHearts = Room.GamePlayers.Count * heartPerPlayer;
+        container.GetComponent<RectTransform>().sizeDelta = new Vector2(20 * maxHearts - 2, 20);
+
+        for (int i = 0; i < maxHearts; i++)
+        {
+            heartImages.Add(GameObject.Instantiate(heartObject,container.transform).GetComponent<Image>());
+            heartImages[i].GetComponent<RectTransform>().anchoredPosition = new Vector3(20 * i, 0, 0);
+        }
+    }
 
     [ClientRpc]
     private void SetReviveButton(bool state)
@@ -29,17 +52,15 @@ public class HeartPanel : NetworkBehaviour
     // hook
     private void UpdateHearts(int oldValue, int newValue)
     {
-        for (int i = 0; i < heartImages.Length; i++)
+        for (int i = 0; i < heartImages.Count; i++)
         {
             if (i < curHearts)
             {
                 heartImages[i].sprite = fullHeart;
-                //heartAnimators[i].SetBool("State", true);
             }
             else
             {
                 heartImages[i].sprite = emptyHeart;
-                //heartAnimators[i].SetBool("State", false);
             }
         }
     }
