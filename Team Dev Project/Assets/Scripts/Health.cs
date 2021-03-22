@@ -16,6 +16,8 @@ public class Health : NetworkBehaviour
     [SyncVar(hook = nameof(SetHealthBarImage))] private int healthBarImageState;
     [SyncVar(hook =nameof(UpdateHealthBar))] private int currentHealth;
     [SyncVar] [SerializeField] private bool alive;
+    [SerializeField] private RectTransform borderRectTransform;
+    [SerializeField] private RectTransform fillRectTransform;
     private HeartPanel heartPanel;
     private SpectatorMode spectatorPanel;
     private LoseScreen loseScreen;
@@ -124,6 +126,13 @@ public class Health : NetworkBehaviour
             m_RectTransform.anchorMax = new Vector2(1, 0);
             m_RectTransform.pivot = new Vector2(1, 0);
             m_RectTransform.anchoredPosition = new Vector3(-20, 20, 0);
+            Vector3 temp = borderRectTransform.localScale;
+            temp.x = -temp.x;
+            borderRectTransform.localScale = temp;
+            temp = fillRectTransform.localScale;
+            temp.x = -temp.x;
+            fillRectTransform.localScale = temp;
+
         }
         else if (id == 2)
         {
@@ -138,6 +147,12 @@ public class Health : NetworkBehaviour
             m_RectTransform.anchorMax = new Vector2(1, 1);
             m_RectTransform.pivot = new Vector2(1, 1);
             m_RectTransform.anchoredPosition = new Vector3(-20, -20, 0);
+            Vector3 temp = borderRectTransform.localScale;
+            temp.x = -temp.x;
+            borderRectTransform.localScale = temp;
+            temp = fillRectTransform.localScale;
+            temp.x = -temp.x;
+            fillRectTransform.localScale = temp;
         }
 
         string curSceneName = SceneManager.GetActiveScene().name;
