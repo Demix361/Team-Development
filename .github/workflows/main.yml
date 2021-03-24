@@ -1,34 +1,34 @@
-name: CI
-on: [push]
+name: Actions 😎
+
+on: [push, pull_request]
+
 jobs:
   build:
+    name: Build my project ✨
     runs-on: ubuntu-latest
-    container: unityci/editor:2019.4.21f1-windows-mono-0
     steps:
-        - name: Checkout Project
-          uses: actions/checkout@v1
+      # Checkout
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          lfs: true
 
-        - name: Decrypt the license file
-          run: openssl aes-256-cbc -d -in .github/Unity_v2019.x.ulf.enc -k ${{ secrets.UNITY_LICENSE_DECRYPT_KEY }} -md md5 >> .github/Unity_v2019.x.ulf
-        
-        # Activate unity
-        - name: Activate Unity
-          run: /opt/unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -logFile -manualLicenseFile .github/Unity_v2019.x.ulf || exit 0
-        
-        # Build Windows and OSX
-        - name: Build Windows Player
-          run: /opt/Unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -logFile -projectPath . -buildWindows64Player ./bin-win64/CISample.exe
-        - name: Build OSX Player
-          run: /opt/Unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -logFile -projectPath . -buildOSXUniversalPlayer ./bin-osx/CISample.app      
-        
-        - name: Archive Windows Build
-          uses: actions/upload-artifact@v1
-          with:
-            name: CISampleWin64Binary
-            path: ./bin-win64
+      # Cache
+      - uses: actions/cache@v2
+        with:
+          path: Library
+          key: Library
 
-        - name: Archive Mac Build
-          uses: actions/upload-artifact@v1
-          with:
-            name: CISampleOSXBinary
-            path: ./bin-osx
+      # Build
+      - name: Build project
+        uses: game-ci/unity-builder@v2
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+        with:
+          targetPlatform: StandaloneWindows64
+
+      # Output
+      - uses: actions/upload-artifact@v2
+        with:
+          name: Build
+          path: build
