@@ -860,6 +860,8 @@ MonoBehaviour:
     type: 3}
   playerHealthBar: {fileID: 5823803857474602691, guid: 40d71efaf8293a94aad41d9329076da5,
     type: 3}
+  coinPrefab: {fileID: 3504759058648864536, guid: b90a9437e3c357842a74a262cee2fc2d,
+    type: 3}
 --- !u!4 &504132094
 Transform:
   m_ObjectHideFlags: 0

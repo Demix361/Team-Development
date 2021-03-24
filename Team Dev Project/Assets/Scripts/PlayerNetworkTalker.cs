@@ -60,4 +60,14 @@ public class PlayerNetworkTalker : NetworkBehaviour
         }
         return null;
     }
+
+    public void CmdOpenChest(int chestID)
+    {
+        Room.ServerOpenChest(chestID);
+    }
+
+    public bool IsLocal()
+    {
+        return hasAuthority;
+    }
 }

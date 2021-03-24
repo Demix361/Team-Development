@@ -16,6 +16,7 @@ public class Health : NetworkBehaviour
     [SyncVar(hook = nameof(SetHealthBarImage))] private int healthBarImageState;
     [SyncVar(hook =nameof(UpdateHealthBar))] private int currentHealth;
     [SyncVar] [SerializeField] private bool alive;
+    [Header("Player UI")]
     [SerializeField] private RectTransform borderRectTransform;
     [SerializeField] private RectTransform fillRectTransform;
     private HeartPanel heartPanel;
@@ -113,19 +114,8 @@ public class Health : NetworkBehaviour
     {
         int id = gameObject.GetComponent<PlayerProperties>().playerId;
 
-        if (id == 0)
+        if (id == 1)
         {
-            m_RectTransform.anchorMin = new Vector2(0, 0);
-            m_RectTransform.anchorMax = new Vector2(0, 0);
-            m_RectTransform.pivot = new Vector2(0, 0);
-            m_RectTransform.anchoredPosition = new Vector3(20, 20, 0);
-        }
-        else if (id == 1)
-        {
-            m_RectTransform.anchorMin = new Vector2(1, 0);
-            m_RectTransform.anchorMax = new Vector2(1, 0);
-            m_RectTransform.pivot = new Vector2(1, 0);
-            m_RectTransform.anchoredPosition = new Vector3(-20, 20, 0);
             Vector3 temp = borderRectTransform.localScale;
             temp.x = -temp.x;
             borderRectTransform.localScale = temp;
@@ -134,19 +124,8 @@ public class Health : NetworkBehaviour
             fillRectTransform.localScale = temp;
 
         }
-        else if (id == 2)
+        else if (id == 3)
         {
-            m_RectTransform.anchorMin = new Vector2(0, 1);
-            m_RectTransform.anchorMax = new Vector2(0, 1);
-            m_RectTransform.pivot = new Vector2(0, 1);
-            m_RectTransform.anchoredPosition = new Vector3(20, -20, 0);
-        }
-        else
-        {
-            m_RectTransform.anchorMin = new Vector2(1, 1);
-            m_RectTransform.anchorMax = new Vector2(1, 1);
-            m_RectTransform.pivot = new Vector2(1, 1);
-            m_RectTransform.anchoredPosition = new Vector3(-20, -20, 0);
             Vector3 temp = borderRectTransform.localScale;
             temp.x = -temp.x;
             borderRectTransform.localScale = temp;
@@ -154,7 +133,7 @@ public class Health : NetworkBehaviour
             temp.x = -temp.x;
             fillRectTransform.localScale = temp;
         }
-
+        
         string curSceneName = SceneManager.GetActiveScene().name;
 
         healthBarImageState = 0;
@@ -164,19 +143,10 @@ public class Health : NetworkBehaviour
             heartPanel = GameObject.Find("HeartPanel").GetComponent<HeartPanel>();
             heartPanel.AddAllHearts();
 
-            //heartPanel.RemoveAllHearts();
-            //heartPanel.AddHeart();
-
-            ToggleHealthBar(true);
-
             spectatorPanel = GameObject.Find("SpectatorPanel").GetComponent<SpectatorMode>();
             spectatorPanel.reviveButton.onClick.AddListener(CmdRevive);
 
             loseScreen = GameObject.Find("LoseScreen").GetComponent<LoseScreen>();
-        }
-        else if (curSceneName.StartsWith("HubScene"))
-        {
-            ToggleHealthBar(false);
         }
     }
 

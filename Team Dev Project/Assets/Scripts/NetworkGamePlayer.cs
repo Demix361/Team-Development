@@ -313,4 +313,21 @@ public class NetworkGamePlayer : NetworkBehaviour
             SaveGems();
         }
     }
+
+    [ClientRpc]
+    public void RpcOpenChest(int chestID)
+    {
+        if (hasAuthority)
+        {
+            GameObject[] chests = GameObject.FindGameObjectsWithTag("Chest");
+
+            foreach (GameObject chest in chests)
+            {
+                if (chest.GetComponent<Chest>().chestID == chestID)
+                {
+                    //chest.GetComponent<Chest>().OpenChest();
+                }
+            }
+        }
+    }
 }

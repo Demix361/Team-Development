@@ -8,6 +8,7 @@ TagManager:
   - Door
   - NetworkManager
   - Gem
+  - Chest
   layers:
   - Default
   - TransparentFX

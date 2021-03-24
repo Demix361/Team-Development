@@ -17,6 +17,7 @@ public class MyNetworkManager : NetworkManager
     [SerializeField] private NetworkGamePlayer gamePlayerPrefab = null;
     [SerializeField] private GameObject playerSpawnSystem = null;
     [SerializeField] public GameObject playerHealthBar = null;
+    [SerializeField] private GameObject coinPrefab = null;
 
     public static event Action OnClientConnected;
     public static event Action OnClientDisconnected;
@@ -238,6 +239,14 @@ public class MyNetworkManager : NetworkManager
         foreach (NetworkGamePlayer player in GamePlayers)
         {
             player.RpcSaveGems();
+        }
+    }
+
+    public void ServerOpenChest(int chestID)
+    {
+        foreach (NetworkGamePlayer player in GamePlayers)
+        {
+            player.RpcOpenChest(chestID);
         }
     }
 }
