@@ -43,6 +43,7 @@ public class PlayerProperties : NetworkBehaviour
             playerUIRectTransform.anchorMax = new Vector2(1, 0);
             playerUIRectTransform.pivot = new Vector2(1, 0);
             playerUIRectTransform.anchoredPosition = new Vector3(-20, 20, 0);
+            playerNameRectTransform.anchoredPosition = new Vector2(-playerNameRectTransform.anchoredPosition.x, playerNameRectTransform.anchoredPosition.y);
         }
         else if (playerId == 2)
         {
@@ -50,7 +51,7 @@ public class PlayerProperties : NetworkBehaviour
             playerUIRectTransform.anchorMax = new Vector2(0, 1);
             playerUIRectTransform.pivot = new Vector2(0, 1);
             playerUIRectTransform.anchoredPosition = new Vector3(20, -20, 0);
-            playerNameRectTransform.anchoredPosition = new Vector2(playerNameRectTransform.anchoredPosition.x, playerNameRectTransform.anchoredPosition.y - 14);
+            playerNameRectTransform.anchoredPosition = new Vector2(playerNameRectTransform.anchoredPosition.x, -playerNameRectTransform.anchoredPosition.y);
         }
         else if (playerId == 3)
         {
@@ -58,7 +59,7 @@ public class PlayerProperties : NetworkBehaviour
             playerUIRectTransform.anchorMax = new Vector2(1, 1);
             playerUIRectTransform.pivot = new Vector2(1, 1);
             playerUIRectTransform.anchoredPosition = new Vector3(-20, -20, 0);
-            playerNameRectTransform.anchoredPosition = new Vector2(playerNameRectTransform.anchoredPosition.x, playerNameRectTransform.anchoredPosition.y - 14);
+            playerNameRectTransform.anchoredPosition = new Vector2(-playerNameRectTransform.anchoredPosition.x, -playerNameRectTransform.anchoredPosition.y);
         }
 
         string curScene = SceneManager.GetActiveScene().name;

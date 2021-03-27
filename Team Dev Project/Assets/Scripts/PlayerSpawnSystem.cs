@@ -5,7 +5,7 @@ using System.Linq;
 
 public class PlayerSpawnSystem : NetworkBehaviour
 {
-    [SerializeField] private GameObject playerPrefab = null;
+    [SerializeField] private GameObject playerPrefab;
     public static List<Transform> spawnPoints = new List<Transform>();
     public static Transform deathPoint;
     private int nextIndex = 0;

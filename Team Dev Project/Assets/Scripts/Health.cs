@@ -7,8 +7,9 @@ public class Health : NetworkBehaviour
 {
     [Header("Settings")]
     [SerializeField] private int maxHealth = 100;
-    [SerializeField] private Image healthBarFillImage = null;
-    [SerializeField] private GameObject HB = null;
+    [SerializeField] private GameObject UIContainer;
+    [SerializeField] private Image healthBarFillImage;
+    [SerializeField] private GameObject HB;
     [SerializeField] private RectTransform m_RectTransform;
     [SerializeField] private Image healthBarImage;
     [SerializeField] private Sprite healthBarSprite;
@@ -41,13 +42,17 @@ public class Health : NetworkBehaviour
     [Server]
     private void SetHealth(int value)
     {
+        Debug.Log("SETHEalth");
         if (value == 0)
         {
             if (heartPanel.curHearts == 0)
             {
                 alive = false;
 
-                healthBarImageState = 1;
+                if (healthBarImageState == 0)
+                    healthBarImageState = 1;
+                else if (healthBarImageState == 2)
+                    healthBarImageState = 3;
 
                 Die();
 
@@ -59,7 +64,10 @@ public class Health : NetworkBehaviour
                         count += 1;
 
                 if (count == a.Length)
+                {
                     loseScreen.RpcEnableLoseScreen();
+                    UIContainer.SetActive(false);
+                }
             }
             else
             {
@@ -130,22 +138,23 @@ public class Health : NetworkBehaviour
             temp = fillRectTransform.localScale;
             temp.x = -temp.x;
             fillRectTransform.localScale = temp;
+            fillRectTransform.anchoredPosition = new Vector2(-fillRectTransform.anchoredPosition.x, fillRectTransform.anchoredPosition.y);
         }
         else if (id == 2)
         {
             CmdChangeHealthbarSprite(2);
-            fillRectTransform.anchoredPosition = new Vector2(fillRectTransform.anchoredPosition.x, fillRectTransform.anchoredPosition.y + 12);
+            fillRectTransform.anchoredPosition = new Vector2(fillRectTransform.anchoredPosition.x, -fillRectTransform.anchoredPosition.y);
         }
         else if (id == 3)
         {
-            CmdChangeHealthbarSprite(3);
+            CmdChangeHealthbarSprite(2);
             Vector3 temp = borderRectTransform.localScale;
             temp.x = -temp.x;
             borderRectTransform.localScale = temp;
             temp = fillRectTransform.localScale;
             temp.x = -temp.x;
             fillRectTransform.localScale = temp;
-            fillRectTransform.anchoredPosition = new Vector2(fillRectTransform.anchoredPosition.x, fillRectTransform.anchoredPosition.y + 12);
+            fillRectTransform.anchoredPosition = new Vector2(-fillRectTransform.anchoredPosition.x, -fillRectTransform.anchoredPosition.y);
         }
         
         string curSceneName = SceneManager.GetActiveScene().name;
@@ -204,7 +213,11 @@ public class Health : NetworkBehaviour
         alive = true;
         heartPanel.RemoveHeart();
         currentHealth = maxHealth;
-        healthBarImageState = 0;
+
+        if (healthBarImageState == 1)
+            healthBarImageState = 0;
+        else if (healthBarImageState == 3)
+            healthBarImageState = 2;
 
         RpcRevive();
     }
