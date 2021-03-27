@@ -13,6 +13,8 @@ public class Health : NetworkBehaviour
     [SerializeField] private Image healthBarImage;
     [SerializeField] private Sprite healthBarSprite;
     [SerializeField] private Sprite healthBarDeadSprite;
+    [SerializeField] private Sprite healthBarSpriteUp;
+    [SerializeField] private Sprite healthBarDeadSpriteUp;
     [SyncVar(hook = nameof(SetHealthBarImage))] private int healthBarImageState;
     [SyncVar(hook =nameof(UpdateHealthBar))] private int currentHealth;
     [SyncVar] [SerializeField] private bool alive;
@@ -66,6 +68,12 @@ public class Health : NetworkBehaviour
             }
         }
         currentHealth = value;
+    }
+
+    [Command]
+    private void CmdChangeHealthbarSprite(int spriteID)
+    {
+        healthBarImageState = spriteID;
     }
 
     // Остановить камеру у игроков, наблюдавших за игроком, который умер Cmd -> Server -> Rpc
@@ -122,21 +130,27 @@ public class Health : NetworkBehaviour
             temp = fillRectTransform.localScale;
             temp.x = -temp.x;
             fillRectTransform.localScale = temp;
-
+        }
+        else if (id == 2)
+        {
+            CmdChangeHealthbarSprite(2);
+            fillRectTransform.anchoredPosition = new Vector2(fillRectTransform.anchoredPosition.x, fillRectTransform.anchoredPosition.y + 12);
         }
         else if (id == 3)
         {
+            CmdChangeHealthbarSprite(3);
             Vector3 temp = borderRectTransform.localScale;
             temp.x = -temp.x;
             borderRectTransform.localScale = temp;
             temp = fillRectTransform.localScale;
             temp.x = -temp.x;
             fillRectTransform.localScale = temp;
+            fillRectTransform.anchoredPosition = new Vector2(fillRectTransform.anchoredPosition.x, fillRectTransform.anchoredPosition.y + 12);
         }
         
         string curSceneName = SceneManager.GetActiveScene().name;
 
-        healthBarImageState = 0;
+        //healthBarImageState = 0;
 
         if (curSceneName.StartsWith("LevelScene"))
         {
@@ -226,6 +240,14 @@ public class Health : NetworkBehaviour
         else if (healthBarImageState == 1)
         {
             healthBarImage.sprite = healthBarDeadSprite;
+        }
+        else if (healthBarImageState == 2)
+        {
+            healthBarImage.sprite = healthBarSpriteUp;
+        }
+        else if (healthBarImageState == 3)
+        {
+            healthBarImage.sprite = healthBarDeadSpriteUp;
         }
     }
 

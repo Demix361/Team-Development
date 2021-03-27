@@ -9,22 +9,26 @@ public class PlayerProperties : NetworkBehaviour
     [SerializeField] private float spikesHitCD;
     [SerializeField] Animator animator;
     public bool allowInput = true;
+    [SerializeField] PlayerNetworkTalker playerNetworkTalker;
 
     [Header("Player UI")]
     [SerializeField] GameObject playerUI;
     [SerializeField] RectTransform playerUIRectTransform;
     [SerializeField] TMP_Text playerNameText;
-    
+    [SerializeField] RectTransform playerNameRectTransform;
+
     private float spikesHitTimer = 0;
     private Health health;
     private Rigidbody2D m_Rigidbody2D;
     [SyncVar] public int playerId;
+    [SyncVar(hook = nameof(UpdatePlayerName))] public string playerName;
 
     private void Start()
     {
         health = GetComponent<Health>();
         m_Rigidbody2D = GetComponent<Rigidbody2D>();
-        playerNameText.SetText(gameObject.GetComponent<PlayerNetworkTalker>().getPlayerName());
+
+        CmdSetPlayerName(GetPlayerName());
 
         if (playerId == 0)
         {
@@ -46,6 +50,7 @@ public class PlayerProperties : NetworkBehaviour
             playerUIRectTransform.anchorMax = new Vector2(0, 1);
             playerUIRectTransform.pivot = new Vector2(0, 1);
             playerUIRectTransform.anchoredPosition = new Vector3(20, -20, 0);
+            playerNameRectTransform.anchoredPosition = new Vector2(playerNameRectTransform.anchoredPosition.x, playerNameRectTransform.anchoredPosition.y - 14);
         }
         else if (playerId == 3)
         {
@@ -53,6 +58,7 @@ public class PlayerProperties : NetworkBehaviour
             playerUIRectTransform.anchorMax = new Vector2(1, 1);
             playerUIRectTransform.pivot = new Vector2(1, 1);
             playerUIRectTransform.anchoredPosition = new Vector3(-20, -20, 0);
+            playerNameRectTransform.anchoredPosition = new Vector2(playerNameRectTransform.anchoredPosition.x, playerNameRectTransform.anchoredPosition.y - 14);
         }
 
         string curScene = SceneManager.GetActiveScene().name;
@@ -64,8 +70,6 @@ public class PlayerProperties : NetworkBehaviour
         {
             playerUI.SetActive(false);
         }
-
-
     }
 
     private void Update()
@@ -74,6 +78,30 @@ public class PlayerProperties : NetworkBehaviour
         {
             spikesHitTimer -= Time.deltaTime;
         }
+    }
+
+    private string GetPlayerName()
+    {
+        foreach (NetworkGamePlayer player in GameObject.FindObjectsOfType<NetworkGamePlayer>())
+        {
+            if (player.hasAuthority)
+            {
+                return player.displayName;
+            }
+        }
+        return null;
+    }
+
+    [Command]
+    private void CmdSetPlayerName(string pName)
+    {
+        playerName = pName;
+    }
+
+    //hook
+    private void UpdatePlayerName(string oldValue, string newValue)
+    {
+        playerNameText.SetText(playerName);
     }
 
     public void getHitFromSpikes(int damage)
