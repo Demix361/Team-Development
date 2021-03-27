@@ -38,5 +38,5 @@ jobs:
           #customParameters: '-myParameter myValue -myBoolean -ThirdParameter andItsValue'
       - uses: actions/upload-artifact@v2
         with:
-          name: Build
-          path: build
+          name: Build for ${{ matrix.targetPlatform }}
+          path: build_${{ matrix.targetPlatform }}
