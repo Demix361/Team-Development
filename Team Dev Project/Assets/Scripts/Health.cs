@@ -227,10 +227,39 @@ public class Health : NetworkBehaviour
     {
         if (hasAuthority)
         {
-            gameObject.GetComponent<PlayerProperties>().allowInput = true;
-            gameObject.transform.position = PlayerSpawnSystem.spawnPoints[0].position;
-            GameObject.Find("SpectatorPanel").GetComponent<SpectatorMode>().SetSpectatorMode(false);
+            Vector3 spawnPosition;
 
+            GameObject[] checkpoints = GameObject.FindGameObjectsWithTag("Checkpoint");
+            GameObject checkpoint = null;
+            foreach (GameObject cp in checkpoints)
+            {
+                if (cp.GetComponent<CheckPoint>().unlocked)
+                {
+                    if (checkpoint == null)
+                    {
+                        checkpoint = cp;
+                    }
+                    else if (cp.GetComponent<CheckPoint>().checkpointID > checkpoint.GetComponent<CheckPoint>().checkpointID)
+                    {
+                        checkpoint = cp;
+                    }
+                }
+            }
+
+            if (checkpoint == null)
+            {
+                spawnPosition = PlayerSpawnSystem.spawnPoints[0].position;
+            }
+            else
+            {
+                spawnPosition = checkpoint.GetComponent<CheckPoint>().spawnPoint.position;
+            }
+            spawnPosition = new Vector3(spawnPosition.x, spawnPosition.y, 0);
+
+            gameObject.GetComponent<PlayerProperties>().allowInput = true;
+            gameObject.transform.position = spawnPosition;
+
+            GameObject.Find("SpectatorPanel").GetComponent<SpectatorMode>().SetSpectatorMode(false);
             CmdFollowCam();
 
             Debug.Log("пользователь воскрес");

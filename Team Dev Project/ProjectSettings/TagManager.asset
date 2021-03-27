@@ -9,6 +9,7 @@ TagManager:
   - NetworkManager
   - Gem
   - Chest
+  - Checkpoint
   layers:
   - Default
   - TransparentFX
