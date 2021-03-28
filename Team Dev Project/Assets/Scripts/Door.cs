@@ -10,6 +10,7 @@ public class Door : MonoBehaviour
     [SerializeField] private bool locked;
     [SerializeField] private GameObject lockSprite;
     [SerializeField] public int doorID;
+    [SerializeField] private Popup popup;
     private PlayerProperties playerProperties;
 
     private void Start()
@@ -23,6 +24,7 @@ public class Door : MonoBehaviour
         if (!locked)
         {
             animator.SetBool("DoorOpen", true);
+            popup.SetPopup(true);
         }
     }
 
@@ -31,7 +33,7 @@ public class Door : MonoBehaviour
         if (!locked)
         {
             animator.SetBool("DoorOpen", false);
-            //animator.SetTrigger("SetTrigger");
+            popup.SetPopup(false);
         }
     }
 
@@ -45,6 +47,8 @@ public class Door : MonoBehaviour
 
             collision.GetComponent<PlayerNetworkTalker>().CmdChangeScene(sceneName);
         }
+
+        
     }
 
     public void SetLock(bool state)
