@@ -2,8 +2,8 @@
 
 public class LevelExit : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject endScreen;
+    [SerializeField] private GameObject endScreen;
+    [SerializeField] private Popup popup;
 
     private PlayerNetworkTalker playerNetworkTalker;
     private PlayerProperties playerProperties;
@@ -32,5 +32,15 @@ public class LevelExit : MonoBehaviour
             playerProperties.allowInput = true;
         }
         playerNetworkTalker.CmdChangeScene("HubScene");
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        popup.SetPopup(true);
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        popup.SetPopup(false);
     }
 }

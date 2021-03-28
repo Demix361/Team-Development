@@ -2,10 +2,9 @@
 
 public class DoorInfoPlate : MonoBehaviour
 {
-    [SerializeField]
-    private Door door;
-    [SerializeField]
-    private GameObject levelStatsUI;
+    [SerializeField] private Door door;
+    [SerializeField] private GameObject levelStatsUI;
+    [SerializeField] private Popup popup;
     private PlayerProperties playerProperties;
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -23,6 +22,16 @@ public class DoorInfoPlate : MonoBehaviour
                 levelStatsUI.SetActive(true);
             }
         }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        popup.SetPopup(true);
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        popup.SetPopup(false);
     }
 
     public void Close()

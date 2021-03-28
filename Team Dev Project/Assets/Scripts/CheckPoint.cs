@@ -8,6 +8,7 @@ public class CheckPoint : NetworkBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] public int checkpointID;
     [SerializeField] public Transform spawnPoint;
+    [SerializeField] private Popup popup;
 
     private PlayerProperties playerProperties;
     [SyncVar] public bool unlocked = false;
@@ -21,6 +22,19 @@ public class CheckPoint : NetworkBehaviour
             CmdUnlockCheckpoint();
             CmdAddAllHearts();
         }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (!unlocked)
+        {
+            popup.SetPopup(true);
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        popup.SetPopup(false);
     }
 
     [Command(ignoreAuthority = true)]
