@@ -30,8 +30,8 @@ public class Door : MonoBehaviour
     {
         if (!locked)
         {
-            //animator.SetBool("DoorOpen", false);
-            animator.SetTrigger("SetTrigger");
+            animator.SetBool("DoorOpen", false);
+            //animator.SetTrigger("SetTrigger");
         }
     }
 

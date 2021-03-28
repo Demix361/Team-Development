@@ -230,7 +230,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 23
+  m_RootOrder: 30
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &42621757
 GameObject:
@@ -2385,7 +2385,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1465190b5c8a1eb4b8e46a84712ec8c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gemID: 0
+  gemID: 4
   collectableName: GreenGem
   speed: 0.002
   maxFlightHeight: 0.2
@@ -2472,7 +2472,7 @@ Transform:
   m_LocalScale: {x: 3, y: 3, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 36
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &458808654
 GameObject:
@@ -3227,7 +3227,7 @@ RectTransform:
   m_Children:
   - {fileID: 514318139}
   m_Father: {fileID: 0}
-  m_RootOrder: 25
+  m_RootOrder: 32
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -3389,7 +3389,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 28
+  m_RootOrder: 35
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &580985676
 GameObject:
@@ -3741,7 +3741,7 @@ RectTransform:
   m_Children:
   - {fileID: 1093991153}
   m_Father: {fileID: 0}
-  m_RootOrder: 26
+  m_RootOrder: 33
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -3839,7 +3839,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1465190b5c8a1eb4b8e46a84712ec8c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gemID: 0
+  gemID: 3
   collectableName: GreenGem
   speed: 0.002
   maxFlightHeight: 0.2
@@ -3926,7 +3926,7 @@ Transform:
   m_LocalScale: {x: 3, y: 3, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 35
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &795807472
 PrefabInstance:
@@ -4140,7 +4140,7 @@ RectTransform:
   m_Children:
   - {fileID: 1041974479}
   m_Father: {fileID: 0}
-  m_RootOrder: 24
+  m_RootOrder: 31
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -4524,7 +4524,7 @@ Transform:
   m_LocalScale: {x: 4, y: 4, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 21
+  m_RootOrder: 28
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &948917468
 GameObject:
@@ -4818,7 +4818,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1465190b5c8a1eb4b8e46a84712ec8c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gemID: 0
+  gemID: 5
   collectableName: GreenGem
   speed: 0.002
   maxFlightHeight: 0.2
@@ -4905,7 +4905,7 @@ Transform:
   m_LocalScale: {x: 3, y: 3, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 37
+  m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1093991152
 GameObject:
@@ -5339,7 +5339,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 27
+  m_RootOrder: 34
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1389317348
 GameObject:
@@ -5621,7 +5621,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 30
+  m_RootOrder: 37
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1426833400
 GameObject:
@@ -6359,7 +6359,7 @@ PrefabInstance:
     - target: {fileID: 6468768799500627967, guid: d217965db2780d646bee45a5e3aee7d9,
         type: 3}
       propertyPath: m_RootOrder
-      value: 22
+      value: 29
       objectReference: {fileID: 0}
     - target: {fileID: 6468768799500627967, guid: d217965db2780d646bee45a5e3aee7d9,
         type: 3}
@@ -6532,7 +6532,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1465190b5c8a1eb4b8e46a84712ec8c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gemID: 1
+  gemID: 4
   collectableName: RedGem
   speed: 0.002
   maxFlightHeight: 0.2
@@ -6645,7 +6645,7 @@ Transform:
   m_LocalScale: {x: 3, y: 3, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 34
+  m_RootOrder: 25
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1919537595
 GameObject:
@@ -6859,7 +6859,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1465190b5c8a1eb4b8e46a84712ec8c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gemID: 1
+  gemID: 2
   collectableName: RedGem
   speed: 0.002
   maxFlightHeight: 0.2
@@ -6972,7 +6972,7 @@ Transform:
   m_LocalScale: {x: 3, y: 3, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 32
+  m_RootOrder: 23
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1957915177
 GameObject:
@@ -7538,7 +7538,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1465190b5c8a1eb4b8e46a84712ec8c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gemID: 1
+  gemID: 3
   collectableName: RedGem
   speed: 0.002
   maxFlightHeight: 0.2
@@ -7651,7 +7651,7 @@ Transform:
   m_LocalScale: {x: 3, y: 3, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 33
+  m_RootOrder: 24
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2140094612
 GameObject:
@@ -7685,7 +7685,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1465190b5c8a1eb4b8e46a84712ec8c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gemID: 0
+  gemID: 1
   collectableName: BlueGem
   speed: 0.002
   maxFlightHeight: 0.3
@@ -7798,7 +7798,7 @@ Transform:
   m_LocalScale: {x: 4, y: 4, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 31
+  m_RootOrder: 27
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1170947656605064634
 Transform:
@@ -7812,7 +7812,7 @@ Transform:
   m_LocalScale: {x: 4, y: 4, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 20
+  m_RootOrder: 26
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1170947656605064635
 SpriteRenderer:
@@ -8055,7 +8055,7 @@ Transform:
   m_LocalScale: {x: 3, y: 3, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2777846372617854186
 SpriteRenderer:
@@ -8246,7 +8246,7 @@ Transform:
   m_LocalScale: {x: 3, y: 3, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 17
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2777846372733351973
 MonoBehaviour:
@@ -8374,7 +8374,7 @@ Transform:
   m_LocalScale: {x: 3, y: 3, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 19
+  m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &2822985838577423396
 Animator:
@@ -8475,7 +8475,7 @@ Transform:
   m_LocalScale: {x: 3, y: 3, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 18
+  m_RootOrder: 22
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2822985838886611090
 GameObject:
@@ -8580,7 +8580,7 @@ PrefabInstance:
     - target: {fileID: 3393909072155114955, guid: 9045d9d66a0e9164998d754f21a856c6,
         type: 3}
       propertyPath: m_RootOrder
-      value: 29
+      value: 36
       objectReference: {fileID: 0}
     - target: {fileID: 3393909072155114955, guid: 9045d9d66a0e9164998d754f21a856c6,
         type: 3}
