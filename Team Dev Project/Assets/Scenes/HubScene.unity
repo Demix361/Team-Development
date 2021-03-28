@@ -6036,6 +6036,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Door (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 5055875810629609016, guid: 2c332b4702f64884fa52028eab3c2484,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6764288124424233350, guid: 2c332b4702f64884fa52028eab3c2484,
         type: 3}
       propertyPath: m_RootOrder
@@ -6513,6 +6518,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Door (0)
       objectReference: {fileID: 0}
+    - target: {fileID: 5055875810629609016, guid: 2c332b4702f64884fa52028eab3c2484,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6764288124424233350, guid: 2c332b4702f64884fa52028eab3c2484,
         type: 3}
       propertyPath: m_RootOrder
@@ -6581,6 +6591,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Door (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5055875810629609016, guid: 2c332b4702f64884fa52028eab3c2484,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6764288124424233350, guid: 2c332b4702f64884fa52028eab3c2484,
         type: 3}
@@ -8536,6 +8551,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Door (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 5055875810629609016, guid: 2c332b4702f64884fa52028eab3c2484,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6764288124424233350, guid: 2c332b4702f64884fa52028eab3c2484,
         type: 3}
       propertyPath: m_RootOrder
@@ -8727,6 +8747,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Door (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5055875810629609016, guid: 2c332b4702f64884fa52028eab3c2484,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6764288124424233350, guid: 2c332b4702f64884fa52028eab3c2484,
         type: 3}
@@ -9218,6 +9243,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Door (9)
       objectReference: {fileID: 0}
+    - target: {fileID: 5055875810629609016, guid: 2c332b4702f64884fa52028eab3c2484,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6764288124424233350, guid: 2c332b4702f64884fa52028eab3c2484,
         type: 3}
       propertyPath: m_RootOrder
@@ -9441,6 +9471,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Door (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 5055875810629609016, guid: 2c332b4702f64884fa52028eab3c2484,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6764288124424233350, guid: 2c332b4702f64884fa52028eab3c2484,
         type: 3}
       propertyPath: m_RootOrder
@@ -9640,6 +9675,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Door (8)
       objectReference: {fileID: 0}
+    - target: {fileID: 5055875810629609016, guid: 2c332b4702f64884fa52028eab3c2484,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6764288124424233350, guid: 2c332b4702f64884fa52028eab3c2484,
         type: 3}
       propertyPath: m_RootOrder
@@ -9774,6 +9814,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Door (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 5055875810629609016, guid: 2c332b4702f64884fa52028eab3c2484,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6764288124424233350, guid: 2c332b4702f64884fa52028eab3c2484,
         type: 3}
       propertyPath: m_RootOrder
@@ -9862,6 +9907,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Door (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5055875810629609016, guid: 2c332b4702f64884fa52028eab3c2484,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6764288124424233350, guid: 2c332b4702f64884fa52028eab3c2484,
         type: 3}
