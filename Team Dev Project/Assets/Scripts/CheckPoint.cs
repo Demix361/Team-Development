@@ -19,7 +19,14 @@ public class CheckPoint : NetworkBehaviour
         if (!unlocked && playerProperties.allowInput && (Input.GetButtonDown("Interact") || Input.GetButton("Interact")))
         {
             CmdUnlockCheckpoint();
+            CmdAddAllHearts();
         }
+    }
+
+    [Command(ignoreAuthority = true)]
+    private void CmdAddAllHearts()
+    {
+        GameObject.Find("HeartPanel").GetComponent<HeartPanel>().AddAllHearts();
     }
 
     [Command(ignoreAuthority = true)]

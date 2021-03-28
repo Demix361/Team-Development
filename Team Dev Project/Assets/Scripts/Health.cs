@@ -33,10 +33,38 @@ public class Health : NetworkBehaviour
     }
 
     // Получение урона
-    [Command]
+    [Command(ignoreAuthority = true)]
     public void CmdDealDamage(int damage)
     {
         SetHealth(Mathf.Max(currentHealth - damage, 0));
+    }
+
+    [Command(ignoreAuthority = true)]
+    public void CmdInstantDie()
+    {
+        alive = false;
+
+        if (healthBarImageState == 0)
+            healthBarImageState = 1;
+        else if (healthBarImageState == 2)
+            healthBarImageState = 3;
+
+        Die();
+
+        // Включение экрана проигрыша, если все игроки мертвы
+        var a = GameObject.FindGameObjectsWithTag("Player");
+        int count = 0;
+        foreach (GameObject player in a)
+            if (!player.GetComponent<Health>().IsAlive())
+                count += 1;
+
+        if (count == a.Length)
+        {
+            loseScreen.RpcEnableLoseScreen();
+            UIContainer.SetActive(false);
+        }
+
+        currentHealth = 0;
     }
 
     [Server]
@@ -257,7 +285,8 @@ public class Health : NetworkBehaviour
             spawnPosition = new Vector3(spawnPosition.x, spawnPosition.y, 0);
 
             gameObject.GetComponent<PlayerProperties>().allowInput = true;
-            gameObject.transform.position = spawnPosition;
+            gameObject.transform.localPosition = spawnPosition;
+            //gameObject.transform.
 
             GameObject.Find("SpectatorPanel").GetComponent<SpectatorMode>().SetSpectatorMode(false);
             CmdFollowCam();

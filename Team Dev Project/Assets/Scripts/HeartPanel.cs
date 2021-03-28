@@ -105,4 +105,13 @@ public class HeartPanel : NetworkBehaviour
         //spectatorMode.reviveButton.interactable = true;
     }
 
+    public bool IsMaxHearts()
+    {
+        if (curHearts == maxHearts)
+        {
+            return true;
+        }
+        return false;
+    }
+
 }
