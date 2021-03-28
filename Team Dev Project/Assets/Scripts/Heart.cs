@@ -28,9 +28,12 @@ public class Heart : MonoBehaviour
     {
         if (!collected)
         {
-            heartPanel.AddHeart();
-            animator.SetBool("Collected", true);
-            collected = true;
+            if (!heartPanel.IsMaxHearts())
+            {
+                heartPanel.AddHeart();
+                animator.SetBool("Collected", true);
+                collected = true;
+            }
         }
     }
 }

@@ -33,10 +33,38 @@ public class Health : NetworkBehaviour
     }
 
     // Получение урона
-    [Command]
+    [Command(ignoreAuthority = true)]
     public void CmdDealDamage(int damage)
     {
         SetHealth(Mathf.Max(currentHealth - damage, 0));
+    }
+
+    [Command(ignoreAuthority = true)]
+    public void CmdInstantDie()
+    {
+        alive = false;
+
+        if (healthBarImageState == 0)
+            healthBarImageState = 1;
+        else if (healthBarImageState == 2)
+            healthBarImageState = 3;
+
+        Die();
+
+        // Включение экрана проигрыша, если все игроки мертвы
+        var a = GameObject.FindGameObjectsWithTag("Player");
+        int count = 0;
+        foreach (GameObject player in a)
+            if (!player.GetComponent<Health>().IsAlive())
+                count += 1;
+
+        if (count == a.Length)
+        {
+            loseScreen.RpcEnableLoseScreen();
+            UIContainer.SetActive(false);
+        }
+
+        currentHealth = 0;
     }
 
     [Server]
@@ -227,10 +255,40 @@ public class Health : NetworkBehaviour
     {
         if (hasAuthority)
         {
-            gameObject.GetComponent<PlayerProperties>().allowInput = true;
-            gameObject.transform.position = PlayerSpawnSystem.spawnPoints[0].position;
-            GameObject.Find("SpectatorPanel").GetComponent<SpectatorMode>().SetSpectatorMode(false);
+            Vector3 spawnPosition;
 
+            GameObject[] checkpoints = GameObject.FindGameObjectsWithTag("Checkpoint");
+            GameObject checkpoint = null;
+            foreach (GameObject cp in checkpoints)
+            {
+                if (cp.GetComponent<CheckPoint>().unlocked)
+                {
+                    if (checkpoint == null)
+                    {
+                        checkpoint = cp;
+                    }
+                    else if (cp.GetComponent<CheckPoint>().checkpointID > checkpoint.GetComponent<CheckPoint>().checkpointID)
+                    {
+                        checkpoint = cp;
+                    }
+                }
+            }
+
+            if (checkpoint == null)
+            {
+                spawnPosition = PlayerSpawnSystem.spawnPoints[0].position;
+            }
+            else
+            {
+                spawnPosition = checkpoint.GetComponent<CheckPoint>().spawnPoint.position;
+            }
+            spawnPosition = new Vector3(spawnPosition.x, spawnPosition.y, 0);
+
+            gameObject.GetComponent<PlayerProperties>().allowInput = true;
+            gameObject.transform.localPosition = spawnPosition;
+            //gameObject.transform.
+
+            GameObject.Find("SpectatorPanel").GetComponent<SpectatorMode>().SetSpectatorMode(false);
             CmdFollowCam();
 
             Debug.Log("пользователь воскрес");
