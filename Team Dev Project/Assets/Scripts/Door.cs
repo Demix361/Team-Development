@@ -21,7 +21,7 @@ public class Door : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!locked)
+        if (collision.gameObject.tag == "Player" && !locked)
         {
             animator.SetBool("DoorOpen", true);
             popup.SetPopup(true);
@@ -30,7 +30,7 @@ public class Door : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (!locked)
+        if (collision.gameObject.tag == "Player" && !locked)
         {
             animator.SetBool("DoorOpen", false);
             popup.SetPopup(false);
@@ -47,8 +47,6 @@ public class Door : MonoBehaviour
 
             collision.GetComponent<PlayerNetworkTalker>().CmdChangeScene(sceneName);
         }
-
-        
     }
 
     public void SetLock(bool state)

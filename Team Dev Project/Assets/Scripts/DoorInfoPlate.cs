@@ -26,12 +26,14 @@ public class DoorInfoPlate : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        popup.SetPopup(true);
+        if (collision.gameObject.tag == "Player")
+            popup.SetPopup(true);
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        popup.SetPopup(false);
+        if (collision.gameObject.tag == "Player")
+            popup.SetPopup(false);
     }
 
     public void Close()

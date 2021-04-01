@@ -26,7 +26,7 @@ public class CheckPoint : NetworkBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!unlocked)
+        if (collision.gameObject.tag == "Player" && !unlocked)
         {
             popup.SetPopup(true);
         }
@@ -34,7 +34,10 @@ public class CheckPoint : NetworkBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        popup.SetPopup(false);
+        if (collision.gameObject.tag == "Player")
+        {
+            popup.SetPopup(false);
+        }
     }
 
     [Command(ignoreAuthority = true)]
