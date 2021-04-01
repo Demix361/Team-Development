@@ -10,6 +10,7 @@ TagManager:
   - Gem
   - Chest
   - Checkpoint
+  - Tilemap
   layers:
   - Default
   - TransparentFX
