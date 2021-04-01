@@ -6,6 +6,7 @@ using Mirror;
 public class Cannon : NetworkBehaviour
 {
     [SerializeField] private Animator _animator;
+    [SerializeField] private Animator _smokeAnimator;
     [SerializeField] private GameObject _ballPrefab;
     [SerializeField] private float _shootInterval;
     [SerializeField] private float _shootOffset;
@@ -27,6 +28,7 @@ public class Cannon : NetworkBehaviour
         ball.GetComponent<Rigidbody2D>().AddForce(new Vector2(_shootForce * -transform.localScale.x, 0));
         //ball.GetComponent<CannonBall>().Move(_shootForce * -transform.localScale.x);
         _animator.SetTrigger("Fire");
+        _smokeAnimator.SetTrigger("Fire");
     }
 
     private void Update()
