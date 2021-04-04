@@ -40,13 +40,13 @@ public class CheckPoint : NetworkBehaviour
         }
     }
 
-    [Command(ignoreAuthority = true)]
+    [Command(requiresAuthority = false)]
     private void CmdAddAllHearts()
     {
         GameObject.Find("HeartPanel").GetComponent<HeartPanel>().AddAllHearts();
     }
 
-    [Command(ignoreAuthority = true)]
+    [Command(requiresAuthority = false)]
     private void CmdUnlockCheckpoint()
     {
         unlocked = true;

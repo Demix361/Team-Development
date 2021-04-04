@@ -11,7 +11,8 @@ public class MainMenu : MonoBehaviour
 
     public void HostLobby()
     {
-        networkManager.StartHost();
+        //networkManager.StartHost();
+        networkManager.steamLobby.HostLobby();
 
         landingPagePanel.SetActive(false);
     }

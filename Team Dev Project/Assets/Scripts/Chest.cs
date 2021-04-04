@@ -40,7 +40,7 @@ public class Chest : NetworkBehaviour
         }
     }
 
-    [Command(ignoreAuthority = true)]
+    [Command(requiresAuthority = false)]
     private void CmdOpenChest()
     {
         for (int i = 0; i < 10; i++)

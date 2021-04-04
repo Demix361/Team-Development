@@ -18,6 +18,7 @@ public class MyNetworkManager : NetworkManager
     [SerializeField] private GameObject playerSpawnSystem = null;
     [SerializeField] public GameObject playerHealthBar = null;
     [SerializeField] private GameObject coinPrefab = null;
+    [SerializeField] public SteamLobby steamLobby;
 
     public static event Action OnClientConnected;
     public static event Action OnClientDisconnected;
@@ -65,7 +66,6 @@ public class MyNetworkManager : NetworkManager
             return;
         }
 
-        //if (SceneManager.GetActiveScene().name != menuScene)
         if (SceneManager.GetActiveScene().path != menuScene)
         {
             conn.Disconnect();
@@ -75,7 +75,6 @@ public class MyNetworkManager : NetworkManager
 
     public override void OnServerAddPlayer(NetworkConnection conn)
     {
-        //if (SceneManager.GetActiveScene().name == menuScene)
         if (SceneManager.GetActiveScene().path == menuScene)
         {
             bool isLeader = RoomPlayers.Count == 0;
