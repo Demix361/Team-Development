@@ -35,7 +35,8 @@ public class SettingsMenu : MonoBehaviour
         resolutionDropdown.value = currentResolutionIndex;
         resolutionDropdown.RefreshShownValue();
 
-        fullscreenToggle.enabled = Screen.fullScreen;
+        //fullscreenToggle.enabled = Screen.fullScreen;
+        fullscreenToggle.isOn = Screen.fullScreen;
     }
 
     public void SetVolume(float volume)
@@ -46,6 +47,7 @@ public class SettingsMenu : MonoBehaviour
     public void SetFullScreen(bool isFullScreen)
     {
         Screen.fullScreen = isFullScreen;
+        Debug.Log("Set Fullscreen");
     }
 
     public void SetResolution(int resolutionIndex)
