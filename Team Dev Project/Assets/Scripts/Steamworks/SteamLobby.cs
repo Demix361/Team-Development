@@ -10,6 +10,7 @@ public class SteamLobby : MonoBehaviour
     [SerializeField] private RoomsCanvases _roomsCanvases;
     [SerializeField] private GameObject landingPagePanel;
     private const string HostAddressKey = "HostAddress";
+    public static CSteamID LobbyId { get; private set; }
 
     protected Callback<LobbyCreated_t> lobbyCreated;
     protected Callback<GameLobbyJoinRequested_t> gameLobbyJoinRequested;
@@ -37,9 +38,11 @@ public class SteamLobby : MonoBehaviour
             return;
         }
 
+        LobbyId = new CSteamID(callback.m_ulSteamIDLobby);
+
         _networkManager.StartHost();
 
-        SteamMatchmaking.SetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), HostAddressKey, SteamUser.GetSteamID().ToString());
+        SteamMatchmaking.SetLobbyData(LobbyId, HostAddressKey, SteamUser.GetSteamID().ToString());
 
         //_roomsCanvases.CurrentRoomCanvas.Show();
     }

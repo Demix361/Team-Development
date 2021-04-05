@@ -4,6 +4,7 @@ using Mirror;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Steamworks;
 
 public class MyNetworkManager : NetworkManager
 {
@@ -80,8 +81,10 @@ public class MyNetworkManager : NetworkManager
             bool isLeader = RoomPlayers.Count == 0;
 
             NetworkRoomPlayer roomPlayerInstance = Instantiate(roomPlayerPrefab);
-
             roomPlayerInstance.IsLeader = isLeader;
+
+            CSteamID steamId = SteamMatchmaking.GetLobbyMemberByIndex(SteamLobby.LobbyId, SteamMatchmaking.GetNumLobbyMembers(SteamLobby.LobbyId) - 1);
+            roomPlayerInstance.SetSteamId(steamId.m_SteamID);
 
             NetworkServer.AddPlayerForConnection(conn, roomPlayerInstance.gameObject);
         }

@@ -3,6 +3,7 @@ using UnityEngine;
 using Mirror;
 using TMPro;
 using UnityEngine.UI;
+using Steamworks;
 
 
 public class NetworkRoomPlayer : NetworkBehaviour
@@ -17,6 +18,8 @@ public class NetworkRoomPlayer : NetworkBehaviour
     public string DisplayName = "Loading...";
     [SyncVar(hook = nameof(HandleReadyStatusChanged))]
     public bool IsReady = false;
+    [SyncVar(hook = nameof(HandleSteamIdUpdated))]
+    private ulong steamId;
 
     private bool isLeader;
     public bool IsLeader
@@ -44,7 +47,8 @@ public class NetworkRoomPlayer : NetworkBehaviour
 
     public override void OnStartAuthority()
     {
-        CmdSetDisplayName(PlayerNameInput.DisplayName);
+        var cSteamId = new CSteamID(steamId);
+        CmdSetDisplayName(SteamFriends.GetFriendPersonaName(cSteamId));
 
         lobbyUI.SetActive(true);
     }
@@ -71,6 +75,16 @@ public class NetworkRoomPlayer : NetworkBehaviour
     public void HandleDisplayNameChanged(string oldValue, string newValue)
     {
         UpdateDisplay();
+    }
+
+    private void HandleSteamIdUpdated(ulong oldValue, ulong newValue)
+    {
+        UpdateDisplay();
+    }
+
+    public void SetSteamId(ulong steamId)
+    {
+        this.steamId = steamId;
     }
 
     private void UpdateDisplay()
