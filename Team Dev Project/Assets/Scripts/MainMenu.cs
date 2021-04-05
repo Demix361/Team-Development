@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.IO;
+using Mirror.FizzySteam;
 
 public class MainMenu : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class MainMenu : MonoBehaviour
 
     public void HostLobby()
     {
+        FindObjectOfType<FizzySteamworks>().enabled = true;
+        //GetComponent<FizzySteamworks>().enabled = true;
         //networkManager.StartHost();
         networkManager.steamLobby.HostLobby();
 
