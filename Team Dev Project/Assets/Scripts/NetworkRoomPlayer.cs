@@ -12,6 +12,7 @@ public class NetworkRoomPlayer : NetworkBehaviour
     [SerializeField] private GameObject lobbyUI = null;
     [SerializeField] private TMP_Text[] playerNameTexts = new TMP_Text[4];
     [SerializeField] private TMP_Text[] playerReadyTexts = new TMP_Text[4];
+    [SerializeField] private RawImage[] playerImages = new RawImage[4];
     [SerializeField] private Button startGameButton = null;
 
     [SyncVar(hook = nameof(HandleDisplayNameChanged))]
@@ -31,6 +32,8 @@ public class NetworkRoomPlayer : NetworkBehaviour
         }
     }
 
+    public Texture2D profilePicture;
+
     private MyNetworkManager room;
     private MyNetworkManager Room
     {
@@ -45,6 +48,9 @@ public class NetworkRoomPlayer : NetworkBehaviour
         }
     }
 
+    protected Callback<AvatarImageLoaded_t> avatarImageLoaded;
+
+
     public override void OnStartAuthority()
     {
         var cSteamId = new CSteamID(steamId);
@@ -57,7 +63,19 @@ public class NetworkRoomPlayer : NetworkBehaviour
     {
         Room.RoomPlayers.Add(this);
 
+        avatarImageLoaded = Callback<AvatarImageLoaded_t>.Create(OnAvatarImageLoaded);
+
         UpdateDisplay();
+    }
+
+    private void OnAvatarImageLoaded(AvatarImageLoaded_t callback)
+    {
+        if (callback.m_steamID.m_SteamID != steamId)
+        {
+            return;
+        }
+
+        profilePicture = GetSteamImageAsTexture(callback.m_iImage);
     }
 
     public override void OnStopClient()
@@ -80,6 +98,39 @@ public class NetworkRoomPlayer : NetworkBehaviour
     private void HandleSteamIdUpdated(ulong oldValue, ulong newValue)
     {
         UpdateDisplay();
+        var cSteamId = new CSteamID(newValue);
+
+        int imageId = SteamFriends.GetLargeFriendAvatar(cSteamId);
+
+        if (imageId == -1)
+            return;
+
+        profilePicture = GetSteamImageAsTexture(imageId);
+    }
+
+    private Texture2D GetSteamImageAsTexture(int iImage)
+    {
+        Texture2D texture = null;
+
+        bool isValid = SteamUtils.GetImageSize(iImage, out uint width, out uint height);
+
+        if (isValid)
+        {
+            byte[] image = new byte[width * height * 4];
+
+            isValid = SteamUtils.GetImageRGBA(iImage, image, (int)(width * height * 4));
+
+            if (isValid)
+            {
+                texture = new Texture2D((int)width, (int)height, TextureFormat.RGBA32, false, true);
+                texture.LoadRawTextureData(image);
+                texture.Apply();
+            }
+        }
+
+
+
+        return texture;
     }
 
     public void SetSteamId(ulong steamId)
@@ -115,6 +166,7 @@ public class NetworkRoomPlayer : NetworkBehaviour
             playerReadyTexts[i].text = Room.RoomPlayers[i].IsReady ?
                 "<color=green>Ready</color>" :
                 "<color=red>Not Ready</color>";
+            playerImages[i].texture = Room.RoomPlayers[i].profilePicture;
         }
     }
 
