@@ -1535,7 +1535,7 @@ MonoBehaviour:
   coinPrefab: {fileID: 3504759058648864536, guid: b90a9437e3c357842a74a262cee2fc2d,
     type: 3}
   steamLobby: {fileID: 504132096}
-  Canvases: {fileID: 1087885401}
+  Canvases: {fileID: 1087885402}
 --- !u!4 &504132094
 Transform:
   m_ObjectHideFlags: 0
@@ -1564,7 +1564,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _networkManager: {fileID: 504132093}
   _roomsCanvases: {fileID: 1087885402}
-  landingPagePanel: {fileID: 0}
 --- !u!1 &565714951
 GameObject:
   m_ObjectHideFlags: 0

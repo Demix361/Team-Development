@@ -22,7 +22,6 @@ public class NetworkRoomPlayer : NetworkBehaviour
     public bool IsReady = false;
     [SyncVar(hook = nameof(HandleSteamIdUpdated))]
     private ulong steamId;
-    private RoomsCanvases Canvases;
 
     private bool isLeader;
     public bool IsLeader
@@ -55,8 +54,6 @@ public class NetworkRoomPlayer : NetworkBehaviour
 
     public override void OnStartAuthority()
     {
-        Canvases = GameObject.Find("Canvases").GetComponent<RoomsCanvases>();
-
         var cSteamId = new CSteamID(steamId);
         CmdSetDisplayName(SteamFriends.GetFriendPersonaName(cSteamId));
 
@@ -210,20 +207,26 @@ public class NetworkRoomPlayer : NetworkBehaviour
         Room.StartGame();
     }
 
-    public void Disconnect()
+    public void DisconnectClient()
     {
         Room.steamLobby.LeaveLobby();
+        Room.Canvases.MainMenuCanvas.Show();
+        Room.StopClient();
+    }
 
+    public void Disconnect()
+    {
         if (isLeader)
         {
-            Room.StopClient();
+            for (int i = Room.RoomPlayers.Count - 1; i > -1; i--)
+            {
+                Room.RoomPlayers[i].DisconnectClient();
+            }
             Room.StopServer();
         }
         else
         {
-            Room.StopClient();
+            DisconnectClient();
         }
-
-        Canvases.MainMenuCanvas.Show();
     }
 }

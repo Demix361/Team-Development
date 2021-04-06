@@ -21,7 +21,7 @@ public class MyNetworkManager : NetworkManager
     [SerializeField] private GameObject coinPrefab = null;
     [SerializeField] public SteamLobby steamLobby;
 
-    [SerializeField] public GameObject Canvases;
+    [SerializeField] public RoomsCanvases Canvases;
 
     public static event Action OnClientConnected;
     public static event Action OnClientDisconnected;
