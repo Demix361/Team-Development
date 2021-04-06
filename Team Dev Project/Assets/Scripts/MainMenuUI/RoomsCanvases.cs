@@ -4,14 +4,11 @@ using UnityEngine;
 
 public class RoomsCanvases : MonoBehaviour
 {
-    [SerializeField] private CurrentRoomCanvas _currentRoomCanvas;
-    public CurrentRoomCanvas CurrentRoomCanvas { get { return _currentRoomCanvas; } }
-
     [SerializeField] private MainMenuCanvas _mainMenuCanvas;
     public MainMenuCanvas MainMenuCanvas { get { return _mainMenuCanvas; } }
 
-    //[SerializeField] private JoinRoomCanvas _joinRoomCanvas;
-    //public JoinRoomCanvas JoinRoomCanvas { get { return _joinRoomCanvas; } }
+    [SerializeField] private SettingsCanvas _settingsCanvas;
+    public SettingsCanvas SettingsCanvas { get { return _settingsCanvas; } }
 
     private void Awake()
     {
@@ -21,7 +18,12 @@ public class RoomsCanvases : MonoBehaviour
     private void FirstInitialize()
     {
         MainMenuCanvas.FirstInitialize(this);
-        CurrentRoomCanvas.FirstInitialize(this);
-        //JoinRoomCanvas.FirstInitialize(this);
+        SettingsCanvas.FirstInitialize(this);
+    }
+
+    public void HideAll()
+    {
+        MainMenuCanvas.Hide();
+        SettingsCanvas.Hide();
     }
 }

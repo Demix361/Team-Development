@@ -2,17 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CurrentRoomCanvas : MonoBehaviour
+public class SettingsCanvas : MonoBehaviour
 {
-    [SerializeField] private CurrentRoomMenu _currentRoomMenu;
-    public CurrentRoomMenu CurrentRoomMenu { get { return _currentRoomMenu; } }
+    [SerializeField] private SettingsMenu _settingsMenu;
 
     private RoomsCanvases _roomsCanvases;
 
     public void FirstInitialize(RoomsCanvases canvases)
     {
         _roomsCanvases = canvases;
-        _currentRoomMenu.FirstInitialize(canvases);
+        _settingsMenu.FirstInitialize(canvases);
     }
 
     public void Show()

@@ -30,6 +30,15 @@ public class SteamLobby : MonoBehaviour
         SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypePublic, _networkManager.maxConnections);
     }
 
+    public void LeaveLobby()
+    {
+        if (LobbyId == null)
+            return;
+
+        SteamMatchmaking.LeaveLobby(LobbyId);
+        Debug.Log("Left Lobby");
+    }
+
     private void OnLobbyCreated(LobbyCreated_t callback)
     {
         if (callback.m_eResult != EResult.k_EResultOK)

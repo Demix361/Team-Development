@@ -14,6 +14,7 @@ public class NetworkRoomPlayer : NetworkBehaviour
     [SerializeField] private TMP_Text[] playerReadyTexts = new TMP_Text[4];
     [SerializeField] private RawImage[] playerImages = new RawImage[4];
     [SerializeField] private Button startGameButton = null;
+    [SerializeField] private Texture2D _emptyPlayerImage;
 
     [SyncVar(hook = nameof(HandleDisplayNameChanged))]
     public string DisplayName = "Loading...";
@@ -21,6 +22,7 @@ public class NetworkRoomPlayer : NetworkBehaviour
     public bool IsReady = false;
     [SyncVar(hook = nameof(HandleSteamIdUpdated))]
     private ulong steamId;
+    private RoomsCanvases Canvases;
 
     private bool isLeader;
     public bool IsLeader
@@ -53,6 +55,8 @@ public class NetworkRoomPlayer : NetworkBehaviour
 
     public override void OnStartAuthority()
     {
+        Canvases = GameObject.Find("Canvases").GetComponent<RoomsCanvases>();
+
         var cSteamId = new CSteamID(steamId);
         CmdSetDisplayName(SteamFriends.GetFriendPersonaName(cSteamId));
 
@@ -128,8 +132,6 @@ public class NetworkRoomPlayer : NetworkBehaviour
             }
         }
 
-
-
         return texture;
     }
 
@@ -158,6 +160,8 @@ public class NetworkRoomPlayer : NetworkBehaviour
         {
             playerNameTexts[i].text = "Waiting For Player...";
             playerReadyTexts[i].text = string.Empty;
+            playerImages[i].texture = _emptyPlayerImage;
+            playerImages[i].transform.localScale = new Vector3(1, 1, 1);
         }
 
         for (int i = 0; i < Room.RoomPlayers.Count; i++)
@@ -167,6 +171,7 @@ public class NetworkRoomPlayer : NetworkBehaviour
                 "<color=green>Ready</color>" :
                 "<color=red>Not Ready</color>";
             playerImages[i].texture = Room.RoomPlayers[i].profilePicture;
+            playerImages[i].transform.localScale = new Vector3(1, -1, 1);
         }
     }
 
@@ -207,6 +212,8 @@ public class NetworkRoomPlayer : NetworkBehaviour
 
     public void Disconnect()
     {
+        Room.steamLobby.LeaveLobby();
+
         if (isLeader)
         {
             Room.StopClient();
@@ -216,5 +223,7 @@ public class NetworkRoomPlayer : NetworkBehaviour
         {
             Room.StopClient();
         }
+
+        Canvases.MainMenuCanvas.Show();
     }
 }

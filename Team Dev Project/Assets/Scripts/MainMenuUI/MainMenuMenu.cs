@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Mirror.FizzySteam;
+using System.IO;
 
 public class MainMenuMenu : MonoBehaviour
 {
-    [SerializeField] private SteamLobby _steamLobby;
+    [SerializeField] private MyNetworkManager _networkManager;
 
     private RoomsCanvases _roomsCanvases;
+    private static string path;
 
     public void FirstInitialize(RoomsCanvases canvases)
     {
@@ -16,18 +19,16 @@ public class MainMenuMenu : MonoBehaviour
 
     public void OnClick_CreateRoom()
     {
-        _steamLobby.HostLobby();
-    }
+        FindObjectOfType<FizzySteamworks>().enabled = true;
+        _networkManager.steamLobby.HostLobby();
 
-
-    public void OnClick_JoinRoom()
-    {
-        //_roomsCanvases.JoinRoomCanvas.Show();
+        _roomsCanvases.HideAll();
     }
 
     public void OnClick_Options()
     {
-
+        _roomsCanvases.MainMenuCanvas.Hide();
+        _roomsCanvases.SettingsCanvas.Show();
     }
 
     public void OnClick_Credits()
@@ -38,5 +39,21 @@ public class MainMenuMenu : MonoBehaviour
     public void OnClick_Exit()
     {
         Application.Quit();
+    }
+
+    public void OnClick_DeleteAllSaves()
+    {
+        path = Application.persistentDataPath;
+
+        DirectoryInfo di = new DirectoryInfo(path);
+
+        foreach (FileInfo file in di.GetFiles())
+        {
+            file.Delete();
+        }
+        foreach (DirectoryInfo dir in di.GetDirectories())
+        {
+            dir.Delete(true);
+        }
     }
 }

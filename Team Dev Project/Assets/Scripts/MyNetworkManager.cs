@@ -21,6 +21,8 @@ public class MyNetworkManager : NetworkManager
     [SerializeField] private GameObject coinPrefab = null;
     [SerializeField] public SteamLobby steamLobby;
 
+    [SerializeField] public GameObject Canvases;
+
     public static event Action OnClientConnected;
     public static event Action OnClientDisconnected;
     public static event Action OnServerDisconnected;
@@ -80,7 +82,8 @@ public class MyNetworkManager : NetworkManager
         {
             bool isLeader = RoomPlayers.Count == 0;
 
-            NetworkRoomPlayer roomPlayerInstance = Instantiate(roomPlayerPrefab);
+            //NetworkRoomPlayer roomPlayerInstance = Instantiate(roomPlayerPrefab);
+            NetworkRoomPlayer roomPlayerInstance = Instantiate(roomPlayerPrefab, Canvases.transform);
             roomPlayerInstance.IsLeader = isLeader;
 
             CSteamID steamId = SteamMatchmaking.GetLobbyMemberByIndex(SteamLobby.LobbyId, SteamMatchmaking.GetNumLobbyMembers(SteamLobby.LobbyId) - 1);
