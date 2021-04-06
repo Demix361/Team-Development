@@ -6,7 +6,7 @@ using Mirror;
 
 public class SteamLobby : MonoBehaviour
 {
-    [SerializeField] private RoomsCanvases _roomsCanvases;
+    //[SerializeField] private RoomsCanvases _roomsCanvases;
 
     private const string HostAddressKey = "HostAddress";
     public static CSteamID LobbyId { get; private set; }
@@ -79,7 +79,8 @@ public class SteamLobby : MonoBehaviour
 
         Room.networkAddress = hostAddress;
         Room.StartClient();
-        _roomsCanvases.HideAll();
-        _roomsCanvases.MainMenuCanvas.Show();
+        var roomsCanvases = FindObjectOfType<RoomsCanvases>();
+        roomsCanvases.HideAll();
+        roomsCanvases.MainMenuCanvas.Show();
     }
 }
