@@ -71,5 +71,6 @@ public class SteamLobby : MonoBehaviour
         _networkManager.networkAddress = hostAddress;
         _networkManager.StartClient();
         _roomsCanvases.HideAll();
+        _roomsCanvases.MainMenuCanvas.Show();
     }
 }

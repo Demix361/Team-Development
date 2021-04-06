@@ -216,17 +216,9 @@ public class NetworkRoomPlayer : NetworkBehaviour
 
     public void Disconnect()
     {
+        DisconnectClient();
+
         if (isLeader)
-        {
-            for (int i = Room.RoomPlayers.Count - 1; i > -1; i--)
-            {
-                Room.RoomPlayers[i].DisconnectClient();
-            }
             Room.StopServer();
-        }
-        else
-        {
-            DisconnectClient();
-        }
     }
 }

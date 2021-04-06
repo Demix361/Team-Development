@@ -23,6 +23,7 @@ public class MainMenuMenu : MonoBehaviour
         _networkManager.steamLobby.HostLobby();
 
         _roomsCanvases.HideAll();
+        _roomsCanvases.MainMenuCanvas.Show();
     }
 
     public void OnClick_Options()
