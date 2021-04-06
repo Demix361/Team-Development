@@ -8,7 +8,7 @@ public class SteamLobby : MonoBehaviour
 {
     [SerializeField] private MyNetworkManager _networkManager;
     [SerializeField] private RoomsCanvases _roomsCanvases;
-    [SerializeField] private GameObject landingPagePanel;
+
     private const string HostAddressKey = "HostAddress";
     public static CSteamID LobbyId { get; private set; }
 
@@ -68,9 +68,8 @@ public class SteamLobby : MonoBehaviour
 
         string hostAddress = SteamMatchmaking.GetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), HostAddressKey);
 
-        landingPagePanel.SetActive(false);
-
         _networkManager.networkAddress = hostAddress;
         _networkManager.StartClient();
+        _roomsCanvases.HideAll();
     }
 }
