@@ -19,7 +19,7 @@ public class MyNetworkManager : NetworkManager
     [SerializeField] private GameObject playerSpawnSystem = null;
     [SerializeField] public GameObject playerHealthBar = null;
     [SerializeField] private GameObject coinPrefab = null;
-    [SerializeField] public SteamLobby steamLobby;
+    //[SerializeField] public SteamLobby steamLobby;
 
     [SerializeField] public RoomsCanvases Canvases;
 

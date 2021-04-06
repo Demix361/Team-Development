@@ -1464,7 +1464,6 @@ GameObject:
   - component: {fileID: 504132094}
   - component: {fileID: 504132093}
   - component: {fileID: 504132092}
-  - component: {fileID: 504132096}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: NetworkManager
@@ -1534,7 +1533,7 @@ MonoBehaviour:
     type: 3}
   coinPrefab: {fileID: 3504759058648864536, guid: b90a9437e3c357842a74a262cee2fc2d,
     type: 3}
-  steamLobby: {fileID: 504132096}
+  steamLobby: {fileID: 0}
   Canvases: {fileID: 1087885402}
 --- !u!4 &504132094
 Transform:
@@ -1550,20 +1549,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &504132096
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 504132091}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a0da91d3c22ace478df75be6c993b03, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _networkManager: {fileID: 504132093}
-  _roomsCanvases: {fileID: 1087885402}
 --- !u!1 &565714951
 GameObject:
   m_ObjectHideFlags: 0
@@ -2332,6 +2317,7 @@ GameObject:
   m_Component:
   - component: {fileID: 953285439}
   - component: {fileID: 953285438}
+  - component: {fileID: 953285440}
   m_Layer: 0
   m_Name: Steam
   m_TagString: Untagged
@@ -2365,6 +2351,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &953285440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 953285437}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a0da91d3c22ace478df75be6c993b03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _roomsCanvases: {fileID: 1087885402}
 --- !u!1 &960636934
 GameObject:
   m_ObjectHideFlags: 0
@@ -3347,7 +3346,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6c2dedb65d49f6429336369d3b30d80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _networkManager: {fileID: 504132093}
+  _steamLobby: {fileID: 953285440}
 --- !u!1 &1498089071
 GameObject:
   m_ObjectHideFlags: 0

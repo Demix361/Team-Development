@@ -7,7 +7,7 @@ using System.IO;
 
 public class MainMenuMenu : MonoBehaviour
 {
-    [SerializeField] private MyNetworkManager _networkManager;
+    [SerializeField] private SteamLobby _steamLobby;
 
     private RoomsCanvases _roomsCanvases;
     private static string path;
@@ -20,7 +20,7 @@ public class MainMenuMenu : MonoBehaviour
     public void OnClick_CreateRoom()
     {
         FindObjectOfType<FizzySteamworks>().enabled = true;
-        _networkManager.steamLobby.HostLobby();
+        _steamLobby.HostLobby();
 
         _roomsCanvases.HideAll();
         _roomsCanvases.MainMenuCanvas.Show();

@@ -16,12 +16,15 @@ public class NetworkRoomPlayer : NetworkBehaviour
     [SerializeField] private Button startGameButton = null;
     [SerializeField] private Texture2D _emptyPlayerImage;
 
+    
+
     [SyncVar(hook = nameof(HandleDisplayNameChanged))]
     public string DisplayName = "Loading...";
     [SyncVar(hook = nameof(HandleReadyStatusChanged))]
     public bool IsReady = false;
     [SyncVar(hook = nameof(HandleSteamIdUpdated))]
     private ulong steamId;
+    private SteamLobby _steamLobby;
 
     private bool isLeader;
     public bool IsLeader
@@ -62,6 +65,8 @@ public class NetworkRoomPlayer : NetworkBehaviour
 
     public override void OnStartClient()
     {
+        _steamLobby = FindObjectOfType<SteamLobby>();
+
         Room.RoomPlayers.Add(this);
 
         avatarImageLoaded = Callback<AvatarImageLoaded_t>.Create(OnAvatarImageLoaded);
@@ -209,7 +214,7 @@ public class NetworkRoomPlayer : NetworkBehaviour
 
     public void DisconnectClient()
     {
-        Room.steamLobby.LeaveLobby();
+        _steamLobby.LeaveLobby();
         Room.Canvases.MainMenuCanvas.Show();
         Room.StopClient();
     }
