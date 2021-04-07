@@ -8,7 +8,7 @@ public class DeathWall : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        collision.GetComponent<Health>().CmdInstantDie();
+        collision.GetComponent<Health>().CmdDealMaxDamage();
     }
 
     private void OnDrawGizmos()

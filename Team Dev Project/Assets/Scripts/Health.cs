@@ -39,52 +39,30 @@ public class Health : NetworkBehaviour
         SetHealth(Mathf.Max(currentHealth - damage, 0));
     }
 
+    // Получение максимального урона
     [Command(requiresAuthority = false)]
-    public void CmdInstantDie()
+    public void CmdDealMaxDamage()
     {
-        alive = false;
-
-        if (healthBarImageState == 0)
-            healthBarImageState = 1;
-        else if (healthBarImageState == 2)
-            healthBarImageState = 3;
-
-        Die();
-
-        // Включение экрана проигрыша, если все игроки мертвы
-        var a = GameObject.FindGameObjectsWithTag("Player");
-        int count = 0;
-        foreach (GameObject player in a)
-            if (!player.GetComponent<Health>().IsAlive())
-                count += 1;
-
-        if (count == a.Length)
-        {
-            loseScreen.RpcEnableLoseScreen();
-            UIContainer.SetActive(false);
-        }
-
-        currentHealth = 0;
+        SetHealth(0);
     }
 
     [Server]
     private void SetHealth(int value)
     {
-        Debug.Log("SETHEalth");
         if (value == 0)
         {
+            alive = false;
+
+            if (healthBarImageState == 0)
+                healthBarImageState = 1;
+            else if (healthBarImageState == 2)
+                healthBarImageState = 3;
+
+            Die();
+
+            // Включение экрана проигрыша, если все игроки мертвы
             if (heartPanel.curHearts == 0)
             {
-                alive = false;
-
-                if (healthBarImageState == 0)
-                    healthBarImageState = 1;
-                else if (healthBarImageState == 2)
-                    healthBarImageState = 3;
-
-                Die();
-
-                // Включение экрана проигрыша, если все игроки мертвы
                 var a = GameObject.FindGameObjectsWithTag("Player");
                 int count = 0;
                 foreach (GameObject player in a)
@@ -96,11 +74,6 @@ public class Health : NetworkBehaviour
                     loseScreen.RpcEnableLoseScreen();
                     UIContainer.SetActive(false);
                 }
-            }
-            else
-            {
-                heartPanel.RemoveHeart();
-                value = maxHealth;
             }
         }
         currentHealth = value;
@@ -187,8 +160,6 @@ public class Health : NetworkBehaviour
         
         string curSceneName = SceneManager.GetActiveScene().name;
 
-        //healthBarImageState = 0;
-
         if (curSceneName.StartsWith("LevelScene"))
         {
             heartPanel = GameObject.Find("HeartPanel").GetComponent<HeartPanel>();
@@ -221,10 +192,6 @@ public class Health : NetworkBehaviour
 
             // Останавливаем свою камеру
             gameObject.GetComponent<PlayerCameraFollow>().StopFollow();
-
-            //loseScreen.CmdEnableLoseScreen();
-
-            Debug.Log("пользователь умер");
         }
     }
 
@@ -286,12 +253,9 @@ public class Health : NetworkBehaviour
 
             gameObject.GetComponent<PlayerProperties>().allowInput = true;
             gameObject.transform.localPosition = spawnPosition;
-            //gameObject.transform.
 
             GameObject.Find("SpectatorPanel").GetComponent<SpectatorMode>().SetSpectatorMode(false);
             CmdFollowCam();
-
-            Debug.Log("пользователь воскрес");
         }
     }
 
