@@ -33,13 +33,13 @@ public class Health : NetworkBehaviour
     }
 
     // Получение урона
-    [Command(ignoreAuthority = true)]
+    [Command(requiresAuthority = false)]
     public void CmdDealDamage(int damage)
     {
         SetHealth(Mathf.Max(currentHealth - damage, 0));
     }
 
-    [Command(ignoreAuthority = true)]
+    [Command(requiresAuthority = false)]
     public void CmdInstantDie()
     {
         alive = false;

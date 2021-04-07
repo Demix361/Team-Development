@@ -5,23 +5,16 @@ using UnityEngine;
 public class CannonBall : MonoBehaviour
 {
     [SerializeField] private Animator _animator;
+    [SerializeField] private float _force;
 
     private int _lifeTime = 10;
     private float _count = 0;
-    private float _speed = 0;
     private bool _exploded = false;
-
-    public void Move(float speed)
-    {
-        _speed = speed;
-    }
 
     void Update()
     {
         if (!_exploded)
         {
-            //transform.position = new Vector3(transform.position.x + _speed, transform.position.y, transform.position.z);
-
             _count += Time.deltaTime;
             if (_count > _lifeTime)
                 Destroy(gameObject);
@@ -38,7 +31,6 @@ public class CannonBall : MonoBehaviour
     {
         if (collision.tag == "Player" || collision.tag == "Tilemap")
         {
-            _speed = 0;
             _exploded = true;
             _count = 0;
             _animator.SetBool("Exploded", true);
@@ -48,6 +40,12 @@ public class CannonBall : MonoBehaviour
             if (collision.tag == "Player")
             {
                 collision.GetComponent<Health>().CmdDealDamage(20);
+
+                var forceVector = new Vector2(collision.transform.position.x - transform.position.x,
+                    collision.transform.position.y - transform.position.y);
+                forceVector.Normalize();
+
+                collision.GetComponent<Rigidbody2D>().AddForce(forceVector * _force);
             }
         }
     }

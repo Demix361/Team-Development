@@ -15,7 +15,7 @@ public class Cannon : NetworkBehaviour
 
     private float count = 0;
 
-    [Command(ignoreAuthority = true)]
+    [Command(requiresAuthority = false)]
     private void CmdShoot()
     {
         RpcShoot();
