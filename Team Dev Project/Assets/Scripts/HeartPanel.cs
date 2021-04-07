@@ -34,12 +34,13 @@ public class HeartPanel : NetworkBehaviour
     private void Start()
     {
         maxHearts = Room.GamePlayers.Count * heartPerPlayer;
-        container.GetComponent<RectTransform>().sizeDelta = new Vector2(20 * maxHearts - 2, 20);
+        float size = heartObject.GetComponent<RectTransform>().rect.width + 8;
+        container.GetComponent<RectTransform>().sizeDelta = new Vector2(size * maxHearts - 2, size);
 
         for (int i = 0; i < maxHearts; i++)
         {
             heartImages.Add(GameObject.Instantiate(heartObject,container.transform).GetComponent<Image>());
-            heartImages[i].GetComponent<RectTransform>().anchoredPosition = new Vector3(20 * i, 0, 0);
+            heartImages[i].GetComponent<RectTransform>().anchoredPosition = new Vector3(size * i, 0, 0);
         }
     }
 
