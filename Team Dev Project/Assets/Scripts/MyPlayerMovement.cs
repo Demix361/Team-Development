@@ -52,8 +52,6 @@ public class MyPlayerMovement : NetworkBehaviour
             OnCrouchEvent = new BoolEvent();
     }
 
-    // Update is called once per frame
-    [Client]
     void Update()
     {
         if (!hasAuthority)
@@ -85,7 +83,6 @@ public class MyPlayerMovement : NetworkBehaviour
         animator.SetBool("IsJumping", false);
     }
 
-    [Client]
     void FixedUpdate()
     {
         bool wasGrounded = m_Grounded;
@@ -106,68 +103,13 @@ public class MyPlayerMovement : NetworkBehaviour
 
         Move(horizontalMove * Time.fixedDeltaTime, false, jump);
         jump = false;
-        //CmdMove();
     }
 
-    [Command]
-    private void CmdMove()
-    {
-        RpcMove();
-    }
-
-    [ClientRpc]
-    private void RpcMove()
-    {
-        Move(horizontalMove * Time.fixedDeltaTime, false, jump);
-        jump = false;
-    }
-
-    [Client]
     public void Move(float move, bool crouch, bool jump)
     {
-        // If crouching, check to see if the character can stand up
-        if (!crouch)
-        {
-            // If the character has a ceiling preventing them from standing up, keep them crouching
-            if (Physics2D.OverlapCircle(m_CeilingCheck.position, k_CeilingRadius, m_WhatIsGround))
-            {
-                crouch = true;
-            }
-        }
-
         //only control the player if grounded or airControl is turned on
         if (m_Grounded || m_AirControl)
         {
-
-            // If crouching
-            if (crouch)
-            {
-                if (!m_wasCrouching)
-                {
-                    m_wasCrouching = true;
-                    OnCrouchEvent.Invoke(true);
-                }
-
-                // Reduce the speed by the crouchSpeed multiplier
-                move *= m_CrouchSpeed;
-
-                // Disable one of the colliders when crouching
-                if (m_CrouchDisableCollider != null)
-                    m_CrouchDisableCollider.enabled = false;
-            }
-            else
-            {
-                // Enable the collider when not crouching
-                if (m_CrouchDisableCollider != null)
-                    m_CrouchDisableCollider.enabled = true;
-
-                if (m_wasCrouching)
-                {
-                    m_wasCrouching = false;
-                    OnCrouchEvent.Invoke(false);
-                }
-            }
-
             // Move the character by finding the target velocity
             Vector3 targetVelocity = new Vector2(move * 10f, m_Rigidbody2D.velocity.y);
             // And then smoothing it out and applying it to the character
@@ -195,7 +137,6 @@ public class MyPlayerMovement : NetworkBehaviour
         }
     }
 
-    [Client]
     private void Flip()
     {
         // Switch the way the player is labelled as facing.

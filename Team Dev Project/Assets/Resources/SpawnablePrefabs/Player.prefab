@@ -447,7 +447,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  runSpeed: 60
+  runSpeed: 30
   playerProperties: {fileID: 5162649996689607747}
   m_JumpForce: 600
   m_CrouchSpeed: 0.36
