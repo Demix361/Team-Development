@@ -449,7 +449,7 @@ MonoBehaviour:
   syncInterval: 0.1
   runSpeed: 30
   playerProperties: {fileID: 5162649996689607747}
-  m_JumpForce: 600
+  m_JumpForce: 700
   m_CrouchSpeed: 0.36
   m_MovementSmoothing: 0.05
   m_AirControl: 1

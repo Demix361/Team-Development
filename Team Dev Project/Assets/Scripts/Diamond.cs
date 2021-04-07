@@ -38,7 +38,7 @@ public class Diamond : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!collected)
+        if (collision.CompareTag("Player") && !collected)
         {
             collision.GetComponent<PlayerNetworkTalker>().CmdIncreaseCollectable(collectableName);
             animator.SetBool("Collected", true);
@@ -55,8 +55,5 @@ public class Diamond : MonoBehaviour
         Color color = spriteRenderer.color;
         color.a = (float)0.5;
         spriteRenderer.color = color;
-
     }
-
-
 }
