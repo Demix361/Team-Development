@@ -16,6 +16,7 @@ jobs:
         targetPlatform:
           - StandaloneWindows64 # Build a Windows 64-bit standalone.
           - StandaloneOSX
+          - StandaloneLinux64
     steps:
       - uses: actions/checkout@v2
         with:
