@@ -84,19 +84,19 @@ public class MovingPlatform : MonoBehaviour
 
         if (_horizontalMovement)
         {
-            Vector3 pointLeft_1 = new Vector3(_leftBottomPoint.position.x, _leftBottomPoint.position.y + 1, 0);
-            Vector3 pointLeft_2 = new Vector3(_leftBottomPoint.position.x, _leftBottomPoint.position.y - 1, 0);
-            Vector3 pointRight_1 = new Vector3(_rightTopPoint.position.x, _rightTopPoint.position.y + 1, 0);
-            Vector3 pointRight_2 = new Vector3(_rightTopPoint.position.x, _rightTopPoint.position.y - 1, 0);
+            Vector3 pointLeft_1 = new Vector3(_leftBottomPoint.position.x, transform.position.y + 1, 0);
+            Vector3 pointLeft_2 = new Vector3(_leftBottomPoint.position.x, transform.position.y - 1, 0);
+            Vector3 pointRight_1 = new Vector3(_rightTopPoint.position.x, transform.position.y + 1, 0);
+            Vector3 pointRight_2 = new Vector3(_rightTopPoint.position.x, transform.position.y - 1, 0);
             Gizmos.DrawLine(pointLeft_1, pointLeft_2);
             Gizmos.DrawLine(pointRight_1, pointRight_2);
         }
         else if (_verticalMovement)
         {
-            Vector3 pointBottom_1 = new Vector3(_leftBottomPoint.position.x + 1, _leftBottomPoint.position.y, 0);
-            Vector3 pointBottom_2 = new Vector3(_leftBottomPoint.position.x - 1, _leftBottomPoint.position.y, 0);
-            Vector3 pointTop_1 = new Vector3(_rightTopPoint.position.x + 1, _rightTopPoint.position.y, 0);
-            Vector3 pointTop_2 = new Vector3(_rightTopPoint.position.x - 1, _rightTopPoint.position.y, 0);
+            Vector3 pointBottom_1 = new Vector3(transform.position.x + 1, _leftBottomPoint.position.y, 0);
+            Vector3 pointBottom_2 = new Vector3(transform.position.x - 1, _leftBottomPoint.position.y, 0);
+            Vector3 pointTop_1 = new Vector3(transform.position.x + 1, _rightTopPoint.position.y, 0);
+            Vector3 pointTop_2 = new Vector3(transform.position.x - 1, _rightTopPoint.position.y, 0);
             Gizmos.DrawLine(pointBottom_1, pointBottom_2);
             Gizmos.DrawLine(pointTop_1, pointTop_2);
         }
