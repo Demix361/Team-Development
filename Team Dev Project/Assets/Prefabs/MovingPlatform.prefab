@@ -39,7 +39,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2374515925793095711}
-  - component: {fileID: 4152280173904998466}
   m_Layer: 0
   m_Name: MovingPlatform
   m_TagString: Untagged
@@ -64,28 +63,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4152280173904998466
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 813213999097006564}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f5fc20482c1c3a43b814c1de40d78ef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _leftBottomPoint: {fileID: 6700602448292558589}
-  _rightTopPoint: {fileID: 6949837531760921144}
-  _rigidBody: {fileID: 7645798268771314659}
-  _horizontalMovement: 1
-  _verticalMovement: 0
-  _horizontalSpeed: 100
-  _verticalSpeed: 0
-  _leftBottomSpritePoint: {fileID: 6096178040732588282}
-  _rightTopSpritePoint: {fileID: 1673536832837753233}
-  m_MovementSmoothing: 0.05
 --- !u!1 &1068275356319010698
 GameObject:
   m_ObjectHideFlags: 0
@@ -101,6 +78,7 @@ GameObject:
   - component: {fileID: 6017988181082649651}
   - component: {fileID: 3432121236097966783}
   - component: {fileID: 2209875990236413436}
+  - component: {fileID: 376703074458822678}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -281,6 +259,30 @@ MonoBehaviour:
   syncAngularVelocity: 1
   clearAngularVelocity: 0
   angularVelocitySensitivity: 0.1
+--- !u!114 &376703074458822678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1068275356319010698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f5fc20482c1c3a43b814c1de40d78ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  _leftBottomPoint: {fileID: 6700602448292558589}
+  _rightTopPoint: {fileID: 6949837531760921144}
+  _rigidBody: {fileID: 7645798268771314659}
+  _horizontalMovement: 1
+  _verticalMovement: 0
+  _horizontalSpeed: 100
+  _verticalSpeed: 0
+  _leftBottomSpritePoint: {fileID: 6096178040732588282}
+  _rightTopSpritePoint: {fileID: 1673536832837753233}
+  m_MovementSmoothing: 0.05
 --- !u!1 &3721353396500916640
 GameObject:
   m_ObjectHideFlags: 0

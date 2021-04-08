@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-public class MovingPlatform : MonoBehaviour
+public class MovingPlatform : NetworkBehaviour
 {
     [SerializeField] private Transform _leftBottomPoint;
     [SerializeField] private Transform _rightTopPoint;
@@ -29,50 +30,54 @@ public class MovingPlatform : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_horizontalMovement)
+        if (isServer)
         {
-            if (_positiveMovement)
+            Debug.Log("hello!");
+            if (_horizontalMovement)
             {
-                if (_rightTopSpritePoint.position.x > _rightTopPoint.position.x)
-                    _positiveMovement = false;
+                if (_positiveMovement)
+                {
+                    if (_rightTopSpritePoint.position.x > _rightTopPoint.position.x)
+                        _positiveMovement = false;
+                    else
+                    {
+                        Vector3 targetVelocity = new Vector2(_horizontalSpeed * Time.fixedDeltaTime, 0);
+                        _rigidBody.velocity = Vector3.SmoothDamp(_rigidBody.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
+                    }
+                }
                 else
                 {
-                    Vector3 targetVelocity = new Vector2(_horizontalSpeed * Time.fixedDeltaTime, 0);
-                    _rigidBody.velocity = Vector3.SmoothDamp(_rigidBody.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
+                    if (_leftBottomSpritePoint.position.x < _leftBottomPoint.position.x)
+                        _positiveMovement = true;
+                    else
+                    {
+                        Vector3 targetVelocity = new Vector2(-_horizontalSpeed * Time.fixedDeltaTime, 0);
+                        _rigidBody.velocity = Vector3.SmoothDamp(_rigidBody.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
+                    }
                 }
             }
-            else
+
+            if (_verticalMovement)
             {
-                if (_leftBottomSpritePoint.position.x < _leftBottomPoint.position.x)
-                    _positiveMovement = true;
-                else
+                if (_positiveMovement)
                 {
-                    Vector3 targetVelocity = new Vector2(- _horizontalSpeed * Time.fixedDeltaTime, 0);
-                    _rigidBody.velocity = Vector3.SmoothDamp(_rigidBody.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
+                    if (_rightTopSpritePoint.position.y > _rightTopPoint.position.y)
+                        _positiveMovement = false;
+                    else
+                    {
+                        Vector3 targetVelocity = new Vector2(0, _verticalSpeed * Time.fixedDeltaTime);
+                        _rigidBody.velocity = Vector3.SmoothDamp(_rigidBody.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
+                    }
                 }
-            }
-        }
-        
-        if (_verticalMovement)
-        {
-            if (_positiveMovement)
-            {
-                if (_rightTopSpritePoint.position.y > _rightTopPoint.position.y)
-                    _positiveMovement = false;
                 else
                 {
-                    Vector3 targetVelocity = new Vector2(0, _verticalSpeed * Time.fixedDeltaTime);
-                    _rigidBody.velocity = Vector3.SmoothDamp(_rigidBody.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
-                }
-            }
-            else
-            {
-                if (_leftBottomSpritePoint.position.y < _leftBottomPoint.position.y)
-                    _positiveMovement = true;
-                else
-                {
-                    Vector3 targetVelocity = new Vector2(0, -_verticalSpeed * Time.fixedDeltaTime);
-                    _rigidBody.velocity = Vector3.SmoothDamp(_rigidBody.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
+                    if (_leftBottomSpritePoint.position.y < _leftBottomPoint.position.y)
+                        _positiveMovement = true;
+                    else
+                    {
+                        Vector3 targetVelocity = new Vector2(0, -_verticalSpeed * Time.fixedDeltaTime);
+                        _rigidBody.velocity = Vector3.SmoothDamp(_rigidBody.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
+                    }
                 }
             }
         }
