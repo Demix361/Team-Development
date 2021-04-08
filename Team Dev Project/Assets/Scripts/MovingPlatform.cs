@@ -38,7 +38,20 @@ public class MovingPlatform : NetworkBehaviour
             _count += Time.deltaTime;
 
             if (_count > _timeOffset)
+            {
                 CmdStartMoving();
+                _count = 0;
+            }
+        }
+        else if (isServer && _startMoving)
+        {
+            _count += Time.deltaTime;
+
+            if (_count > _timeOffset)
+            {
+                CmdCorrectPosition(transform.position);
+                _count = 0;
+            }
         }
     }
 
@@ -93,6 +106,21 @@ public class MovingPlatform : NetworkBehaviour
                     }
                 }
             }
+        }
+    }
+
+    [Command(requiresAuthority = false)]
+    private void CmdCorrectPosition(Vector3 position)
+    {
+        RpcCorrectPosition(position);
+    }
+
+    [ClientRpc]
+    private void RpcCorrectPosition(Vector3 position)
+    {
+        if (!isServer)
+        {
+            transform.position = position;
         }
     }
 
