@@ -21,6 +21,7 @@ public class CheckPoint : NetworkBehaviour
         {
             CmdUnlockCheckpoint();
             CmdAddAllHearts();
+            collision.GetComponent<Health>().CmdHealAllMax();
         }
     }
 

@@ -32,6 +32,19 @@ public class Health : NetworkBehaviour
         SetHealth(maxHealth);
     }
 
+    // Восстановить всем игрокам максимальное здоровье
+    [Command(requiresAuthority = false)]
+    public void CmdHealAllMax()
+    {
+        RpcHealMax();
+    }
+
+    [ClientRpc]
+    public void RpcHealMax()
+    {
+        SetHealth(maxHealth);
+    }
+
     // Получение урона
     [Command(requiresAuthority = false)]
     public void CmdDealDamage(int damage)
