@@ -36,11 +36,21 @@ public class Health : NetworkBehaviour
     [Command(requiresAuthority = false)]
     public void CmdHealAllMax()
     {
-        RpcHealMax();
+        //RpcHealAllMax();
+        foreach (var health in FindObjectsOfType<Health>())
+        {
+            health.SetHealth(maxHealth);
+        }
     }
 
     [ClientRpc]
-    public void RpcHealMax()
+    public void RpcHealAllMax()
+    {
+        CmdHealAllMax();
+    }
+
+    [Command(requiresAuthority = false)]
+    public void CmdHealMax()
     {
         SetHealth(maxHealth);
     }
