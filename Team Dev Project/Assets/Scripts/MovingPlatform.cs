@@ -18,6 +18,9 @@ public class MovingPlatform : NetworkBehaviour
 
     private Vector3 m_Velocity = Vector3.zero;
     private bool _positiveMovement = true;
+    private bool _startMoving = false;
+    private float _timeOffset = 3;
+    private float _count = 0;
 
 
     private void Start()
@@ -28,11 +31,21 @@ public class MovingPlatform : NetworkBehaviour
             _horizontalMovement = false;
     }
 
+    private void Update()
+    {
+        if (isServer && !_startMoving)
+        {
+            _count += Time.deltaTime;
+
+            if (_count > _timeOffset)
+                CmdStartMoving();
+        }
+    }
+
     private void FixedUpdate()
     {
-        if (isServer)
+        if (_startMoving)
         {
-            Debug.Log("hello!");
             if (_horizontalMovement)
             {
                 if (_positiveMovement)
@@ -81,6 +94,18 @@ public class MovingPlatform : NetworkBehaviour
                 }
             }
         }
+    }
+
+    [Command(requiresAuthority = false)]
+    private void CmdStartMoving()
+    {
+        RpcStartMoving();
+    }
+
+    [ClientRpc]
+    private void RpcStartMoving()
+    {
+        _startMoving = true;
     }
 
     private void OnDrawGizmos()
