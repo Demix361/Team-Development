@@ -1,11 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CannonBall : MonoBehaviour
 {
     [SerializeField] private Animator _animator;
     [SerializeField] private float _force;
+    [SerializeField] private float _damage;
 
     private int _lifeTime = 10;
     private float _count = 0;
@@ -29,7 +28,7 @@ public class CannonBall : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Player" || collision.tag == "Tilemap")
+        if ((collision.tag == "Player" || collision.tag == "Tilemap") && _exploded == false)
         {
             _exploded = true;
             _count = 0;
@@ -39,7 +38,7 @@ public class CannonBall : MonoBehaviour
 
             if (collision.tag == "Player")
             {
-                collision.GetComponent<Health>().CmdDealDamage(20);
+                collision.GetComponent<Health>().CmdDealDamage(_damage);
 
                 var forceVector = new Vector2(collision.transform.position.x - transform.position.x,
                     collision.transform.position.y - transform.position.y);

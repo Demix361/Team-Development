@@ -6,18 +6,16 @@ using UnityEngine.SceneManagement;
 public class Health : NetworkBehaviour
 {
     [Header("Settings")]
-    [SerializeField] private int maxHealth = 100;
+    [SerializeField] private float maxHealth = 100;
     [SerializeField] private GameObject UIContainer;
     [SerializeField] private Image healthBarFillImage;
-    [SerializeField] private GameObject HB;
-    [SerializeField] private RectTransform m_RectTransform;
     [SerializeField] private Image healthBarImage;
     [SerializeField] private Sprite healthBarSprite;
     [SerializeField] private Sprite healthBarDeadSprite;
     [SerializeField] private Sprite healthBarSpriteUp;
     [SerializeField] private Sprite healthBarDeadSpriteUp;
     [SyncVar(hook = nameof(SetHealthBarImage))] private int healthBarImageState;
-    [SyncVar(hook =nameof(UpdateHealthBar))] private int currentHealth;
+    [SyncVar(hook =nameof(UpdateHealthBar))] private float currentHealth;
     [SyncVar] [SerializeField] private bool alive;
     [Header("Player UI")]
     [SerializeField] private RectTransform borderRectTransform;
@@ -36,29 +34,17 @@ public class Health : NetworkBehaviour
     [Command(requiresAuthority = false)]
     public void CmdHealAllMax()
     {
-        //RpcHealAllMax();
         foreach (var health in FindObjectsOfType<Health>())
         {
             health.SetHealth(maxHealth);
         }
     }
 
-    [ClientRpc]
-    public void RpcHealAllMax()
-    {
-        CmdHealAllMax();
-    }
-
-    [Command(requiresAuthority = false)]
-    public void CmdHealMax()
-    {
-        SetHealth(maxHealth);
-    }
-
     // Получение урона
     [Command(requiresAuthority = false)]
-    public void CmdDealDamage(int damage)
+    public void CmdDealDamage(float damage)
     {
+        GetComponent<Animator>().SetTrigger("Hit");
         SetHealth(Mathf.Max(currentHealth - damage, 0));
     }
 
@@ -70,7 +56,7 @@ public class Health : NetworkBehaviour
     }
 
     [Server]
-    private void SetHealth(int value)
+    private void SetHealth(float value)
     {
         if (value == 0)
         {
@@ -283,7 +269,7 @@ public class Health : NetworkBehaviour
     }
 
     // hook для обновления полоски здоровья
-    private void UpdateHealthBar(int oldHealth, int newHealth)
+    private void UpdateHealthBar(float oldHealth, float newHealth)
     {
         healthBarFillImage.fillAmount = (float)currentHealth / maxHealth;
     }
@@ -307,11 +293,5 @@ public class Health : NetworkBehaviour
         {
             healthBarImage.sprite = healthBarDeadSpriteUp;
         }
-    }
-
-    // вкл/выкл healthbar
-    public void ToggleHealthBar(bool state)
-    {
-        HB.SetActive(state);
     }
 }

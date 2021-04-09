@@ -6,8 +6,6 @@ using TMPro;
 public class PlayerProperties : NetworkBehaviour
 {
     [Header("Settings")]
-    [SerializeField] private float spikesHitCD;
-    [SerializeField] Animator animator;
     public bool allowInput = true;
     [SerializeField] PlayerNetworkTalker playerNetworkTalker;
 
@@ -17,17 +15,11 @@ public class PlayerProperties : NetworkBehaviour
     [SerializeField] TMP_Text playerNameText;
     [SerializeField] RectTransform playerNameRectTransform;
 
-    private float spikesHitTimer = 0;
-    private Health health;
-    private Rigidbody2D m_Rigidbody2D;
     [SyncVar] public int playerId;
     [SyncVar(hook = nameof(UpdatePlayerName))] public string playerName;
 
     private void Start()
     {
-        health = GetComponent<Health>();
-        m_Rigidbody2D = GetComponent<Rigidbody2D>();
-
         CmdSetPlayerName(GetPlayerName());
 
         if (playerId == 0)
@@ -73,14 +65,6 @@ public class PlayerProperties : NetworkBehaviour
         }
     }
 
-    private void Update()
-    {
-        if (spikesHitTimer > 0)
-        {
-            spikesHitTimer -= Time.deltaTime;
-        }
-    }
-
     private string GetPlayerName()
     {
         foreach (NetworkGamePlayer player in GameObject.FindObjectsOfType<NetworkGamePlayer>())
@@ -103,17 +87,5 @@ public class PlayerProperties : NetworkBehaviour
     private void UpdatePlayerName(string oldValue, string newValue)
     {
         playerNameText.SetText(playerName);
-    }
-
-    public void getHitFromSpikes(int damage)
-    {
-        if (spikesHitTimer <= 0)
-        {
-            health.CmdDealDamage(damage);
-            animator.SetTrigger("Hit");
-            spikesHitTimer = spikesHitCD;
-
-            m_Rigidbody2D.AddForce(new Vector2(0f, - m_Rigidbody2D.velocity.y) * 100);
-        }
     }
 }
