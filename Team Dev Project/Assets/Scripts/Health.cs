@@ -5,24 +5,35 @@ using UnityEngine.SceneManagement;
 
 public class Health : NetworkBehaviour
 {
-    [Header("Settings")]
+    [Header("Health")]
     [SerializeField] private float maxHealth = 100;
+    //[SyncVar] [SerializeField] private bool alive;
+
+    [Header("UI Border")]
     [SerializeField] private GameObject UIContainer;
-    [SerializeField] private Image healthBarFillImage;
     [SerializeField] private Image healthBarImage;
     [SerializeField] private Sprite healthBarSprite;
     [SerializeField] private Sprite healthBarDeadSprite;
     [SerializeField] private Sprite healthBarSpriteUp;
     [SerializeField] private Sprite healthBarDeadSpriteUp;
+    [SerializeField] private RectTransform borderRectTransform;
+
+    [Header("UI Fill")]
+    [SerializeField] private Image healthBarFillImage;
+    [SerializeField] private Image _healthBarFillFollowImage;
+    [SerializeField] private RectTransform fillRectTransform;
+    [SerializeField] private RectTransform fillBackgroundRectTransform;
+    [SerializeField] private RectTransform fillFollowRectTransform;
+    [SerializeField] private float _fillFollowDelay;
+    [SerializeField] private float _fillFollowSpeed;
+
+    [SyncVar] private bool alive = true;
     [SyncVar(hook = nameof(SetHealthBarImage))] private int healthBarImageState;
     [SyncVar(hook =nameof(UpdateHealthBar))] private float currentHealth;
-    [SyncVar] [SerializeField] private bool alive;
-    [Header("Player UI")]
-    [SerializeField] private RectTransform borderRectTransform;
-    [SerializeField] private RectTransform fillRectTransform;
     private HeartPanel heartPanel;
     private SpectatorMode spectatorPanel;
     private LoseScreen loseScreen;
+    private float _fillFollowTimer = 0;
 
     // Server start
     public override void OnStartServer()
@@ -147,13 +158,22 @@ public class Health : NetworkBehaviour
             borderRectTransform.localScale = temp;
             temp = fillRectTransform.localScale;
             temp.x = -temp.x;
+
             fillRectTransform.localScale = temp;
+            fillBackgroundRectTransform.localScale = temp;
+            fillFollowRectTransform.localScale = temp;
+
             fillRectTransform.anchoredPosition = new Vector2(-fillRectTransform.anchoredPosition.x, fillRectTransform.anchoredPosition.y);
+            fillBackgroundRectTransform.anchoredPosition = new Vector2(-fillBackgroundRectTransform.anchoredPosition.x, fillBackgroundRectTransform.anchoredPosition.y);
+            fillFollowRectTransform.anchoredPosition = new Vector2(-fillFollowRectTransform.anchoredPosition.x, fillFollowRectTransform.anchoredPosition.y);
         }
         else if (id == 2)
         {
             CmdChangeHealthbarSprite(2);
+
             fillRectTransform.anchoredPosition = new Vector2(fillRectTransform.anchoredPosition.x, -fillRectTransform.anchoredPosition.y);
+            fillBackgroundRectTransform.anchoredPosition = new Vector2(fillBackgroundRectTransform.anchoredPosition.x, -fillBackgroundRectTransform.anchoredPosition.y);
+            fillFollowRectTransform.anchoredPosition = new Vector2(fillFollowRectTransform.anchoredPosition.x, -fillFollowRectTransform.anchoredPosition.y);
         }
         else if (id == 3)
         {
@@ -163,8 +183,14 @@ public class Health : NetworkBehaviour
             borderRectTransform.localScale = temp;
             temp = fillRectTransform.localScale;
             temp.x = -temp.x;
+
             fillRectTransform.localScale = temp;
+            fillBackgroundRectTransform.localScale = temp;
+            fillFollowRectTransform.localScale = temp;
+
             fillRectTransform.anchoredPosition = new Vector2(-fillRectTransform.anchoredPosition.x, -fillRectTransform.anchoredPosition.y);
+            fillBackgroundRectTransform.anchoredPosition = new Vector2(-fillBackgroundRectTransform.anchoredPosition.x, -fillBackgroundRectTransform.anchoredPosition.y);
+            fillFollowRectTransform.anchoredPosition = new Vector2(-fillFollowRectTransform.anchoredPosition.x, -fillFollowRectTransform.anchoredPosition.y);
         }
         
         string curSceneName = SceneManager.GetActiveScene().name;
@@ -272,6 +298,30 @@ public class Health : NetworkBehaviour
     private void UpdateHealthBar(float oldHealth, float newHealth)
     {
         healthBarFillImage.fillAmount = (float)currentHealth / maxHealth;
+
+        if (newHealth > oldHealth)
+        {
+            _healthBarFillFollowImage.fillAmount = healthBarFillImage.fillAmount;
+        }
+        else
+        {
+            _fillFollowTimer = _fillFollowDelay;
+        }
+    }
+
+    private void Update()
+    {
+        if (_fillFollowTimer > 0)
+        {
+            _fillFollowTimer -= Time.deltaTime;
+        }
+        else
+        {
+            if (_healthBarFillFollowImage.fillAmount > healthBarFillImage.fillAmount)
+            {
+                _healthBarFillFollowImage.fillAmount -= _fillFollowSpeed;
+            }
+        }
     }
 
     // hook для смены спрайта healthbar'а
