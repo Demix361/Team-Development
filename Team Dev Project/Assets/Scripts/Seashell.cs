@@ -36,11 +36,11 @@ public class Seashell : NetworkBehaviour
                 {
                     if (transform.localScale.x > 0 && colliders[i].transform.position.x > transform.position.x)
                     {
-                        Flip();
+                        CmdFlip();
                     }
                     else if (transform.localScale.x < 0 && colliders[i].transform.position.x < transform.position.x)
                     {
-                        Flip();
+                        CmdFlip();
                     }
 
                     if (_counter > _biteInterval)
@@ -76,7 +76,14 @@ public class Seashell : NetworkBehaviour
         _animator.SetTrigger("Bite");
     }
 
-    private void Flip()
+    [Command]
+    private void CmdFlip()
+    {
+        RpcFlip();
+    }
+
+    [ClientRpc]
+    private void RpcFlip()
     {
         transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, 1);
     }
