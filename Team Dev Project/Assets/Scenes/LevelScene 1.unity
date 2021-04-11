@@ -46060,7 +46060,7 @@ PrefabInstance:
     - target: {fileID: 183978299559840156, guid: 147fa8dfc518cc34e9b18299f036d419,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.575
+      value: 1.572
       objectReference: {fileID: 0}
     - target: {fileID: 183978299559840156, guid: 147fa8dfc518cc34e9b18299f036d419,
         type: 3}
@@ -46106,6 +46106,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Seashell (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6542770602088307979, guid: 147fa8dfc518cc34e9b18299f036d419,
+        type: 3}
+      propertyPath: m_FlipX
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7993886980263998401, guid: 147fa8dfc518cc34e9b18299f036d419,
         type: 3}
