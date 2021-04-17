@@ -55,8 +55,15 @@ public class Health : NetworkBehaviour
     [Command(requiresAuthority = false)]
     public void CmdDealDamage(float damage)
     {
-        GetComponent<Animator>().SetTrigger("Hit");
+        //GetComponent<Animator>().SetTrigger("Hit");
+        RpcHitAnimation();
         SetHealth(Mathf.Max(currentHealth - damage, 0));
+    }
+
+    [ClientRpc]
+    private void RpcHitAnimation()
+    {
+        GetComponent<Animator>().SetTrigger("Hit");
     }
 
     // Получение максимального урона
