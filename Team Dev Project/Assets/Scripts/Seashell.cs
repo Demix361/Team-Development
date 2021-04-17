@@ -11,72 +11,125 @@ public class Seashell : NetworkBehaviour
     [SerializeField] private Transform _closeColliderPoint2;
     [SerializeField] private LayerMask _layerMask;
     [SerializeField] private Animator _animator;
-    [SerializeField] private float _shootInterval;
+    
+    [Header("Bite")]
     [SerializeField] private float _biteInterval;
+    [SerializeField] private float _biteDamage;
+    [SerializeField] private float _biteAnimationDuration;
 
     [Header("Pearl")]
+    [SerializeField] private float _shootInterval;
     [SerializeField] private GameObject _pearlPrefab;
     [SerializeField] private Transform _pearlSpawnPoint;
     [SerializeField] private float _pearlShootForce;
+    [SerializeField] private float _shootOffset;
 
-    private float _counter;
+    private float _shootCounter;
+    private float _biteCounter;
     private bool _haveBitten;
+    private bool _animationStarted;
+    private bool _delayedShot;
 
     private void Update()
     {
         if (isServer)
         {
-            _counter += Time.deltaTime;
+            _biteCounter += Time.deltaTime;
+            _shootCounter += Time.deltaTime;
             _haveBitten = false;
 
             Collider2D[] colliders = Physics2D.OverlapAreaAll(_closeColliderPoint1.position, _closeColliderPoint2.position, _layerMask);
-            for (int i = 0; i < colliders.Length; i++)
+            if (colliders.Length > 0)
             {
-                if (colliders[i].CompareTag("Player"))
+                Collider2D closestCollider = colliders[0];
+                foreach (var c in colliders)
                 {
-                    if (transform.localScale.x > 0 && colliders[i].transform.position.x > transform.position.x)
+                    if (Mathf.Abs(c.transform.position.x - transform.position.x) < Mathf.Abs(closestCollider.transform.position.x - transform.position.x))
                     {
-                        CmdFlip();
-                    }
-                    else if (transform.localScale.x < 0 && colliders[i].transform.position.x < transform.position.x)
-                    {
-                        CmdFlip();
-                    }
-
-                    if (_counter > _biteInterval)
-                    {
-                        _counter = 0;
-                        Bite();
-                        _haveBitten = true;
+                        closestCollider = c;
                     }
                 }
+
+                // Turning around if closest player is behind
+                if (transform.localScale.x > 0 && closestCollider.transform.position.x > transform.position.x)
+                    CmdFlip();
+                else if (transform.localScale.x < 0 && closestCollider.transform.position.x < transform.position.x)
+                    CmdFlip();
+
+                // Starting bite animation
+                if (_biteCounter > _biteInterval && !_animationStarted)
+                {
+                    _biteCounter = 0;
+                    _animationStarted = true;
+
+                    for (int i = 0; i < colliders.Length; i++)
+                    {
+                        if (transform.localScale.x > 0 && colliders[i].transform.position.x < transform.position.x ||
+                            transform.localScale.x < 0 && colliders[i].transform.position.x > transform.position.x)
+                        {
+                            CmdBite();
+                        }
+                    }
+                }
+
+                // Biting player at the end of animation if he is still in hitbox
+                if (_biteCounter > _biteAnimationDuration && _animationStarted)
+                {
+                    if (_biteCounter < _biteAnimationDuration + 0.1)
+                    {
+                        for (int i = 0; i < colliders.Length; i++)
+                        {
+                            if (transform.localScale.x > 0 && colliders[i].transform.position.x < transform.position.x ||
+                                transform.localScale.x < 0 && colliders[i].transform.position.x > transform.position.x)
+                            {
+                                colliders[i].GetComponent<Health>().CmdDealDamage(0);
+                            }
+                        }
+                    }
+
+                    _biteCounter = 0;
+                    _animationStarted = false;
+                }
+
+                _haveBitten = true;
             }
 
             colliders = Physics2D.OverlapAreaAll(_rangeColliderPoint1.position, _rangeColliderPoint2.position, _layerMask);
-            for (int i = 0; i < colliders.Length; i++)
+            
+            // Shooting
+            if (colliders.Length > 0)
             {
-                if (colliders[i].CompareTag("Player"))
+                if (_shootCounter > _shootInterval && !_haveBitten)
                 {
-                    if (_counter > _shootInterval && _haveBitten == false)
-                    {
-                        _counter = 0;
+                    _shootCounter = 0;
+                    //CmdShoot();
+                    _delayedShot = true;
+                }
+
+                if (_shootCounter  > _shootOffset && !_haveBitten &&_delayedShot)
+                {
+                    if (_shootCounter < _shootOffset + 0.1)
                         CmdShoot();
-                    }
+                    _shootCounter = 0;
+                    _delayedShot = false;
                 }
             }
-
-            
-
-
         }
     }
 
-    private void Bite()
+    [Command(requiresAuthority = false)]
+    private void CmdBite()
+    {
+        RpcBite();
+    }
+
+    [ClientRpc]
+    private void RpcBite()
     {
         _animator.SetTrigger("Bite");
     }
 
-    [Command]
+    [Command(requiresAuthority = false)]
     private void CmdFlip()
     {
         RpcFlip();

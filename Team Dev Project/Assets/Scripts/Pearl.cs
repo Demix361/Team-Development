@@ -38,7 +38,7 @@ public class Pearl : MonoBehaviour
 
             if (collision.tag == "Player")
             {
-                collision.GetComponent<Health>().CmdDealDamage(_damage);
+                collision.GetComponent<Health>().CmdDealDamage(0);
 
                 var forceVector = new Vector2(collision.transform.position.x - transform.position.x,
                     collision.transform.position.y - transform.position.y);

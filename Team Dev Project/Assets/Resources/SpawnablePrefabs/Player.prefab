@@ -375,7 +375,7 @@ GameObject:
   - component: {fileID: 8307238250168517563}
   - component: {fileID: 5162649996689607747}
   - component: {fileID: 1346596236010090619}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -686,8 +686,6 @@ MonoBehaviour:
   syncInterval: 0.1
   maxHealth: 100
   UIContainer: {fileID: 3626707036292037224}
-  healthBarFillImage: {fileID: 8417275203151538378}
-  _healthBarFillFollowImage: {fileID: 470270334607199809}
   healthBarImage: {fileID: 8417275203151538379}
   healthBarSprite: {fileID: 21300000, guid: 967ea38d19fe1124a96456bd0ec0d17d, type: 3}
   healthBarDeadSprite: {fileID: 21300000, guid: 4795abd9eaf1bf144ae170d66ac928b9,
@@ -695,8 +693,9 @@ MonoBehaviour:
   healthBarSpriteUp: {fileID: 21300000, guid: 7caf6a11e11905643b098cb542fc4a1e, type: 3}
   healthBarDeadSpriteUp: {fileID: 21300000, guid: f4de92f1785fcac479f1c6424a6da862,
     type: 3}
-  alive: 1
   borderRectTransform: {fileID: 8417275203151538320}
+  healthBarFillImage: {fileID: 8417275203151538378}
+  _healthBarFillFollowImage: {fileID: 470270334607199809}
   fillRectTransform: {fileID: 8417275203151538323}
   fillBackgroundRectTransform: {fileID: 5246906558801524491}
   fillFollowRectTransform: {fileID: 3983415178292785755}

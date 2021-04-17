@@ -235,14 +235,17 @@ MonoBehaviour:
   _closeColliderPoint2: {fileID: 6980981911962683820}
   _layerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 1024
   _animator: {fileID: 9101264257737568291}
-  _shootInterval: 1
   _biteInterval: 1
+  _biteDamage: 15
+  _biteAnimationDuration: 0.35
+  _shootInterval: 1.5
   _pearlPrefab: {fileID: 8458393099990717794, guid: 30e78f52c25a9a94bb29eb1ea3a08c39,
     type: 3}
   _pearlSpawnPoint: {fileID: 763608887049547858}
   _pearlShootForce: 100
+  _shootOffset: 0.7
 --- !u!1 &4523846311873850851
 GameObject:
   m_ObjectHideFlags: 0
