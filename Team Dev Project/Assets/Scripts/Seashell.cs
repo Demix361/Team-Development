@@ -82,7 +82,7 @@ public class Seashell : NetworkBehaviour
                             if (transform.localScale.x > 0 && colliders[i].transform.position.x < transform.position.x ||
                                 transform.localScale.x < 0 && colliders[i].transform.position.x > transform.position.x)
                             {
-                                colliders[i].GetComponent<Health>().CmdDealDamage(0);
+                                colliders[i].GetComponent<Health>().CmdDealDamage(_biteDamage);
                             }
                         }
                     }
