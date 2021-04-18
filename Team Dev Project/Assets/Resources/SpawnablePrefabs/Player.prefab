@@ -785,7 +785,7 @@ MonoBehaviour:
   _attackColliderPoint2: {fileID: 2681251857302549030}
   _layerMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 2048
   _damage: 30
 --- !u!1 &5897650791369918673
 GameObject:

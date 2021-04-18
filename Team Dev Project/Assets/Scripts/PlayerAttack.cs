@@ -20,9 +20,16 @@ public class PlayerAttack : NetworkBehaviour
         if (_playerProperties.allowInput && Input.GetButtonDown("Attack"))
         {
             _animator.SetTrigger("Attack");
-            Debug.Log("Attack");
 
             Collider2D[] colliders = Physics2D.OverlapAreaAll(_attackColliderPoint1.position, _attackColliderPoint2.position, _layerMask);
+            foreach (var collider in colliders)
+            {
+                EnemyHealth enemyHealth = collider.GetComponent<EnemyHealth>();
+                if (enemyHealth)
+                {
+                    enemyHealth.CmdDealDamage(_damage);
+                }
+            }
         }
     }
     

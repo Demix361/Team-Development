@@ -6,13 +6,21 @@ using Mirror;
 public class EnemyHealth : NetworkBehaviour
 {
     [SerializeField] private float _maxHealth;
+    [SerializeField] private bool _invincible = false;
     [SyncVar] private float _currentHealth;
 
+    public override void OnStartServer()
+    {
+        SetHealth(_maxHealth);
+    }
 
     // Получение урона
     [Command(requiresAuthority = false)]
     public void CmdDealDamage(float damage)
     {
+        if (_invincible)
+            return;
+
         RpcHitAnimation();
         SetHealth(Mathf.Max(_currentHealth - damage, 0));
     }
