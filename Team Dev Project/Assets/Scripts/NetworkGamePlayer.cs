@@ -37,18 +37,6 @@ public class NetworkGamePlayer : NetworkBehaviour
         }
     }
 
-    private void Update()
-    {
-        if (Input.GetButtonDown("Interact"))
-        {
-            Debug.Log($"levelID: {levelID}");
-        }
-        if (Input.GetButtonDown("DevButton"))
-        {
-            CmdChangeScene("HubScene");
-        }
-    }
-
     public override void OnStartClient()
     {
         DontDestroyOnLoad(gameObject);
@@ -89,7 +77,6 @@ public class NetworkGamePlayer : NetworkBehaviour
         {
             collectables.Add(collName, 1);
         }
-        Debug.Log($"{collName}: {collectables[collName]}");
     }
 
 
@@ -120,8 +107,6 @@ public class NetworkGamePlayer : NetworkBehaviour
         }
 
         SS.SaveGame(newLevelInfo);
-
-        Debug.Log($"[{displayName}] : LEVELS SAVED");
     }
 
     public void UnlockDoors()
@@ -139,8 +124,6 @@ public class NetworkGamePlayer : NetworkBehaviour
                 door.SetLock(!levelInfo.unlockedLevels[door.doorID]);
             }
         }
-
-        Debug.Log($"[{displayName}] : DOORS UNLOCKED");
     }
 
     public void SaveGems()
@@ -232,8 +215,6 @@ public class NetworkGamePlayer : NetworkBehaviour
         SS.SaveGems(levelID, newGemInfo);
 
         SS.SaveCollectables(collData);
-
-        Debug.Log($"[{displayName}] : GEMS SAVED");
     }
 
     public void SetGems()
@@ -275,8 +256,6 @@ public class NetworkGamePlayer : NetworkBehaviour
                 }
             }
         }
-
-        Debug.Log($"[{displayName}] : GEMS SET");
     }
 
     public void UpdateCollectables()

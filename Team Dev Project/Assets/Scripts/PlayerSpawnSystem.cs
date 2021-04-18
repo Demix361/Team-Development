@@ -60,10 +60,6 @@ public class PlayerSpawnSystem : NetworkBehaviour
 
         Transform spawnPoint = spawnPoints.ElementAtOrDefault(nextIndex);
 
-        var a = conn.clientOwnedObjects;
-
-        Debug.Log(a);
-
         if (spawnPoint == null)
         {
             Debug.LogError($"Missing spawn point for player {nextIndex}");
