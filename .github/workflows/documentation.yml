@@ -1,6 +1,9 @@
-
+name: docs
 
 on: [push, pull_request]
 
-- name: Doxygen Action
-  uses: mattnotmitt/doxygen-action@v1.3.0
+jobs:
+  createDocumentation:
+    name: Doxygen Action
+    steps:
+      - uses: mattnotmitt/doxygen-action@v1.3.0
