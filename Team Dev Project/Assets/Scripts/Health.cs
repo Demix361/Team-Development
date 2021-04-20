@@ -3,6 +3,10 @@ using UnityEngine.UI;
 using Mirror;
 using UnityEngine.SceneManagement;
 
+
+/// <summary>
+/// Класс здоровья игрока.
+/// </summary>
 public class Health : NetworkBehaviour
 {
     [Header("Health")]
