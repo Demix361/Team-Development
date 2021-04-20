@@ -787,6 +787,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2048
   _damage: 30
+  _interval: 0.5
 --- !u!1 &5897650791369918673
 GameObject:
   m_ObjectHideFlags: 0

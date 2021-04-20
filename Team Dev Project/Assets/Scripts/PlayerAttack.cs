@@ -11,15 +11,21 @@ public class PlayerAttack : NetworkBehaviour
     [SerializeField] private Transform _attackColliderPoint2;
     [SerializeField] private LayerMask _layerMask;
     [SerializeField] private float _damage;
+    [SerializeField] private float _interval;
+
+    private float _count = 0;
 
     private void Update()
     {
         if (!hasAuthority)
             return;
 
-        if (_playerProperties.allowInput && Input.GetButtonDown("Attack"))
+        _count += Time.deltaTime;
+
+        if (_playerProperties.allowInput && Input.GetButtonDown("Attack") && _count > _interval)
         {
             _animator.SetTrigger("Attack");
+            _count = 0;
 
             Collider2D[] colliders = Physics2D.OverlapAreaAll(_attackColliderPoint1.position, _attackColliderPoint2.position, _layerMask);
             foreach (var collider in colliders)
