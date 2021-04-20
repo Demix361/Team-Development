@@ -31,7 +31,6 @@ public class Chest : NetworkBehaviour
 
                 if (collision.GetComponent<PlayerNetworkTalker>().IsLocal())
                 {
-                    Debug.Log("Here");
                     //collision.GetComponent<PlayerNetworkTalker>().CmdOpenChest(chestID);
                     CmdOpenChest();
                 }

@@ -26,7 +26,6 @@ public class Popup : MonoBehaviour
             needCount = false;
             counter = 0;
         }
-        Debug.Log($"POPUP {state}");
     }
 
     private void Update()
@@ -34,7 +33,7 @@ public class Popup : MonoBehaviour
         if (needCount)
         {
             counter += Time.deltaTime;
-            Debug.Log(counter);
+
             if (counter > popupDelay)
             {
                 popupSprite.SetActive(true);

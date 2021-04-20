@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 763608887049547858}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PearlSpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39,7 +39,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5950830221741188205}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: RangeColliderPoint1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -69,7 +69,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2040591829844361115}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: CloseColliderPoint1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -103,7 +103,9 @@ GameObject:
   - component: {fileID: 9101264257737568291}
   - component: {fileID: 7993886980263998401}
   - component: {fileID: 1618605134440813176}
-  m_Layer: 0
+  - component: {fileID: 8236104864020543159}
+  - component: {fileID: 6647115216414686195}
+  m_Layer: 11
   m_Name: Seashell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -246,6 +248,48 @@ MonoBehaviour:
   _pearlSpawnPoint: {fileID: 763608887049547858}
   _pearlShootForce: 100
   _shootOffset: 0.7
+--- !u!114 &8236104864020543159
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4098476377292193952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e182bb0a9369edc49ac0a62da2681323, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  _maxHealth: 80
+  _invincible: 0
+--- !u!61 &6647115216414686195
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4098476377292193952}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.009806991, y: -0.080417246}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.48, y: 0.38}
+    newSize: {x: 0.48, y: 0.38}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.3270111, y: 0.2191655}
+  m_EdgeRadius: 0
 --- !u!1 &4523846311873850851
 GameObject:
   m_ObjectHideFlags: 0
@@ -255,7 +299,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3600386142735792876}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: RangeColliderPoint2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -285,7 +329,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6980981911962683820}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: CloseColliderPoint2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
