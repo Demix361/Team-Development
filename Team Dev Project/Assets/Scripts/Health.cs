@@ -274,13 +274,13 @@ public class Health : NetworkBehaviour
             GameObject checkpoint = null;
             foreach (GameObject cp in checkpoints)
             {
-                if (cp.GetComponent<CheckPoint>().unlocked)
+                if (cp.GetComponent<CheckPoint>()._unlocked)
                 {
                     if (checkpoint == null)
                     {
                         checkpoint = cp;
                     }
-                    else if (cp.GetComponent<CheckPoint>().checkpointID > checkpoint.GetComponent<CheckPoint>().checkpointID)
+                    else if (cp.GetComponent<CheckPoint>()._checkpointID > checkpoint.GetComponent<CheckPoint>()._checkpointID)
                     {
                         checkpoint = cp;
                     }
@@ -293,7 +293,7 @@ public class Health : NetworkBehaviour
             }
             else
             {
-                spawnPosition = checkpoint.GetComponent<CheckPoint>().spawnPoint.position;
+                spawnPosition = checkpoint.GetComponent<CheckPoint>()._spawnPoint.position;
             }
             spawnPosition = new Vector3(spawnPosition.x, spawnPosition.y, 0);
 
