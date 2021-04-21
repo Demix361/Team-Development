@@ -1,15 +1,42 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Класс пушечного ядра.
+/// </summary>
+/// <remarks>
+/// Пушечное ядро, взрывающееся при столкновении с игроком или картой. Наносит урон и отталкивает игрока.
+/// </remarks>
 public class CannonBall : MonoBehaviour
 {
+    /// <summary>
+    /// Аниматор пушечного ядра.
+    /// </summary>
     [SerializeField] private Animator _animator;
+    /// <summary>
+    /// Сила, с которой ядро ооталкивает игрока.
+    /// </summary>
     [SerializeField] private float _force;
+    /// <summary>
+    /// Урон, наносимый игроку.
+    /// </summary>
     [SerializeField] private float _damage;
 
+    /// <summary>
+    /// Время, после которого ядро будет уничтожено.
+    /// </summary>
     private int _lifeTime = 10;
+    /// <summary>
+    /// Таймер.
+    /// </summary>
     private float _count = 0;
+    /// <summary>
+    /// Взорвалось ли ядро.
+    /// </summary>
     private bool _exploded = false;
 
+    /// <summary>
+    /// Уничтожает ядро с задержкой при взрыве или моментально по истечении <see cref="_lifeTime"/>.
+    /// </summary>
     void Update()
     {
         if (!_exploded)
@@ -26,6 +53,10 @@ public class CannonBall : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Взрывает ядро при столкновении с картой или игроком. При столкновении с игроком, наносит ему урон и отталкивает его.
+    /// </summary>
+    /// <param name="collision">Collider2D объекта, вошедшего в триггер.</param>
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if ((collision.tag == "Player" || collision.tag == "Tilemap") && _exploded == false)
