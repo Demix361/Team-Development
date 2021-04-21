@@ -5,6 +5,9 @@ using System.Linq;
 /// <summary>
 /// Класс системы появления игровых персонажей.
 /// </summary>
+/// <remarks>
+/// Назначение и удаления точек появление персонажей и манипуляции над этими точками.
+/// </remarks>
 public class PlayerSpawnSystem : NetworkBehaviour
 {
     /// <summary>
