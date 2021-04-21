@@ -1,13 +1,12 @@
 ﻿using Steamworks;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
+/// <summary>
+/// Класс, отвечающий за взаимодействие с Steamworks
+/// </summary>
 public class SteamLobby : MonoBehaviour
 {
-    //[SerializeField] private RoomsCanvases _roomsCanvases;
-
     private const string HostAddressKey = "HostAddress";
     public static CSteamID LobbyId { get; private set; }
 
@@ -27,6 +26,9 @@ public class SteamLobby : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Назначает функции обратного вызова.
+    /// </summary>
     private void Start()
     {
         if (!SteamManager.Initialized)
@@ -36,20 +38,29 @@ public class SteamLobby : MonoBehaviour
         lobbyEntered = Callback<LobbyEnter_t>.Create(OnLobbyEntered);
     }
 
+    /// <summary>
+    /// Создает Steam-лобби.
+    /// </summary>
     public void HostLobby()
     {
         SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypePublic, Room.maxConnections);
     }
 
+    /// <summary>
+    /// Вызовите, чтобы покинуть лобби.
+    /// </summary>
     public void LeaveLobby()
     {
         if (LobbyId == null)
             return;
 
         SteamMatchmaking.LeaveLobby(LobbyId);
-        Debug.Log("Left Lobby");
     }
 
+    /// <summary>
+    /// Вызывается после создания лобби. Запускает Host.
+    /// </summary>
+    /// <param name="callback">Callback типа LobbyCreated_t</param>
     private void OnLobbyCreated(LobbyCreated_t callback)
     {
         if (callback.m_eResult != EResult.k_EResultOK)
@@ -65,11 +76,19 @@ public class SteamLobby : MonoBehaviour
         SteamMatchmaking.SetLobbyData(LobbyId, HostAddressKey, SteamUser.GetSteamID().ToString());
     }
 
+    /// <summary>
+    /// Вызывается после запроса на присоединение к лобби, присоединяет к лобби.
+    /// </summary>
+    /// <param name="callback">Callback типа GameLobbyJoinRequested_t</param>
     private void OnGameLobbyJoinRequested(GameLobbyJoinRequested_t callback)
     {
         SteamMatchmaking.JoinLobby(callback.m_steamIDLobby);
     }
 
+    /// <summary>
+    /// Вызывается после присоединения к лобби.
+    /// </summary>
+    /// <param name="callback">Callback типа LobbyEnter_t</param>
     private void OnLobbyEntered(LobbyEnter_t callback)
     {
         if (NetworkServer.active)
