@@ -1,15 +1,44 @@
 ﻿using UnityEngine;
 
+
+/// <summary>
+/// Класс жемчужин.
+/// </summary>
+/// <remarks>
+/// Жемчужины вылетают и при столкновении с игроком отталкивают на заданное расстояние и наносят заданный урон.
+/// </remarks>
 public class Pearl : MonoBehaviour
 {
+    /// <summary>
+    /// Cила отталкивания.
+    /// </summary>
     [SerializeField] private float _force;
+    /// <summary>
+    /// Урон при попадании.
+    /// </summary>
     [SerializeField] private float _damage;
+
+    /// <summary>
+    /// Аниматор жемчужины. 
+    /// </summary>
     [SerializeField] private Animator _animator;
 
+    /// <summary>
+    /// Время жизни. 
+    /// </summary>
     private int _lifeTime = 10;
+    /// <summary>
+    /// Счетчик.
+    /// </summary>
     private float _count = 0;
+    /// <summary>
+    /// Состояние разрушенности
+    /// </summary>
     private bool _destroyed = false;
 
+    /// <summary>
+    /// Разрушает игровой объект по истечению времени
+    /// </summary>
     private void Update()
     {
         if (!_destroyed)
@@ -26,6 +55,10 @@ public class Pearl : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Определяет направления выталкивания
+    /// </summary>
+    /// <param name="collision">Collider2D объекта, входящего в триггере.</param>
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if ((collision.tag == "Player" || collision.tag == "Tilemap") && _destroyed == false)
