@@ -1,28 +1,43 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
 
+/// <summary>
+/// Класс статистики уровня.
+/// </summary>
 public class LevelStats : MonoBehaviour
 {
+    /// <summary>
+    /// Текстовое поле названия уровня.
+    /// </summary>
     [SerializeField]
-    /// Текстовое поле
     private TMP_Text levelName;
+    /// <summary>
+    /// Текстовое поле красных камней.
+    /// </summary>
     [SerializeField]
-    /// Текстовое поле красных камней
     private TMP_Text redGemsText;
+    /// <summary>
+    /// Текстовое поле зеленых камней.
+    /// </summary>
     [SerializeField]
-    /// Текстовое поле зеленых камней
     private TMP_Text greenGemsText;
+    /// <summary>
+    /// Текстовое поле синих камней.
+    /// </summary>
     [SerializeField]
-    /// Текстовое поле синих камней
     private TMP_Text blueGemsText;
-    /// Метод установки имени уровня
+
+    /// <summary>
+    /// Метод установки имени уровня.
+    /// </summary>
     public void SetLevelName(string levelName)
     {
         this.levelName.SetText(levelName);
     }
-     /// Метод установки камней
+
+    /// <summary>
+    /// Метод установки камней.
+    /// </summary>
     public void SetGems(int levelID, string playerName)
     {
         SaveSystem SS = new SaveSystem(playerName);
