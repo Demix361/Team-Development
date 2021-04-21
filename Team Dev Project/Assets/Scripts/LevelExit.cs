@@ -1,17 +1,32 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Класс объекта выхода с уровня.
+/// </summary>
 public class LevelExit : MonoBehaviour
 {
-    /// Объект экрана завершения игры
+    /// <summary>
+    /// Объект экрана завершения игры.
+    /// </summary>
     [SerializeField] private GameObject endScreen;
-    /// Объект всплывающего уведомления
+    /// <summary>
+    /// Объект всплывающего уведомления.
+    /// </summary>
     [SerializeField] private Popup popup;
 
-    /// Объект общения с сервером
+    /// <summary>
+    /// Объект общения с сервером.
+    /// </summary>
     private PlayerNetworkTalker playerNetworkTalker;
-    /// Свойства игрока
+    /// <summary>
+    /// Свойства игрока.
+    /// </summary>
     private PlayerProperties playerProperties;
 
+    /// <summary>
+    /// Включение экрана прохождения уровня.
+    /// </summary>
+    /// <param name="collision"></param>
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (Input.GetButton("Interact"))
@@ -28,7 +43,10 @@ public class LevelExit : MonoBehaviour
             playerNetworkTalker.CmdSaveGems();
         }
     }
-    /// Метод смены сцены при нажатии кнопки
+
+    /// <summary>
+    /// Метод смены сцены при нажатии кнопки.
+    /// </summary>
     public void ButtonOK()
     {   
         if (playerProperties)
@@ -38,12 +56,20 @@ public class LevelExit : MonoBehaviour
         playerNetworkTalker.CmdChangeScene("HubScene");
     }
 
+    /// <summary>
+    /// Активирует всплывающее уведомление, при вхождении игрока в триггер.
+    /// </summary>
+    /// <param name="collision">Collider2D объекта, вошедшего в триггер.</param>
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Player")
             popup.SetPopup(true);
     }
 
+    /// <summary>
+    /// Деактивирует всплывающее уведомление, при выходе игрока из триггера.
+    /// </summary>
+    /// <param name="collision">Collider2D объекта, вышедшего в триггер.</param>
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Player")
