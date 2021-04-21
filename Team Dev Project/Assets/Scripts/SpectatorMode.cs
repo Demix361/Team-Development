@@ -7,7 +7,7 @@ using UnityEngine.UI;
 /// Класс режима наблюдателя.
 /// </summary>
 /// <remarks>
-/// 
+/// Переход от наблюдения одного игрока на другого, возможность возрождения и включения режима наблюдателя.
 /// </remarks>
 public class SpectatorMode : MonoBehaviour
 {
