@@ -1,26 +1,38 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Mirror;
-/// Класс экрана проигрыша
+
+/// <summary>
+/// Класс экрана проигрыша.
+/// </summary>
 public class LoseScreen : NetworkBehaviour
 {
-    /// Объект Overlay - экран проигрыша
+    /// <summary>
+    /// Оверлей экрана проигрыша.
+    /// </summary>
     [SerializeField] private GameObject LoseScreenOverlay;
-    /// Объект Button - кнопка Hub
+    /// <summary>
+    /// Кнопка перехода на сцену хаба.
+    /// </summary>
     [SerializeField] private Button HubButton;
-    /// Объект Button - кнопка повторного запуска уровня
+    /// <summary>
+    /// Кнопка повторного запуска уровня.
+    /// </summary>
     [SerializeField] private Button RestartButton;
 
+    /// <summary>
+    /// Включение экрана проигрыша.
+    /// </summary>
     [ClientRpc]
-    /// Метод включения экрана проигрыша
     public void RpcEnableLoseScreen()
     {
         LoseScreenOverlay.SetActive(true);
     }
-    /// Метод возвращения в Hub
+
+    /// <summary>
+    /// Переход на сцену хаба.
+    /// </summary>
     public void ReturnToHub()
     {
         var a = GameObject.FindGameObjectsWithTag("Player");
@@ -29,7 +41,10 @@ public class LoseScreen : NetworkBehaviour
             player.GetComponent<PlayerNetworkTalker>().CmdChangeScene("HubScene");
         }
     }
-    /// Метод повторного запуска уровня
+
+    /// <summary>
+    /// Повторный запуск уровня.
+    /// </summary>
     public void RestartLevel()
     {
         var a = GameObject.FindGameObjectsWithTag("Player");
