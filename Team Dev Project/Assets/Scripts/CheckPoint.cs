@@ -68,7 +68,7 @@ public class CheckPoint : NetworkBehaviour
     /// <summary>
     /// Деактивирует всплывающее уведомление, при выходе игрока из триггера.
     /// </summary>
-    /// <param name="collision">Collider2D объекта, вошедшего в триггер.</param>
+    /// <param name="collision">Collider2D объекта, вышедшего в триггер.</param>
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Player")
