@@ -2,10 +2,14 @@
 
 public class LevelExit : MonoBehaviour
 {
+    /// Объект экрана завершения игры
     [SerializeField] private GameObject endScreen;
+    /// Объект всплывающего уведомления
     [SerializeField] private Popup popup;
 
+    /// Объект общения с сервером
     private PlayerNetworkTalker playerNetworkTalker;
+    /// Свойства игрока
     private PlayerProperties playerProperties;
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -24,7 +28,7 @@ public class LevelExit : MonoBehaviour
             playerNetworkTalker.CmdSaveGems();
         }
     }
-
+    /// Метод смены сцены при нажатии кнопки
     public void ButtonOK()
     {   
         if (playerProperties)
