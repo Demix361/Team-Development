@@ -4,16 +4,42 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Класс перемещения камеры
+/// </summary>
+/// <remarks>
+/// Камера передвигается за игроком. Проверка статуса жизни игрока, смена камеры.
+/// </remarks>
 public class PlayerCameraFollow : NetworkBehaviour
 {
+    /// <summary>
+    /// объект IcinemachineCamera
+    /// </summary>
     private ICinemachineCamera iVcam;
+    /// <summary>
+    /// Запрет на следование камеры за другим игроком
+    /// </summary>
     private bool followOther = false;
+    /// <summary>
+    /// Добавление в список игровых объектов других игроков
+    /// </summary>
     private List<GameObject> otherPlayers = new List<GameObject>();
+    /// <summary>
+    /// Добавление в список здоровья показатели здоровья других игроков
+    /// </summary>
     private List<Health> otherPlayersHealth = new List<Health>();
+    /// <summary>
+    /// Задавание индекса
+    /// </summary>
     private int pIndex = 0;
+    /// <summary>
+    /// Объект спектатор мода
+    /// </summary>
     private SpectatorMode spectatorPanel;
 
-    // Client start
+    /// <summary>
+    /// Старт клиента
+    /// </summary>
     void Start()
     {
         iVcam = Camera.main.GetComponent<CinemachineBrain>().ActiveVirtualCamera;
@@ -42,14 +68,18 @@ public class PlayerCameraFollow : NetworkBehaviour
         }
     }
 
-    // Заставить камеру следовать за собой
+    /// <summary>
+    /// Следование камеры за игроком.
+    /// </summary>
     public void FollowPlayer()
     {
         iVcam.Follow = transform;
         followOther = false;
     }
 
-    // Перестать наблюдать за игроком
+    /// <summary>
+    /// Перестать наблюдать за игроком
+    /// </summary>
     public void StopFollowOnDeath()
     {
         if (followOther == true)
@@ -63,20 +93,27 @@ public class PlayerCameraFollow : NetworkBehaviour
         followOther = false;
     }
 
-    // Жив ли игрок, за которым мы наблюдаем
+    /// <summary>
+    /// Жив ли игрок, за которым мы наблюдаем
+    /// </summary>
+    /// <returns>Значение здоровья</returns>
     public bool IsFollowedPlayerAlive()
     {
         return otherPlayers[pIndex].GetComponent<Health>().IsAlive();
     }
 
-    // Остановить камеру
+    /// <summary>
+    /// Жив ли игрок, за которым мы наблюдаем.
+    /// </summary>
     public void StopFollow()
     {
         iVcam.Follow = null;
         followOther = false;
     }
 
-    // Переключить камеру на следующего живого игрока, если таких нет, то на себя
+    /// <summary>
+    /// Переключить камеру на следующего живого игрока, если таких нет, то на себя.
+    /// </summary>
     public void NextPlayerCamera()
     {
         int n = otherPlayers.Count;
@@ -99,7 +136,9 @@ public class PlayerCameraFollow : NetworkBehaviour
         followOther = true;
     }
 
-    // Переключить камеру на предыдущего живого игрока, если таких нет, то на себя
+    /// <summary>
+    /// Переключить камеру на предыдущего живого игрока, если таких нет, то на себя.
+    /// </summary>
     public void PreviousPlayerCamera()
     {
         int n = otherPlayers.Count;

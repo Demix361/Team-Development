@@ -1,27 +1,73 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using Mirror;
 
+/// <summary>
+/// Класс ракушки.
+/// </summary>
+/// <remarks>
+/// Враг ракушка, атакующий в дальнем бою при приближении игрока и ближнем бою при нахождении игрока в непосредственной близости.
+/// </remarks>
 public class Seashell : NetworkBehaviour
 {
+    /// <summary>
+    /// Первая точка Collider дальнего боя.
+    /// </summary>
     [SerializeField] private Transform _rangeColliderPoint1;
+    /// <summary>
+    /// Вторая точка Collider дальнего боя.
+    /// </summary>
     [SerializeField] private Transform _rangeColliderPoint2;
+    /// <summary>
+    /// Первая точка Collider ближнего боя.
+    /// </summary>
     [SerializeField] private Transform _closeColliderPoint1;
+    /// <summary>
+    /// Вторая точка Collider ближнего боя.
+    /// </summary>
     [SerializeField] private Transform _closeColliderPoint2;
+    /// <summary>
+    /// Маска слоев.
+    /// </summary>
     [SerializeField] private LayerMask _layerMask;
+    /// <summary>
+    /// Аниматор ракушки.
+    /// </summary>
     [SerializeField] private Animator _animator;
     
+    /// <summary>
+    /// Интервал атаки ближнего боя.
+    /// </summary>
     [Header("Bite")]
     [SerializeField] private float _biteInterval;
+    /// <summary>
+    /// Урон атаки ближнего боя.
+    /// </summary>
     [SerializeField] private float _biteDamage;
+    /// <summary>
+    /// Длительность анимации атаки ближнего боя.
+    /// </summary>
     [SerializeField] private float _biteAnimationDuration;
 
+    /// <summary>
+    /// Интервал атаки дальнего боя.
+    /// </summary>
     [Header("Pearl")]
     [SerializeField] private float _shootInterval;
+    /// <summary>
+    /// Prefab снаряда атаки дальнего боя.
+    /// </summary>
     [SerializeField] private GameObject _pearlPrefab;
+    /// <summary>
+    /// Transform точки появления снаряда.
+    /// </summary>
     [SerializeField] private Transform _pearlSpawnPoint;
+    /// <summary>
+    /// Начальная сила снаряда.
+    /// </summary>
     [SerializeField] private float _pearlShootForce;
+    /// <summary>
+    /// Смещение интервала атаки.
+    /// </summary>
     [SerializeField] private float _shootOffset;
 
     private float _shootCounter;
@@ -117,36 +163,54 @@ public class Seashell : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Вызывает <see cref="RpcBite"/>.
+    /// </summary>
     [Command(requiresAuthority = false)]
     private void CmdBite()
     {
         RpcBite();
     }
 
+    /// <summary>
+    /// Запускает анимацию атаки ближнего боя.
+    /// </summary>
     [ClientRpc]
     private void RpcBite()
     {
         _animator.SetTrigger("Bite");
     }
 
+    /// <summary>
+    /// Вызывает <see cref="RpcFlip"/>
+    /// </summary>
     [Command(requiresAuthority = false)]
     private void CmdFlip()
     {
         RpcFlip();
     }
 
+    /// <summary>
+    /// Поворачивает по горизонтали ракушку.
+    /// </summary>
     [ClientRpc]
     private void RpcFlip()
     {
         transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, 1);
     }
 
+    /// <summary>
+    /// Вызывает <see cref="RpcShoot"/>
+    /// </summary>
     [Command(requiresAuthority = false)]
     private void CmdShoot()
     {
         RpcShoot();
     }
 
+    /// <summary>
+    /// Стреляет жемчужиной.
+    /// </summary>
     [ClientRpc]
     private void RpcShoot()
     {

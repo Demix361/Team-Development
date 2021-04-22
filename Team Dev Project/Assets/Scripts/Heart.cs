@@ -1,18 +1,38 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
+/// <summary>
+/// Класс подбираемой жизни.
+/// </summary>
 public class Heart : MonoBehaviour
 {
+    /// <summary>
+    /// Скорость перемещения.
+    /// </summary>
     [SerializeField] private float speed;
+    /// <summary>
+    /// Максимальная высота полета.
+    /// </summary>
     [SerializeField] private float maxFlightHeight;
+    /// <summary>
+    /// Аниматор.
+    /// </summary>
     [SerializeField] private Animator animator;
+    /// <summary>
+    /// Cчетчик.
+    /// </summary>
     private float counter = 0;
+    /// <summary>
+    /// Подобрана ли жизнь.
+    /// </summary>
     private bool collected = false;
+    /// <summary>
+    /// Объект панели командной жизни.
+    /// </summary>
     [SerializeField] private HeartPanel heartPanel;
 
-    
-
+    /// <summary>
+    /// Перемещение жизни.
+    /// </summary>
     void Update()
     {
         if (counter > maxFlightHeight || counter < 0)
@@ -24,9 +44,13 @@ public class Heart : MonoBehaviour
         counter += speed;
     }
 
+    /// <summary>
+    /// Увеличение количества командных жизней при подбирании жизни.
+    /// </summary>
+    /// <param name="collision">Collider2D объекта, вошедшего в триггер.</param>
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!collected)
+        if (collision.CompareTag("Player") && !collected)
         {
             if (!heartPanel.IsMaxHearts())
             {

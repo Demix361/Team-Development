@@ -2,35 +2,95 @@
 using UnityEngine.Events;
 using Mirror;
 
+/// <summary>
+/// Класс передвижения игрока.
+/// </summary>
+/// <remarks>
+/// Игрок перемещается с заданой скоростью, прыгает на заданную высоту.
+/// </remarks>
 public class MyPlayerMovement : NetworkBehaviour
 {
-    [SerializeField] private float _runSpeed;
-    [SerializeField] private float _jumpForce;
-    [Range(0, .3f)] [SerializeField] private float _movementSmoothing = .05f;
-    [SerializeField] private bool _airControl;
-    [SerializeField] private LayerMask _whatIsGround; // A mask determining what is ground to the character
-    [SerializeField] private Transform _groundCheck; // A position marking where to check if the player is grounded.
-    [SerializeField] private Transform _ceilingCheck; // A position marking where to check for ceilings
 
+    /// <summary>
+    /// Скорость бега.
+    /// </summary>
+    [SerializeField] private float _runSpeed;
+    /// <summary>
+    /// Высота прыжка.
+    /// </summary>
+    [SerializeField] private float _jumpForce;
+    /// <summary>
+    /// Параметр камеры.
+    /// </summary>
+    [Range(0, .3f)] [SerializeField] private float _movementSmoothing = .05f;
+    /// <summary>
+    /// Контроль полета.
+    /// </summary>
+    [SerializeField] private bool _airControl;
+    /// <summary>
+    /// Маска определяющая точку опоры для персонажа.
+    /// </summary>
+    [SerializeField] private LayerMask _whatIsGround;
+    /// <summary>
+    /// Триггер, показывающий если персонаж на земле.
+    /// </summary>
+    [SerializeField] private Transform _groundCheck;
+    /// <summary>
+    /// Триггер, показывающий где проверять наличие потолка.
+    /// </summary>
+    [SerializeField] private Transform _ceilingCheck;
+
+    /// <summary>
+    /// Событие в случае контакта с земле.
+    /// </summary>
     [Header("Events")]
+
     public UnityEvent OnLandEvent;
 
     //[System.Serializable]
     //public class BoolEvent : UnityEvent<bool> { }
 
+    /// <summary>
+    /// Свойства игрока.
+    /// </summary>
     [Header("Player Components")]
     [SerializeField] private PlayerProperties _playerProperties;
+    /// <summary>
+    /// Аниматор.
+    /// </summary>
     [SerializeField] private Animator _animator;
 
+    /// <summary>
+    /// Значение перемещения по горизонтали.
+    /// </summary>
     private float _horizontalMove = 0f;
+    /// <summary>
+    /// Проверка на прыжок.
+    /// </summary>
     private bool _jump = false;
-    private const float _groundedRadius = .2f; // Radius of the overlap circle to determine if grounded
-    private bool _grounded;            // Whether or not the player is grounded.
+    /// <summary>
+    /// Радиус окружности для рассчета, если на земле.
+    /// </summary>
+    private const float _groundedRadius = .2f; 
+    /// <summary>
+    /// Проверка на нахождение на земле.
+    /// </summary>
+    private bool _grounded;
+    /// <summary>
+    /// Объект rigidbody.
+    /// </summary>
     private Rigidbody2D _rigidbody;
-    private bool _facingRight = true;  // For determining which way the player is currently facing.
+    /// <summary>
+    /// Проверка на направление персонажа игрока.
+    /// </summary>
+    private bool _facingRight = true;
+    /// <summary>
+    /// Приведение вектора к нулевому.
+    /// </summary>
     private Vector3 _velocity = Vector3.zero;
-
-
+    /// <summary>
+    /// Проверка на нахождения на земле.
+    /// </summary>
     [Client]
     private void Awake()
     {
@@ -40,6 +100,10 @@ public class MyPlayerMovement : NetworkBehaviour
             OnLandEvent = new UnityEvent();
     }
 
+
+    /// <summary>
+    /// Ввод игрока и его перемещение в пространстве.
+    /// </summary>
     void Update()
     {
         if (!hasAuthority)
@@ -66,18 +130,23 @@ public class MyPlayerMovement : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Аниматор бега по земле.
+    /// </summary>
     public void OnLanding()
     {
         _animator.SetBool("IsJumping", false);
     }
 
+    /// <summary>
+    /// Проверка на приземление.
+    /// </summary>
     void FixedUpdate()
     {
         bool wasGrounded = _grounded;
         _grounded = false;
 
-        // The player is grounded if a circlecast to the groundcheck position hits anything designated as ground
-        // This can be done using layers instead but Sample Assets will not overwrite your project settings.
+        
         Collider2D[] colliders = Physics2D.OverlapCircleAll(_groundCheck.position, _groundedRadius, _whatIsGround);
         for (int i = 0; i < colliders.Length; i++)
         {
@@ -93,6 +162,11 @@ public class MyPlayerMovement : NetworkBehaviour
         _jump = false;
     }
 
+    /// <summary>
+    /// Оперемещение игрока.
+    /// </summary>
+    /// <param name="move">значение передвижения</param>
+    /// <param name="jump">состояния прыжка</param>
     public void Move(float move, bool jump)
     {
         //only control the player if grounded or airControl is turned on
@@ -125,6 +199,9 @@ public class MyPlayerMovement : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Смена направления персонажа игрока.
+    /// </summary>
     private void Flip()
     {
         // Switch the way the player is labelled as facing.

@@ -6,6 +6,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Steamworks;
 
+/// <summary>
+/// Класс сетевого менеджера.
+/// </summary>
 public class MyNetworkManager : NetworkManager
 {
     [SerializeField] private int minPlayers = 2;
