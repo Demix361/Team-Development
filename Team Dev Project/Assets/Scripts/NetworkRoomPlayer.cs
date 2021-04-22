@@ -1,11 +1,12 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using Mirror;
 using TMPro;
 using UnityEngine.UI;
 using Steamworks;
 
-
+/// <summary>
+/// Класс игрока в комнате.
+/// </summary>
 public class NetworkRoomPlayer : NetworkBehaviour
 {
     [Header("UI")]
