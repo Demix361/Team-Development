@@ -1,14 +1,34 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
+/// <summary>
+/// Класс заднего фона.
+/// </summary>
+/// <remarks>
+/// Перемещает задний фон за камерой.
+/// </remarks>
 public class ParallaxBackground : MonoBehaviour
 {
+    /// <summary>
+    /// Transform камеры.
+    /// </summary>
     public Transform cameraTransform;
+    /// <summary>
+    /// Transform объекта.
+    /// </summary>
     public Transform objectTransform;
+    /// <summary>
+    /// Vector2 коэффиицентов умножения перемещения фона.
+    /// </summary>
     [SerializeField] private Vector2 parallaxEffectMultiplier;
+    /// <summary>
+    /// Vector3 прошлой позиции камеры.
+    /// </summary>
     private Vector3 lastCameraPosition;
+    /// <summary>
+    /// Размер текстуры по горизонтали.
+    /// </summary>
     private float textureUnitSizeX;
+
 
     private void Start()
     {
