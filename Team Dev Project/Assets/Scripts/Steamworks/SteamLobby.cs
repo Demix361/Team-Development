@@ -15,7 +15,7 @@ public class SteamLobby : MonoBehaviour
     protected Callback<LobbyEnter_t> lobbyEntered;
 
     private MyNetworkManager room;
-    private MyNetworkManager Room
+    public MyNetworkManager Room
     {
         get
         {

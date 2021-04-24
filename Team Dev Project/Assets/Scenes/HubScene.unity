@@ -8377,10 +8377,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8ce3cf6c603de944afb72401928824b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  redGemText: {fileID: 40444287}
-  greenGemText: {fileID: 817868102}
-  blueGemText: {fileID: 1489426151}
-  goldText: {fileID: 1604121570}
+  _redGemText: {fileID: 40444287}
+  _greenGemText: {fileID: 817868102}
+  _blueGemText: {fileID: 1489426151}
+  _goldText: {fileID: 1604121570}
 --- !u!1 &1033640174
 GameObject:
   m_ObjectHideFlags: 0

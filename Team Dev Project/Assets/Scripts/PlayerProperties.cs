@@ -2,6 +2,7 @@
 using Mirror;
 using UnityEngine.SceneManagement;
 using TMPro;
+
 /// <summary>
 /// Класс свойства игрока.
 /// </summary>
@@ -18,7 +19,7 @@ public class PlayerProperties : NetworkBehaviour
     /// <summary>
     /// Состояние общение с сервером
     /// </summary>
-    [SerializeField] PlayerNetworkTalker playerNetworkTalker;
+    [SerializeField] public PlayerNetworkTalker playerNetworkTalker;
     /// <summary>
     /// Интерфейс игрока.
     /// </summary>
@@ -109,6 +110,7 @@ public class PlayerProperties : NetworkBehaviour
         }
         return null;
     }
+
     /// <summary>
     /// Назначения имени игрока
     /// </summary>
@@ -127,5 +129,10 @@ public class PlayerProperties : NetworkBehaviour
     private void UpdatePlayerName(string oldValue, string newValue)
     {
         playerNameText.SetText(playerName);
+    }
+
+    public bool IsServer()
+    {
+        return isServer;
     }
 }

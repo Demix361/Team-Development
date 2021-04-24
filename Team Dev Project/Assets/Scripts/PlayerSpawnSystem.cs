@@ -2,6 +2,7 @@
 using Mirror;
 using System.Collections.Generic;
 using System.Linq;
+
 /// <summary>
 /// Класс системы появления игровых персонажей.
 /// </summary>
@@ -14,6 +15,7 @@ public class PlayerSpawnSystem : NetworkBehaviour
     /// Prefab игрока.
     /// </summary>
     [SerializeField] private GameObject playerPrefab;
+
     /// <summary>
     /// Список мест появлений игроков.
     /// </summary>
@@ -40,6 +42,7 @@ public class PlayerSpawnSystem : NetworkBehaviour
             return room = NetworkManager.singleton as MyNetworkManager;
         }
     }
+
     /// <summary>
     /// Добавление точек появляние персонажей игроков.
     /// </summary>
@@ -50,6 +53,7 @@ public class PlayerSpawnSystem : NetworkBehaviour
 
         spawnPoints = spawnPoints.OrderBy(x => x.GetSiblingIndex()).ToList();
     }
+
     /// <summary>
     /// Удаление точек появление персонажей игроков.
     /// </summary>
@@ -58,6 +62,7 @@ public class PlayerSpawnSystem : NetworkBehaviour
     {
         spawnPoints.Remove(transform);
     }
+
     /// <summary>
     /// Добавление точек смерти персонажей игроков.
     /// </summary>
@@ -66,6 +71,7 @@ public class PlayerSpawnSystem : NetworkBehaviour
     {
         deathPoint = transform;
     }
+
     /// <summary>
     /// Добавление функции обратного вызова.
     /// </summary>
@@ -73,11 +79,13 @@ public class PlayerSpawnSystem : NetworkBehaviour
     {
         MyNetworkManager.OnServerReadied += SpawnPlayer;
     }
+
     /// <summary>
     /// Удаление функции обратного вызова.
     /// </summary>
     [ServerCallback]
     private void OnDestory() => MyNetworkManager.OnServerReadied -= SpawnPlayer;
+
     /// <summary>
     /// Появление персонажей игроков.
     /// </summary>
@@ -85,7 +93,7 @@ public class PlayerSpawnSystem : NetworkBehaviour
     [Server]
     public void SpawnPlayer(NetworkConnection conn)
     {
-
+        Debug.Log($"CUrrent next index: {nextIndex}");
         if (nextIndex >= Room.numPlayers)
         {
             nextIndex = 0;
@@ -104,7 +112,7 @@ public class PlayerSpawnSystem : NetworkBehaviour
         {
             playerInstance.GetComponent<PlayerProperties>().playerId = nextIndex;
         }
-        //Debug.Log($"spawn_system: {playerInstance.GetComponent<PlayerProperties>().playerId}");
+        Debug.Log($"spawn_system: {playerInstance.GetComponent<PlayerProperties>().playerId}");
 
         NetworkServer.Spawn(playerInstance, conn);
 
