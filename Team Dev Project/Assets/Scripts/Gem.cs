@@ -1,33 +1,17 @@
 ﻿using UnityEngine;
 
-/// <summary>
-/// Класс драгоценного камня.
-/// </summary>
+/// <summary> Класс драгоценного камня. </summary>
 public class Gem : MonoBehaviour
 {
-    /// <summary>
-    /// ID алмаза, должен быть уникальным.
-    /// </summary>
-    [SerializeField] public int gemID;
-    /// <summary>
-    /// Название алмаза.
-    /// </summary>
+    /// <summary> Разновидность камня. </summary>
     [SerializeField] public string collectableName;
-    /// <summary>
-    /// Скорость перемещения алмаза.
-    /// </summary>
+    /// <summary> Скорость перемещения алмаза. </summary>
     [SerializeField] private float speed;
-    /// <summary>
-    /// Максимальный предел перемещения алмаза.
-    /// </summary>
+    /// <summary> Максимальный предел перемещения алмаза. </summary>
     [SerializeField] private float maxFlightHeight;
-    /// <summary>
-    /// Найден ли алмаз.
-    /// </summary>
+    /// <summary> Найден ли алмаз. </summary>
     [SerializeField] public bool found;
-    /// <summary>
-    /// Аниматор алмаза.
-    /// </summary>
+    /// <summary> Аниматор алмаза. </summary>
     [SerializeField] private Animator animator;
     
     /// <summary> Таймер. </summary>
