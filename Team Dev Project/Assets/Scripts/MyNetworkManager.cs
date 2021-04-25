@@ -246,12 +246,4 @@ public class MyNetworkManager : NetworkManager
             player.RpcSaveGems();
         }
     }
-
-    public void ServerOpenChest(int chestID)
-    {
-        foreach (NetworkGamePlayer player in GamePlayers)
-        {
-            player.RpcOpenChest(chestID);
-        }
-    }
 }

@@ -49939,6 +49939,11 @@ PrefabInstance:
       propertyPath: checkpointID
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8659482195704777003, guid: d217965db2780d646bee45a5e3aee7d9,
+        type: 3}
+      propertyPath: _checkpointID
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9086416456572446064, guid: d217965db2780d646bee45a5e3aee7d9,
         type: 3}
       propertyPath: m_Name

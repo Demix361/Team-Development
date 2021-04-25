@@ -138,6 +138,26 @@ public class NetworkGamePlayer : NetworkBehaviour
 
         GameObject[] gems = GameObject.FindGameObjectsWithTag("Gem");
 
+        // Сортировка gems по transform.position
+        for (int i = 0; i < gems.Length - 1; i++)
+        {
+            for (int j = 0; j < gems.Length - i - 1; j++)
+            {
+                if (gems[j + 1].transform.position.x < gems[j].transform.position.x)
+                {
+                    var temp = gems[j + 1];
+                    gems[j + 1] = gems[j];
+                    gems[j] = temp;
+                }
+                else if (gems[j + 1].transform.position.x == gems[j].transform.position.x && gems[j + 1].transform.position.y < gems[j].transform.position.y)
+                {
+                    var temp = gems[j + 1];
+                    gems[j + 1] = gems[j];
+                    gems[j] = temp;
+                }
+            }
+        }
+
         if (gemInfo != null)
         {
             newRedGem = gemInfo.redGems;
@@ -152,7 +172,7 @@ public class NetworkGamePlayer : NetworkBehaviour
 
             for (int i = 0; i < gems.Length; i++)
             {
-                Diamond gem = gems[i].GetComponent<Diamond>();
+                Gem gem = gems[i].GetComponent<Gem>();
                 if (gem.collectableName == "RedGem")
                 {
                     newRedGem.Add(false);
@@ -174,36 +194,40 @@ public class NetworkGamePlayer : NetworkBehaviour
         }
 
         // заполнение newGemInfo
+        int r_i = 0, g_i = 0, b_i = 0;
         for (int i = 0; i < gems.Length; i++)
         {
-            Diamond gem = gems[i].GetComponent<Diamond>();
+            Gem gem = gems[i].GetComponent<Gem>();
 
-            if (gem.found)
+            if (gem.collectableName == "RedGem")
             {
-                if (gem.collectableName == "RedGem")
+                if (gem.found)
                 {
-                    if (newRedGem[gem.gemID] == false)
-                    {
+                    if (newRedGem[r_i] == false)
                         collData.redGemNum += 1;
-                    }
-                    newRedGem[gem.gemID] = true;
+                    newRedGem[r_i] = true;
                 }
-                else if (gem.collectableName == "GreenGem")
+                r_i += 1;
+            }
+            else if (gem.collectableName == "GreenGem")
+            {
+                if (gem.found)
                 {
-                    if (newGreenGem[gem.gemID] == false)
-                    {
+                    if (newGreenGem[g_i] == false)
                         collData.greenGemNum += 1;
-                    }
-                    newGreenGem[gem.gemID] = true;
+                    newGreenGem[g_i] = true;
                 }
-                else if (gem.collectableName == "BlueGem")
+                g_i += 1;
+            }
+            else if (gem.collectableName == "BlueGem")
+            {
+                if (gem.found)
                 {
-                    if (newBlueGem[gem.gemID] == false)
-                    {
+                    if (newBlueGem[b_i] == false)
                         collData.blueGemNum += 1;
-                    }
-                    newBlueGem[gem.gemID] = true;
+                    newBlueGem[b_i] = true;
                 }
+                b_i += 1;
             }
         }
 
@@ -219,39 +243,60 @@ public class NetworkGamePlayer : NetworkBehaviour
     public void SetGems()
     {
         GameObject[] gems = GameObject.FindGameObjectsWithTag("Gem");
+        // Сортировка gems по transform.position
+        for (int i = 0; i < gems.Length - 1; i++)
+        {
+            for (int j = 0; j < gems.Length - i - 1; j++)
+            {
+                if (gems[j + 1].transform.position.x < gems[j].transform.position.x)
+                {
+                    var temp = gems[j + 1];
+                    gems[j + 1] = gems[j];
+                    gems[j] = temp;
+                }
+                else if (gems[j + 1].transform.position.x == gems[j].transform.position.x && gems[j + 1].transform.position.y < gems[j].transform.position.y)
+                {
+                    var temp = gems[j + 1];
+                    gems[j + 1] = gems[j];
+                    gems[j] = temp;
+                }
+            }
+        }
 
         SaveSystem SS = new SaveSystem(displayName);
 
         GemData gemInfo = SS.LoadGems(levelID);
+        int r_i = 0, g_i = 0, b_i = 0;
+
         if (gemInfo != null)
         {
             for (int i = 0; i < gems.Length; i++)
             {
-                Diamond gem = gems[i].GetComponent<Diamond>();
+                Gem gem = gems[i].GetComponent<Gem>();
 
                 if (gem.collectableName == "RedGem")
                 {
-                    //gem.found = gemInfo.redGems[gem.gemID];
-                    if (gemInfo.redGems[gem.gemID])
+                    if (gemInfo.redGems[r_i])
                     {
                         gem.SetGem();
                     }
+                    r_i += 1;
                 }
                 else if (gem.collectableName == "GreenGem")
                 {
-                    //gem.found = gemInfo.greenGems[gem.gemID];
-                    if (gemInfo.greenGems[gem.gemID])
+                    if (gemInfo.greenGems[g_i])
                     {
                         gem.SetGem();
                     }
+                    g_i += 1;
                 }
                 else if (gem.collectableName == "BlueGem")
                 {
-                    //gem.found = gemInfo.blueGems[gem.gemID];
-                    if (gemInfo.blueGems[gem.gemID])
+                    if (gemInfo.blueGems[b_i])
                     {
                         gem.SetGem();
                     }
+                    b_i += 1;
                 }
             }
         }
@@ -289,23 +334,6 @@ public class NetworkGamePlayer : NetworkBehaviour
         if (hasAuthority)
         {
             SaveGems();
-        }
-    }
-
-    [ClientRpc]
-    public void RpcOpenChest(int chestID)
-    {
-        if (hasAuthority)
-        {
-            GameObject[] chests = GameObject.FindGameObjectsWithTag("Chest");
-
-            foreach (GameObject chest in chests)
-            {
-                if (chest.GetComponent<Chest>().chestID == chestID)
-                {
-                    //chest.GetComponent<Chest>().OpenChest();
-                }
-            }
         }
     }
 }

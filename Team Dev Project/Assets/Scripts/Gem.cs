@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 
 /// <summary>
-/// Класс алмаза
+/// Класс драгоценного камня.
 /// </summary>
-public class Diamond : MonoBehaviour
+public class Gem : MonoBehaviour
 {
     /// <summary>
     /// ID алмаза, должен быть уникальным.
@@ -30,22 +30,14 @@ public class Diamond : MonoBehaviour
     /// </summary>
     [SerializeField] private Animator animator;
     
-    /// <summary>
-    /// Таймер.
-    /// </summary>
+    /// <summary> Таймер. </summary>
     private float counter = 0;
-    /// <summary>
-    /// Найден ли алмаз.
-    /// </summary>
+    /// <summary>  Найден ли камень. </summary>
     private bool collected = false;
-    /// <summary>
-    /// SpriteRenderer алмаза.
-    /// </summary>
+    /// <summary> SpriteRenderer камня. </summary>
     private SpriteRenderer spriteRenderer;
 
-    /// <summary>
-    /// Делает уже найденные алмазы полупрозрачными.
-    /// </summary>
+
     private void Start()
     {
         if (found)
@@ -57,9 +49,7 @@ public class Diamond : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Перемещает алмаз по вертикали.
-    /// </summary>
+    /// <summary> Перемещает камень по вертикали. </summary>
     void Update()
     {
         if (counter > maxFlightHeight || counter < 0)
@@ -71,24 +61,20 @@ public class Diamond : MonoBehaviour
         counter += speed;
     }
 
-    /// <summary>
-    /// При столкновении с игроком делает алмаз невидимым.
-    /// </summary>
+    /// <summary> При столкновении с игроком делает алмаз невидимым. </summary>
     /// <param name="collision">Collider2D объекта, вошедшего в триггер.</param>
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player") && !collected)
         {
-            collision.GetComponent<PlayerNetworkTalker>().CmdIncreaseCollectable(collectableName);
+            //collision.GetComponent<PlayerNetworkTalker>().CmdIncreaseCollectable(collectableName);
             animator.SetBool("Collected", true);
             collected = true;
             found = true;
         }
     }
 
-    /// <summary>
-    /// Делает уже найденные алмазы полупрозрачными.
-    /// </summary>
+    /// <summary> Делает уже найденные алмазы полупрозрачными. </summary>
     public void SetGem()
     {
         found = true;

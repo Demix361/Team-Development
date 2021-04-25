@@ -84,15 +84,6 @@ public class PlayerNetworkTalker : NetworkBehaviour
     }
 
     /// <summary>
-    /// Открыть сундук.
-    /// </summary>
-    /// <param name="chestID">ID сундука.</param>
-    public void CmdOpenChest(int chestID)
-    {
-        Room.ServerOpenChest(chestID);
-    }
-
-    /// <summary>
     /// Имеет ли игрок права.
     /// </summary>
     public bool IsLocal()
