@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 
-/// <summary> Класс холста настроек. </summary>
-public class SettingsCanvas : MonoBehaviour
+/// <summary> Класс холста титров. </summary>
+public class CreditsCanvas : MonoBehaviour
 {
     /// <summary> Объект меню настроек. </summary>
-    [SerializeField] private SettingsMenu _settingsMenu;
+    [SerializeField] private CreditsMenu _creditsMenu;
+
     /// <summary> Объект холстов меню. </summary>
     private RoomsCanvases _roomsCanvases;
 
@@ -13,7 +14,7 @@ public class SettingsCanvas : MonoBehaviour
     public void FirstInitialize(RoomsCanvases canvases)
     {
         _roomsCanvases = canvases;
-        _settingsMenu.FirstInitialize(canvases);
+        _creditsMenu.FirstInitialize(canvases);
     }
 
     /// <summary> Показать объект. </summary>

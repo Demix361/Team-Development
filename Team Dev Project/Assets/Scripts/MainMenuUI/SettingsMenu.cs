@@ -3,37 +3,24 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.Audio;
+using System.IO;
 
-/// <summary>
-/// Класс меню настроек.
-/// </summary>
+/// <summary> Класс меню настроек. </summary>
 public class SettingsMenu : MonoBehaviour
 {
-    /// <summary>
-    /// AudioMixer.
-    /// </summary>
+    /// <summary> AudioMixer. </summary>
     [SerializeField] private AudioMixer _audioMixer;
-    /// <summary>
-    /// Выпадающее меню настроек разрешений.
-    /// </summary>
+    /// <summary> Выпадающее меню настроек разрешений. </summary>
     [SerializeField] private TMP_Dropdown _resolutionDropdown;
-    /// <summary>
-    /// Переключатель полного экрана.
-    /// </summary>
+    /// <summary> Переключатель полного экрана. </summary>
     [SerializeField] private Toggle _fullscreenToggle;
 
-    /// <summary>
-    /// Список разрешений дисплея.
-    /// </summary>
+    /// <summary> Список разрешений дисплея. </summary>
     private Resolution[] _resolutions;
-    /// <summary>
-    /// Объект холстов меню.
-    /// </summary>
+    /// <summary> Объект холстов меню. </summary>
     private RoomsCanvases _roomsCanvases;
 
-    /// <summary>
-    /// Инициализация полей класса.
-    /// </summary>
+    /// <summary> Инициализация полей класса. </summary>
     /// <param name="canvases">Объект RoomsCanvases</param>
     public void FirstInitialize(RoomsCanvases canvases)
     {
@@ -65,27 +52,21 @@ public class SettingsMenu : MonoBehaviour
         _fullscreenToggle.isOn = Screen.fullScreen;
     }
 
-    /// <summary>
-    /// Настройка громкости.
-    /// </summary>
+    /// <summary> Настройка громкости. </summary>
     /// <param name="volume">Значение громкости.</param>
     public void OnClick_SetVolume(float volume)
     {
         _audioMixer.SetFloat("volume", volume);
     }
 
-    /// <summary>
-    /// Настройка полного экрана.
-    /// </summary>
+    /// <summary> Настройка полного экрана. </summary>
     /// <param name="isFullScreen">Состояние полного экрана.</param>
     public void OnClick_SetFullScreen(bool isFullScreen)
     {
         Screen.fullScreen = isFullScreen;
     }
 
-    /// <summary>
-    /// Настройка разрешения приложения.
-    /// </summary>
+    /// <summary> Настройка разрешения приложения. </summary>
     /// <param name="resolutionIndex">Индекс разрешения.</param>
     public void OnClick_SetResolution(int resolutionIndex)
     {
@@ -93,12 +74,27 @@ public class SettingsMenu : MonoBehaviour
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
     }
 
-    /// <summary>
-    /// Закрытие меню настроек.
-    /// </summary>
+    /// <summary> Закрытие меню настроек. </summary>
     public void OnClick_Return()
     {
         _roomsCanvases.SettingsCanvas.Hide();
         _roomsCanvases.MainMenuCanvas.Show();
+    }
+
+    /// <summary> Удалить все сохранения. </summary>
+    public void OnClick_DeleteAllSaves()
+    {
+        string path = Application.persistentDataPath;
+
+        DirectoryInfo di = new DirectoryInfo(path);
+
+        foreach (FileInfo file in di.GetFiles())
+        {
+            file.Delete();
+        }
+        foreach (DirectoryInfo dir in di.GetDirectories())
+        {
+            dir.Delete(true);
+        }
     }
 }
