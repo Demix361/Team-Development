@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using Mirror;
 
+/// <summary> Класс внутриигрового меню. </summary>
 public class MenuScreen : MonoBehaviour
 {
     [SerializeField] GameObject _menuScreenOverlay;
@@ -9,12 +11,12 @@ public class MenuScreen : MonoBehaviour
     
     private void Start()
     {
-        PlayerProperties[] playersProperties = FindObjectsOfType<PlayerProperties>();
-        for (int i = 0; i < playersProperties.Length; i++)
+        var a = GameObject.FindGameObjectsWithTag("Player");
+        for (int i = 0; i < a.Length; i++)
         {
-            if (playersProperties[i].playerNetworkTalker.IsLocal())
+            if (a[i].GetComponent<NetworkIdentity>().hasAuthority)
             {
-                _playerProperties = playersProperties[i];
+                _playerProperties = a[i].GetComponent<PlayerProperties>();
             }
         }
     }
