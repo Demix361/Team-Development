@@ -8,25 +8,30 @@ public class MenuScreen : MonoBehaviour
     [SerializeField] GameObject _menuScreenOverlay;
 
     private PlayerProperties _playerProperties;
-    
-    private void Start()
+
+    private void Update()
+    {
+        if (_playerProperties == null)
+            GetPlayerProperties();
+
+        if (Input.GetButton("Cancel") && _playerProperties.allowInput)
+        {
+            _menuScreenOverlay.SetActive(true);
+            _playerProperties.allowInput = false;
+        }
+    }
+
+    /// <summary> Получить компонент PlayerProperties своего персонажа. </summary>
+    private void GetPlayerProperties()
     {
         var a = GameObject.FindGameObjectsWithTag("Player");
+
         for (int i = 0; i < a.Length; i++)
         {
             if (a[i].GetComponent<NetworkIdentity>().hasAuthority)
             {
                 _playerProperties = a[i].GetComponent<PlayerProperties>();
             }
-        }
-    }
-
-    private void Update()
-    {
-        if (Input.GetButton("Cancel") && _playerProperties.allowInput)
-        {
-            _menuScreenOverlay.SetActive(true);
-            _playerProperties.allowInput = false;
         }
     }
 
