@@ -20,9 +20,7 @@ public class MyNetworkManager : NetworkManager
     [Header("Game")]
     [SerializeField] private NetworkGamePlayer gamePlayerPrefab = null;
     [SerializeField] private GameObject playerSpawnSystem = null;
-    [SerializeField] public GameObject playerHealthBar = null;
     [SerializeField] private GameObject coinPrefab = null;
-    //[SerializeField] public SteamLobby steamLobby;
 
     [SerializeField] public RoomsCanvases Canvases;
 
@@ -33,7 +31,6 @@ public class MyNetworkManager : NetworkManager
 
     public List<NetworkRoomPlayer> RoomPlayers { get; } = new List<NetworkRoomPlayer>();
     public List<NetworkGamePlayer> GamePlayers { get; } = new List<NetworkGamePlayer>();
-    public List<GameObject> PlayerHealthBars { get; } = new List<GameObject>();
 
     public override void OnStartServer()
     {
