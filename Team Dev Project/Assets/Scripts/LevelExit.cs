@@ -29,7 +29,7 @@ public class LevelExit : MonoBehaviour
     /// <param name="collision"></param>
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (Input.GetButton("Interact"))
+        if (Input.GetButton("Interact") && collision.gameObject.CompareTag("Player"))
         {
             playerNetworkTalker = collision.GetComponent<PlayerNetworkTalker>();
             playerProperties = collision.GetComponent<PlayerProperties>();
