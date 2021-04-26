@@ -12,10 +12,9 @@ jobs:
         projectPath:
           - Team Dev Project
         unityVersion:
-          - 2019.4.21f1
+          - 2019.4.23f1
         targetPlatform:
-          - StandaloneWindows64 # Build a Windows 64-bit standalone.
-          - StandaloneOSX
+          - StandaloneWindows64
     steps:
       - uses: actions/checkout@v2
         with:
@@ -38,5 +37,5 @@ jobs:
           #customParameters: '-myParameter myValue -myBoolean -ThirdParameter andItsValue'
       - uses: actions/upload-artifact@v2
         with:
-          name: Build
+          name: Build${{ matrix.targetPlatform }}
           path: build
