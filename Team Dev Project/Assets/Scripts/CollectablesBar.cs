@@ -1,36 +1,65 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
 
+/// <summary>
+/// Класс панели подбираемых предметов.
+/// </summary>
 public class CollectablesBar : MonoBehaviour
 {
+    /// <summary>
+    /// Текст красных камней.
+    /// </summary>
     [SerializeField]
-    private TMP_Text redGemText;
+    private TMP_Text _redGemText;
+    /// <summary>
+    /// Текст зеленых камней.
+    /// </summary>
     [SerializeField]
-    private TMP_Text greenGemText;
+    private TMP_Text _greenGemText;
+    /// <summary>
+    /// Текст синих камней.
+    /// </summary>
     [SerializeField]
-    private TMP_Text blueGemText;
+    private TMP_Text _blueGemText;
+    /// <summary>
+    /// Текст золотых монет.
+    /// </summary>
     [SerializeField]
-    private TMP_Text goldText;
+    private TMP_Text _goldText;
 
+    /// <summary>
+    /// Установить текст красных камней.
+    /// </summary>
+    /// <param name="num">Количество камней.</param>
     public void SetRedGemText(int num)
     {
-        redGemText.SetText(num.ToString());
+        _redGemText.SetText(num.ToString());
     }
 
+    /// <summary>
+    /// Установить текст зеленых камней.
+    /// </summary>
+    /// <param name="num">Количество камней.</param>
     public void SetGreenGemText(int num)
     {
-        greenGemText.SetText(num.ToString());
+        _greenGemText.SetText(num.ToString());
     }
 
+    /// <summary>
+    /// Установить текст синих камней.
+    /// </summary>
+    /// <param name="num">Количество камней.</param>
     public void SetBlueGemText(int num)
     {
-        blueGemText.SetText(num.ToString());
+        _blueGemText.SetText(num.ToString());
     }
 
+    /// <summary>
+    /// Установить текст золотых монет.
+    /// </summary>
+    /// <param name="num">Количество монет.</param>
     public void SetGoldText(int num)
     {
-        goldText.SetText(num.ToString());
+        _goldText.SetText(num.ToString());
     }
 }

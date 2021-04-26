@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2183536648221731356}
   - component: {fileID: 2183536648221731357}
   m_Layer: 5
-  m_Name: Heart 1
+  m_Name: HeartUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35,7 +35,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 18, y: 16}
+  m_SizeDelta: {x: 72, y: 64}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &2183536648221731356
 CanvasRenderer:

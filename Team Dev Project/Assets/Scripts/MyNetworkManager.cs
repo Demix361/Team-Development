@@ -4,7 +4,11 @@ using Mirror;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Steamworks;
 
+/// <summary>
+/// Класс сетевого менеджера.
+/// </summary>
 public class MyNetworkManager : NetworkManager
 {
     [SerializeField] private int minPlayers = 2;
@@ -16,8 +20,9 @@ public class MyNetworkManager : NetworkManager
     [Header("Game")]
     [SerializeField] private NetworkGamePlayer gamePlayerPrefab = null;
     [SerializeField] private GameObject playerSpawnSystem = null;
-    [SerializeField] public GameObject playerHealthBar = null;
     [SerializeField] private GameObject coinPrefab = null;
+
+    [SerializeField] public RoomsCanvases Canvases;
 
     public static event Action OnClientConnected;
     public static event Action OnClientDisconnected;
@@ -26,7 +31,6 @@ public class MyNetworkManager : NetworkManager
 
     public List<NetworkRoomPlayer> RoomPlayers { get; } = new List<NetworkRoomPlayer>();
     public List<NetworkGamePlayer> GamePlayers { get; } = new List<NetworkGamePlayer>();
-    public List<GameObject> PlayerHealthBars { get; } = new List<GameObject>();
 
     public override void OnStartServer()
     {
@@ -65,7 +69,6 @@ public class MyNetworkManager : NetworkManager
             return;
         }
 
-        //if (SceneManager.GetActiveScene().name != menuScene)
         if (SceneManager.GetActiveScene().path != menuScene)
         {
             conn.Disconnect();
@@ -75,14 +78,16 @@ public class MyNetworkManager : NetworkManager
 
     public override void OnServerAddPlayer(NetworkConnection conn)
     {
-        //if (SceneManager.GetActiveScene().name == menuScene)
         if (SceneManager.GetActiveScene().path == menuScene)
         {
             bool isLeader = RoomPlayers.Count == 0;
 
-            NetworkRoomPlayer roomPlayerInstance = Instantiate(roomPlayerPrefab);
-
+            //NetworkRoomPlayer roomPlayerInstance = Instantiate(roomPlayerPrefab);
+            NetworkRoomPlayer roomPlayerInstance = Instantiate(roomPlayerPrefab, Canvases.transform);
             roomPlayerInstance.IsLeader = isLeader;
+
+            CSteamID steamId = SteamMatchmaking.GetLobbyMemberByIndex(SteamLobby.LobbyId, SteamMatchmaking.GetNumLobbyMembers(SteamLobby.LobbyId) - 1);
+            roomPlayerInstance.SetSteamId(steamId.m_SteamID);
 
             NetworkServer.AddPlayerForConnection(conn, roomPlayerInstance.gameObject);
         }
@@ -239,14 +244,6 @@ public class MyNetworkManager : NetworkManager
         foreach (NetworkGamePlayer player in GamePlayers)
         {
             player.RpcSaveGems();
-        }
-    }
-
-    public void ServerOpenChest(int chestID)
-    {
-        foreach (NetworkGamePlayer player in GamePlayers)
-        {
-            player.RpcOpenChest(chestID);
         }
     }
 }

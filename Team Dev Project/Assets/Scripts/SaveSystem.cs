@@ -3,18 +3,30 @@ using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
+/// <summary>
+/// Класс системы сохранений.
+/// </summary>
 public class SaveSystem
 {
+    /// <summary>
+    /// Путь к файлам сохранений.
+    /// </summary>
     private static string path;
+    /// <summary>
+    /// Путь к папке сохранений.
+    /// </summary>
     private static string directory;
 
     public SaveSystem(string playerName)
     {
-        path = Application.persistentDataPath + Path.DirectorySeparatorChar + playerName + Path.DirectorySeparatorChar;// + "save.kek";
+        path = Application.persistentDataPath + Path.DirectorySeparatorChar + playerName + Path.DirectorySeparatorChar;
         directory = Application.persistentDataPath + Path.DirectorySeparatorChar + playerName;
     }
 
-    // save unlocked levels
+    /// <summary>
+    /// Сохранить открытые уровни.
+    /// </summary>
+    /// <param name="levelInfo">Массив состояний уровней.</param>
     public void SaveGame(bool[] levelInfo)
     {
         BinaryFormatter formatter = new BinaryFormatter();
@@ -32,7 +44,10 @@ public class SaveSystem
         stream.Close();
     }
 
-    // load unlocked levels
+    /// <summary>
+    /// Загрузить открытые уровни.
+    /// </summary>
+    /// <returns>Инормация о состоянии уровней.</returns>
     public GameData LoadGame()
     {
         if (File.Exists(path + "save.kek"))
@@ -52,6 +67,11 @@ public class SaveSystem
         }
     }
 
+    /// <summary>
+    /// Сохранить найденные камни.
+    /// </summary>
+    /// <param name="levelID">ID уровня.</param>
+    /// <param name="gemInfo">Информация о найденных камнях.</param>
     public void SaveGems(int levelID, Dictionary<string, List<bool>> gemInfo)
     {
         BinaryFormatter formatter = new BinaryFormatter();
@@ -69,6 +89,11 @@ public class SaveSystem
         stream.Close();
     }
 
+    /// <summary>
+    /// Загрузить найденные камни.
+    /// </summary>
+    /// <param name="levelID">ID уровня.</param>
+    /// <returns>Информация о найденных камнях.</returns>
     public GemData LoadGems(int levelID)
     {
         if (File.Exists(path + levelID.ToString() + "_gems.kek"))
@@ -105,6 +130,10 @@ public class SaveSystem
         stream.Close();
     }
 
+    /// <summary>
+    /// Сохранить информацию о найденных предметах.
+    /// </summary>
+    /// <param name="data">Информация о найденных предметах.</param>
     public void SaveCollectables(CollectablesData data)
     {
         BinaryFormatter formatter = new BinaryFormatter();
@@ -120,6 +149,10 @@ public class SaveSystem
         stream.Close();
     }
 
+    /// <summary>
+    /// Загрузить информацию о найденных предметах.
+    /// </summary>
+    /// <returns>Информация о найденных предметах.</returns>
     public CollectablesData LoadCollectables()
     {
         if (File.Exists(path + "coll.kek"))
@@ -139,6 +172,9 @@ public class SaveSystem
         }
     }
 
+    /// <summary>
+    /// Удалить все файлы сохранений.
+    /// </summary>
     public void DeleteAllSaves()
     {
         if (Directory.Exists(directory))

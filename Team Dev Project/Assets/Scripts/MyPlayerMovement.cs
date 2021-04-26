@@ -2,58 +2,108 @@
 using UnityEngine.Events;
 using Mirror;
 
+/// <summary>
+/// Класс передвижения игрока.
+/// </summary>
+/// <remarks>
+/// Игрок перемещается с заданой скоростью, прыгает на заданную высоту.
+/// </remarks>
 public class MyPlayerMovement : NetworkBehaviour
 {
-    public float runSpeed = 40f;
-    float horizontalMove = 0f;
-    bool jump = false;
-    
-    [SerializeField] private PlayerProperties playerProperties;
 
-    [SerializeField] private float m_JumpForce = 400f;                          // Amount of force added when the player jumps.
-    [Range(0, 1)] [SerializeField] private float m_CrouchSpeed = .36f;          // Amount of maxSpeed applied to crouching movement. 1 = 100%
-    [Range(0, .3f)] [SerializeField] private float m_MovementSmoothing = .05f;  // How much to smooth out the movement
-    [SerializeField] private bool m_AirControl = false;                         // Whether or not a player can steer while jumping;
-    [SerializeField] private LayerMask m_WhatIsGround;                          // A mask determining what is ground to the character
-    [SerializeField] private Transform m_GroundCheck;                           // A position marking where to check if the player is grounded.
-    [SerializeField] private Transform m_CeilingCheck;                          // A position marking where to check for ceilings
-    [SerializeField] private Collider2D m_CrouchDisableCollider;                // A collider that will be disabled when crouching
+    /// <summary>
+    /// Скорость бега.
+    /// </summary>
+    [SerializeField] private float _runSpeed;
+    /// <summary>
+    /// Высота прыжка.
+    /// </summary>
+    [SerializeField] private float _jumpForce;
+    /// <summary>
+    /// Параметр камеры.
+    /// </summary>
+    [Range(0, .3f)] [SerializeField] private float _movementSmoothing = .05f;
+    /// <summary>
+    /// Контроль полета.
+    /// </summary>
+    [SerializeField] private bool _airControl;
+    /// <summary>
+    /// Маска определяющая точку опоры для персонажа.
+    /// </summary>
+    [SerializeField] private LayerMask _whatIsGround;
+    /// <summary>
+    /// Триггер, показывающий если персонаж на земле.
+    /// </summary>
+    [SerializeField] private Transform _groundCheck;
+    /// <summary>
+    /// Триггер, показывающий где проверять наличие потолка.
+    /// </summary>
+    [SerializeField] private Transform _ceilingCheck;
 
-    const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
-    private bool m_Grounded;            // Whether or not the player is grounded.
-    const float k_CeilingRadius = .2f; // Radius of the overlap circle to determine if the player can stand up
-    private Rigidbody2D m_Rigidbody2D;
-    private bool m_FacingRight = true;  // For determining which way the player is currently facing.
-    private Vector3 m_Velocity = Vector3.zero;
-
+    /// <summary>
+    /// Событие в случае контакта с земле.
+    /// </summary>
     [Header("Events")]
-    [Space]
 
     public UnityEvent OnLandEvent;
 
-    [System.Serializable]
-    public class BoolEvent : UnityEvent<bool> { }
+    //[System.Serializable]
+    //public class BoolEvent : UnityEvent<bool> { }
 
-    public BoolEvent OnCrouchEvent;
-    private bool m_wasCrouching = false;
+    /// <summary>
+    /// Свойства игрока.
+    /// </summary>
+    [Header("Player Components")]
+    [SerializeField] private PlayerProperties _playerProperties;
+    /// <summary>
+    /// Аниматор.
+    /// </summary>
+    [SerializeField] private Animator _animator;
 
-    public Animator animator;
-    
-
+    /// <summary>
+    /// Значение перемещения по горизонтали.
+    /// </summary>
+    private float _horizontalMove = 0f;
+    /// <summary>
+    /// Проверка на прыжок.
+    /// </summary>
+    private bool _jump = false;
+    /// <summary>
+    /// Радиус окружности для рассчета, если на земле.
+    /// </summary>
+    private const float _groundedRadius = .2f; 
+    /// <summary>
+    /// Проверка на нахождение на земле.
+    /// </summary>
+    private bool _grounded;
+    /// <summary>
+    /// Объект rigidbody.
+    /// </summary>
+    private Rigidbody2D _rigidbody;
+    /// <summary>
+    /// Проверка на направление персонажа игрока.
+    /// </summary>
+    private bool _facingRight = true;
+    /// <summary>
+    /// Приведение вектора к нулевому.
+    /// </summary>
+    private Vector3 _velocity = Vector3.zero;
+    /// <summary>
+    /// Проверка на нахождения на земле.
+    /// </summary>
     [Client]
     private void Awake()
     {
-        m_Rigidbody2D = GetComponent<Rigidbody2D>();
+        _rigidbody = GetComponent<Rigidbody2D>();
 
         if (OnLandEvent == null)
             OnLandEvent = new UnityEvent();
-
-        if (OnCrouchEvent == null)
-            OnCrouchEvent = new BoolEvent();
     }
 
-    // Update is called once per frame
-    [Client]
+
+    /// <summary>
+    /// Ввод игрока и его перемещение в пространстве.
+    /// </summary>
     void Update()
     {
         if (!hasAuthority)
@@ -61,145 +111,101 @@ public class MyPlayerMovement : NetworkBehaviour
             return;
         }
 
-        if (playerProperties.allowInput)
+        if (_playerProperties.allowInput)
         {
-            horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
+            _horizontalMove = Input.GetAxisRaw("Horizontal") * _runSpeed;
         }
         else
         {
-            horizontalMove = 0;
+            _horizontalMove = 0;
         }
         
-        animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
+        _animator.SetFloat("Speed", Mathf.Abs(_horizontalMove));
         
 
-        if (playerProperties.allowInput && Input.GetButtonDown("Jump"))
+        if (_playerProperties.allowInput && Input.GetButtonDown("Jump"))
         {
-            jump = true;
-            animator.SetBool("IsJumping", true);
+            _jump = true;
+            _animator.SetBool("IsJumping", true);
         }
     }
 
+    /// <summary>
+    /// Аниматор бега по земле.
+    /// </summary>
     public void OnLanding()
     {
-        animator.SetBool("IsJumping", false);
+        _animator.SetBool("IsJumping", false);
     }
 
-    [Client]
+    /// <summary>
+    /// Проверка на приземление.
+    /// </summary>
     void FixedUpdate()
     {
-        bool wasGrounded = m_Grounded;
-        m_Grounded = false;
+        bool wasGrounded = _grounded;
+        _grounded = false;
 
-        // The player is grounded if a circlecast to the groundcheck position hits anything designated as ground
-        // This can be done using layers instead but Sample Assets will not overwrite your project settings.
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(m_GroundCheck.position, k_GroundedRadius, m_WhatIsGround);
+        
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(_groundCheck.position, _groundedRadius, _whatIsGround);
         for (int i = 0; i < colliders.Length; i++)
         {
-            if (colliders[i].gameObject != gameObject)
+            if (!colliders[i].isTrigger && colliders[i].gameObject != gameObject)
             {
-                m_Grounded = true;
+                _grounded = true;
                 if (!wasGrounded)
                     OnLandEvent.Invoke();
             }
         }
 
-        Move(horizontalMove * Time.fixedDeltaTime, false, jump);
-        jump = false;
-        //CmdMove();
+        Move(_horizontalMove * Time.fixedDeltaTime, _jump);
+        _jump = false;
     }
 
-    [Command]
-    private void CmdMove()
+    /// <summary>
+    /// Оперемещение игрока.
+    /// </summary>
+    /// <param name="move">значение передвижения</param>
+    /// <param name="jump">состояния прыжка</param>
+    public void Move(float move, bool jump)
     {
-        RpcMove();
-    }
-
-    [ClientRpc]
-    private void RpcMove()
-    {
-        Move(horizontalMove * Time.fixedDeltaTime, false, jump);
-        jump = false;
-    }
-
-    [Client]
-    public void Move(float move, bool crouch, bool jump)
-    {
-        // If crouching, check to see if the character can stand up
-        if (!crouch)
-        {
-            // If the character has a ceiling preventing them from standing up, keep them crouching
-            if (Physics2D.OverlapCircle(m_CeilingCheck.position, k_CeilingRadius, m_WhatIsGround))
-            {
-                crouch = true;
-            }
-        }
-
         //only control the player if grounded or airControl is turned on
-        if (m_Grounded || m_AirControl)
+        if (_grounded || _airControl)
         {
-
-            // If crouching
-            if (crouch)
-            {
-                if (!m_wasCrouching)
-                {
-                    m_wasCrouching = true;
-                    OnCrouchEvent.Invoke(true);
-                }
-
-                // Reduce the speed by the crouchSpeed multiplier
-                move *= m_CrouchSpeed;
-
-                // Disable one of the colliders when crouching
-                if (m_CrouchDisableCollider != null)
-                    m_CrouchDisableCollider.enabled = false;
-            }
-            else
-            {
-                // Enable the collider when not crouching
-                if (m_CrouchDisableCollider != null)
-                    m_CrouchDisableCollider.enabled = true;
-
-                if (m_wasCrouching)
-                {
-                    m_wasCrouching = false;
-                    OnCrouchEvent.Invoke(false);
-                }
-            }
-
             // Move the character by finding the target velocity
-            Vector3 targetVelocity = new Vector2(move * 10f, m_Rigidbody2D.velocity.y);
+            Vector3 targetVelocity = new Vector2(move * 10f, _rigidbody.velocity.y);
             // And then smoothing it out and applying it to the character
-            m_Rigidbody2D.velocity = Vector3.SmoothDamp(m_Rigidbody2D.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
+            _rigidbody.velocity = Vector3.SmoothDamp(_rigidbody.velocity, targetVelocity, ref _velocity, _movementSmoothing);
 
             // If the input is moving the player right and the player is facing left...
-            if (move > 0 && !m_FacingRight)
+            if (move > 0 && !_facingRight)
             {
                 // ... flip the player.
                 Flip();
             }
             // Otherwise if the input is moving the player left and the player is facing right...
-            else if (move < 0 && m_FacingRight)
+            else if (move < 0 && _facingRight)
             {
                 // ... flip the player.
                 Flip();
             }
         }
         // If the player should jump...
-        if (m_Grounded && jump)
+        if (_grounded && jump)
         {
             // Add a vertical force to the player.
-            m_Grounded = false;
-            m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
+            _grounded = false;
+            _rigidbody.AddForce(new Vector2(0f, _jumpForce));
         }
     }
 
-    [Client]
+    /// <summary>
+    /// Смена направления персонажа игрока.
+    /// </summary>
     private void Flip()
     {
         // Switch the way the player is labelled as facing.
-        m_FacingRight = !m_FacingRight;
+        _facingRight = !_facingRight;
 
         // Multiply the player's x local scale by -1.
         Vector3 theScale = transform.localScale;

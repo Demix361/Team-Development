@@ -9,6 +9,8 @@ TagManager:
   - NetworkManager
   - Gem
   - Chest
+  - Checkpoint
+  - Tilemap
   layers:
   - Default
   - TransparentFX
@@ -20,8 +22,8 @@ TagManager:
   - 
   - Background
   - Interactables
-  - 
-  - 
+  - Player
+  - Enemies
   - 
   - 
   - 
