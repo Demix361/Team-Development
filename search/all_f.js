@@ -1,0 +1,25 @@
+var searchData=
+[
+  ['redgemnum_277',['redGemNum',['../class_collectables_data.html#a3a5cb1fbd25e23fee8181548fce7f25b',1,'CollectablesData']]],
+  ['redgems_278',['redGems',['../class_gem_data.html#a51688f2d31e8b543a43903c03e3729af',1,'GemData']]],
+  ['redgemstext_279',['redGemsText',['../class_level_stats.html#aeaeaabbd5bf55d052212466f236a861e',1,'LevelStats']]],
+  ['removeallhearts_280',['RemoveAllHearts',['../class_heart_panel.html#a7121ce5f49eb8353dae3dc985a697aa7',1,'HeartPanel']]],
+  ['removeheart_281',['RemoveHeart',['../class_heart_panel.html#ae77ce90f6f1ee60e6f5dcb787a66ce30',1,'HeartPanel']]],
+  ['removespawnpoint_282',['RemoveSpawnPoint',['../class_player_spawn_system.html#a0cc7653735c7b672068993ccdb0efd7e',1,'PlayerSpawnSystem']]],
+  ['restartbutton_283',['RestartButton',['../class_lose_screen.html#a7fa0c69b28dd7e304f1dc726aa3255d1',1,'LoseScreen']]],
+  ['restartlevel_284',['RestartLevel',['../class_lose_screen.html#ad6817073ebc91352a42c8f4a451126a8',1,'LoseScreen']]],
+  ['returntohub_285',['ReturnToHub',['../class_lose_screen.html#a4f9824c96c7d7d286af97c1c3189be3e',1,'LoseScreen']]],
+  ['revivebutton_286',['reviveButton',['../class_spectator_mode.html#aa82dfa5e9431b2f6b744a319c1465ea5',1,'SpectatorMode']]],
+  ['roomscanvases_287',['RoomsCanvases',['../class_rooms_canvases.html',1,'']]],
+  ['rpcbite_288',['RpcBite',['../class_seashell.html#a64614459d03d31e55b5ab2ee8536b462',1,'Seashell']]],
+  ['rpccorrectposition_289',['RpcCorrectPosition',['../class_moving_platform.html#af87112ce586d51c2e54971d065e87cda',1,'MovingPlatform']]],
+  ['rpcenablelosescreen_290',['RpcEnableLoseScreen',['../class_lose_screen.html#af636d046263623a014493db33faf55a6',1,'LoseScreen']]],
+  ['rpcflip_291',['RpcFlip',['../class_seashell.html#ad21d9668b9d8ff08134d252ffd433d2f',1,'Seashell']]],
+  ['rpcfollowcam_292',['RpcFollowCam',['../class_health.html#a56b15544228f849d92e225548df6c337',1,'Health']]],
+  ['rpchitanimation_293',['RpcHitAnimation',['../class_enemy_health.html#aa02b6c4ca20fad2813b266b21073e608',1,'EnemyHealth.RpcHitAnimation()'],['../class_health.html#a53555d34d58ac427cef01dd10d0c3793',1,'Health.RpcHitAnimation()']]],
+  ['rpcrevive_294',['RpcRevive',['../class_health.html#ac8eed51e3a7fbd30a24da2f7bdad6c74',1,'Health']]],
+  ['rpcshoot_295',['RpcShoot',['../class_cannon.html#a9999728363d4b78757df13b3f4001036',1,'Cannon.RpcShoot()'],['../class_seashell.html#ad270e6d1c939fe662545962f8f8545e2',1,'Seashell.RpcShoot()']]],
+  ['rpcstartmoving_296',['RpcStartMoving',['../class_moving_platform.html#a7bc9d3bcf8d1903e7fdb8b5c81db6119',1,'MovingPlatform']]],
+  ['rpcstopcam_297',['RpcStopCam',['../class_health.html#a8e2e399fac4b145e2fc4b7caf3492be7',1,'Health']]],
+  ['rpcunlockcheckpoint_298',['RpcUnlockCheckpoint',['../class_check_point.html#ae54a031616184f273cae8a3f24b61af7',1,'CheckPoint']]]
+];
